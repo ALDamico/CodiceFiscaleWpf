@@ -5,8 +5,84 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodiceFiscaleUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Codice fiscale" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
 
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!--Menu row-->
+            <RowDefinition Height="*"/>
+            <!--Main row-->
+            <RowDefinition Height="Auto"/>
+            <!--Form row-->
+            <RowDefinition Height="Auto"/>
+            <!--Commands row-->
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0" 
+              Grid.Column="0">
+            <MenuItem Header="File">
+            </MenuItem>
+        </Menu>
+        <GroupBox Header="Codici fiscali"  Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                    <TextBox x:Name="txtFiscalCode" 
+                         HorizontalAlignment="Center" 
+                         MinWidth="200" 
+                         MaxWidth="600" 
+                         IsReadOnly="True" 
+                         IsReadOnlyCaretVisible="False"/>
+                    <Button x:Name="btnCopyToClipboard" 
+                        HorizontalAlignment="Center" 
+                        Content="Copia" 
+                        Click="btnCopyToClipboard_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+
+                    <ListBox Height="288" 
+                         MinWidth="200" 
+                         MaxWidth="600">
+                        
+                    </ListBox>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Informazioni personali" Grid.Row="2">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="3">
+                <StackPanel Orientation="Horizontal" Margin="3">
+                    <Label Content="Nome"/>
+                    <TextBox x:Name="txtName" MinWidth="200" VerticalContentAlignment="Center" />
+                    <Label Content="Cognome"/>
+                    <TextBox x:Name="txtSurname" MinWidth="200" VerticalContentAlignment="Center" />
+                    <Label Content="Sesso"/>
+                    <ComboBox x:Name="drpGenderSelector" Width="65">
+                        <ComboBoxItem>M</ComboBoxItem>
+                        <ComboBoxItem>F</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="3">
+                    <Label Content="Data di nascita"/>
+                    <TextBox IsReadOnly="True" 
+                             IsReadOnlyCaretVisible="False" 
+                             x:Name="txtCalendar" 
+                             MinWidth="100" 
+                             VerticalContentAlignment="Center" 
+                             HorizontalContentAlignment="Center" MouseDown="txtCalendar_MouseDown">03/05/1990</TextBox>
+                    <Label Content="Luogo di nascita"/>
+                    <ComboBox x:Name="drpPlaceOfBirth" MinWidth="200" IsEditable="True"></ComboBox>
+                </StackPanel>
+            </StackPanel>
+            
+        </GroupBox>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="10">Reset</Button>
+            <Button Margin="10">Calcola</Button>
+            
+        </StackPanel>
     </Grid>
 </Window>

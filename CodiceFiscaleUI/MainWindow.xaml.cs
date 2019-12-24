@@ -24,5 +24,15 @@ namespace CodiceFiscaleUI
         {
             InitializeComponent();
         }
+
+        private void btnCopyToClipboard_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
