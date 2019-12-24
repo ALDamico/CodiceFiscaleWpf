@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodiceFiscaleUI", "CodiceFiscaleUI\CodiceFiscaleUI.csproj", "{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALD.LibFiscalCode", "ALD.LibFiscalCode\ALD.LibFiscalCode.csproj", "{A4BCD918-8192-4C28-B0F9-9BCD6119BD0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALD.LibFiscalCode", "ALD.LibFiscalCode\ALD.LibFiscalCode.csproj", "{B1613B12-606D-4FE3-A220-43EF033D6775}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4BCD918-8192-4C28-B0F9-9BCD6119BD0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4BCD918-8192-4C28-B0F9-9BCD6119BD0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4BCD918-8192-4C28-B0F9-9BCD6119BD0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4BCD918-8192-4C28-B0F9-9BCD6119BD0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
