@@ -48,9 +48,12 @@ namespace ALD.LibFiscalCode.Models
             {
                 _dateOfBirth = value;
                 OnPropertyChanged(nameof(DateOfBirth));
+                OnPropertyChanged(nameof(PrettyDate));
             }
         }
         public Gender Gender { get; set; }
+
+        public string PrettyDate => DateOfBirth.Date.ToShortDateString();
 
         private string _name;
         private string _surname;

@@ -5,18 +5,67 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodiceFiscaleUI", "CodiceFiscaleUI\CodiceFiscaleUI.csproj", "{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALD.LibFiscalCode", "ALD.LibFiscalCode\ALD.LibFiscalCode.csproj", "{B1613B12-606D-4FE3-A220-43EF033D6775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ALD.LibFiscalCode", "ALD.LibFiscalCode\ALD.LibFiscalCode.csproj", "{B1613B12-606D-4FE3-A220-43EF033D6775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54558E39-1EAA-44DD-9FFD-B43EB69B307D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlacesImporter", "PlacesImporter", "{6EADA0DB-D4D8-4C90-90B4-6DB70EA0AB4E}"
+	ProjectSection(SolutionItems) = preProject
+		G:\Pycharm-Projects\places-importer\output\app..db = G:\Pycharm-Projects\places-importer\output\app..db
+		G:\Pycharm-Projects\places-importer\src\places-importer.py.py = G:\Pycharm-Projects\places-importer\src\places-importer.py.py
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALD.LibFiscalCode.Persistence", "ALD.LibFiscalCode.Persistence\ALD.LibFiscalCode.Persistence.csproj", "{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|x64.Build.0 = Debug|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Debug|x86.Build.0 = Debug|Any CPU
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|x64.ActiveCfg = Release|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|x64.Build.0 = Release|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|x86.ActiveCfg = Release|Any CPU
+		{CFD50A33-F8B4-4BBF-8BAF-FBE5C233DFF8}.Release|x86.Build.0 = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|x64.Build.0 = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1613B12-606D-4FE3-A220-43EF033D6775}.Release|x86.Build.0 = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|x64.Build.0 = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Debug|x86.Build.0 = Debug|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|x64.Build.0 = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D6EF2BD-D0B0-487B-91F1-79796FE70ECE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

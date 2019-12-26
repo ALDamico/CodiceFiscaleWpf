@@ -1,15 +1,45 @@
 ﻿using ALD.LibFiscalCode.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
-    public class MainViewModel:AbstractNotifyPropertyChanged
+    public class MainViewModel : AbstractNotifyPropertyChanged
     {
-        public Person CurrentPerson { get; set; } = new Person();
+        public MainViewModel()
+        {
+            CurrentPerson = new Person();
+        }
 
-       
+        public Person CurrentPerson
+        {
+            get => _currentPerson;
+            set
+            {
+                _currentPerson = value;
+                OnPropertyChanged(nameof(CurrentPerson));
+            }
+        }
+
+        private Person _currentPerson;
+
+        public void SetGender(string gender)
+        {
+            if (gender == "M")
+            {
+                CurrentPerson.Gender = Enums.Gender.Male;
+            }
+            else if (gender == "F")
+            {
+                CurrentPerson.Gender = Enums.Gender.Female;
+            }
+            else
+            {
+                CurrentPerson.Gender = Enums.Gender.Unspecified;
+            }
+        }
+
+        public void ResetPerson()
+        {
+            CurrentPerson = new Person();
+        }
     }
 }

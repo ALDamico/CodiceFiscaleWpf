@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodiceFiscaleUI"
+        xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
         Title="Codice fiscale" Height="450" Width="800">
     <Grid>
@@ -52,35 +54,59 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informazioni personali" Grid.Row="2">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="3">
-                <StackPanel Orientation="Horizontal" Margin="3">
+        <GroupBox Header="Informazioni personali" 
+                  Grid.Row="2">
+            <StackPanel Orientation="Vertical" 
+                        HorizontalAlignment="Center" 
+                        Margin="3">
+                <StackPanel Orientation="Horizontal" 
+                            Margin="3">
                     <Label Content="Nome"/>
-                    <TextBox x:Name="txtName" MinWidth="200" VerticalContentAlignment="Center" />
+                    <TextBox x:Name="txtName" 
+                             MinWidth="200" 
+                             VerticalContentAlignment="Center" 
+                             Text="{Binding CurrentPerson.Name}"/>
                     <Label Content="Cognome"/>
-                    <TextBox x:Name="txtSurname" MinWidth="200" VerticalContentAlignment="Center" />
+                    <TextBox x:Name="txtSurname" 
+                             MinWidth="200" 
+                             VerticalContentAlignment="Center" 
+                             Text="{Binding CurrentPerson.Surname}"
+                             />
                     <Label Content="Sesso"/>
-                    <ComboBox x:Name="drpGenderSelector" Width="65">
+                    <ComboBox x:Name="drpGenderSelector" 
+                              SelectionChanged="drpGenderSelector_SelectionChanged" 
+                              Width="65">
                         <ComboBoxItem>M</ComboBoxItem>
                         <ComboBoxItem>F</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="3">
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            Margin="3">
                     <Label Content="Data di nascita"/>
-                    <TextBox IsReadOnly="True" 
+                    <TextBox IsReadOnly="False" 
                              IsReadOnlyCaretVisible="False" 
                              x:Name="txtCalendar" 
                              MinWidth="100" 
                              VerticalContentAlignment="Center" 
-                             HorizontalContentAlignment="Center" MouseDown="txtCalendar_MouseDown">03/05/1990</TextBox>
+                             HorizontalContentAlignment="Center" 
+                             MouseDown="txtCalendar_MouseDown"
+                             MouseDoubleClick="txtCalendar_MouseDown"
+                             Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}"/>
                     <Label Content="Luogo di nascita"/>
-                    <ComboBox x:Name="drpPlaceOfBirth" MinWidth="200" IsEditable="True"></ComboBox>
+                    <ComboBox x:Name="drpPlaceOfBirth" 
+                              MinWidth="200" 
+                              IsEditable="True"></ComboBox>
                 </StackPanel>
             </StackPanel>
             
         </GroupBox>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Margin="10">Reset</Button>
+        <StackPanel Grid.Row="3" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+            <Button Margin="10" 
+                    x:Name="btnReset" 
+                    Click="btnReset_Click">Reset</Button>
             <Button Margin="10">Calcola</Button>
             
         </StackPanel>
