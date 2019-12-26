@@ -70,5 +70,12 @@ namespace CodiceFiscaleUI
                 viewModel.ChangePlace(selectedItem);
             }
         }
+
+        private void mnuPlaces_Click(object sender, RoutedEventArgs e)
+        {
+            var placesWin = new PlacesListView.PlacesList(this.viewModel.Places);
+            placesWin.Owner = this;
+            placesWin.Show();
+        }
     }
 }

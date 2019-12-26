@@ -3,6 +3,9 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -28,16 +31,18 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             using (var dbContext = new PlacesContext())
             {
-                availablePlaces = await dbContext.GetAllPlaces();
+                Task<List<Place>> task = dbContext.GetAllPlaces();
+                Places = new ObservableCollection<Place>(await task.ConfigureAwait(false));
+
+                OnPropertyChanged(nameof(Places));
             }
-            OnPropertyChanged(nameof(Places));
+            
         }
 
         public Person CurrentPerson
         {
             get
             {
-                //HasPendingChanges = true;
                 return _currentPerson;
             }
             set
@@ -73,9 +78,9 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public List<Place> Places => availablePlaces;
+        
 
-        public List<Place> availablePlaces;
+        public ObservableCollection<Place> Places { get; set; }
 
         public Place SelectedPlace
         {

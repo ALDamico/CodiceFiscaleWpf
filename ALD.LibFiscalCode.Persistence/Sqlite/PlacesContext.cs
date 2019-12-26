@@ -34,10 +34,11 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task<List<Place>> GetAllPlaces()
+        public Task<List<Place>> GetAllPlaces()
         {
             Task<List<Place>> placesTask = Places.OrderBy(p => p.ProvinceAbbreviation).ToListAsync();
-            return await placesTask;
+            //placesTask.ConfigureAwait(false);
+            return placesTask;
         }
     }
 }

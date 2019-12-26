@@ -28,6 +28,9 @@
             <MenuItem Header="File">
                 <MenuItem Header="Nuovo" Click="btnReset_Click"></MenuItem>
             </MenuItem>
+            <MenuItem Header="Avanzate">
+                <MenuItem Header="Elenco dei luoghi" x:Name="mnuPlaces" Click="mnuPlaces_Click"></MenuItem>
+            </MenuItem>
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">
             <StackPanel Orientation="Vertical">
@@ -97,7 +100,16 @@
                     <Label Content="Luogo di nascita"/>
                     <ComboBox x:Name="drpPlaceOfBirth" 
                               MinWidth="200" 
-                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}" SelectionChanged="drpPlaceOfBirth_SelectionChanged"></ComboBox>
+                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}" 
+                              SelectionChanged="drpPlaceOfBirth_SelectionChanged">
+                        <ComboBox.ItemsPanel>
+                            <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+
+                    </ComboBox>
                 </StackPanel>
             </StackPanel>
             
