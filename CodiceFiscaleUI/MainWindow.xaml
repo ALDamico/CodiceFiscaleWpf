@@ -26,6 +26,7 @@
         <Menu Grid.Row="0" 
               Grid.Column="0">
             <MenuItem Header="File">
+                <MenuItem Header="Nuovo" Click="btnReset_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">
@@ -65,7 +66,7 @@
                     <TextBox x:Name="txtName" 
                              MinWidth="200" 
                              VerticalContentAlignment="Center" 
-                             Text="{Binding CurrentPerson.Name}"/>
+                             Text="{Binding CurrentPerson.Name}" />
                     <Label Content="Cognome"/>
                     <TextBox x:Name="txtSurname" 
                              MinWidth="200" 
@@ -96,7 +97,7 @@
                     <Label Content="Luogo di nascita"/>
                     <ComboBox x:Name="drpPlaceOfBirth" 
                               MinWidth="200" 
-                              IsEditable="True"></ComboBox>
+                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}" SelectionChanged="drpPlaceOfBirth_SelectionChanged"></ComboBox>
                 </StackPanel>
             </StackPanel>
             

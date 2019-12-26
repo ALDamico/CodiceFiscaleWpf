@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Unidecode.NET" Version="1.4.0" />
+    <PackageReference Include="WindowsBase" Version="4.6.1055" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ALD.LibFiscalCode.Persistence\ALD.LibFiscalCode.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

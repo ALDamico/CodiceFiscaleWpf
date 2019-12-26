@@ -1,7 +1,6 @@
 ﻿using ALD.LibFiscalCode.Enums;
+using ALD.LibFiscalCode.Persistence.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ALD.LibFiscalCode.Models
 {
@@ -13,7 +12,9 @@ namespace ALD.LibFiscalCode.Models
             Surname = "";
             DateOfBirth = DateTime.Now;
             Gender = Gender.Unspecified;
+            PlaceOfBirth = null;
         }
+
         public string Name
         {
             get
@@ -26,6 +27,7 @@ namespace ALD.LibFiscalCode.Models
                 OnPropertyChanged(nameof(Name));
             }
         }
+
         public string Surname
         {
             get
@@ -38,6 +40,7 @@ namespace ALD.LibFiscalCode.Models
                 OnPropertyChanged(nameof(Surname));
             }
         }
+
         public DateTime DateOfBirth
         {
             get
@@ -51,6 +54,21 @@ namespace ALD.LibFiscalCode.Models
                 OnPropertyChanged(nameof(PrettyDate));
             }
         }
+
+        public Place PlaceOfBirth
+        {
+            get
+            {
+                return placeOfBirth;
+            }
+            set
+            {
+                placeOfBirth = value;
+                OnPropertyChanged(nameof(PlaceOfBirth));
+            }
+        }
+
+        private Place placeOfBirth;
         public Gender Gender { get; set; }
 
         public string PrettyDate => DateOfBirth.Date.ToShortDateString();

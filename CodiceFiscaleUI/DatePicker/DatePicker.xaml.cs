@@ -19,8 +19,10 @@ namespace CodiceFiscaleUI.DatePicker
     public partial class DatePicker : Window
     {
         private DatePicker()
-        { 
+        {
+            
             InitializeComponent();
+            calDatePicker.Focusable = false;
         }
 
         public DatePicker(MainViewModel viewModel):this()
@@ -36,10 +38,6 @@ namespace CodiceFiscaleUI.DatePicker
 
         private void calDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*if (sender.Equals(e.AddedItems[0]))
-            {
-                return;
-            }*/
             datePickerViewModel.SelectedDateTime = ((DateTime)e.AddedItems[0]);
         }
         private MainViewModel parentViewModel;
@@ -47,8 +45,20 @@ namespace CodiceFiscaleUI.DatePicker
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+           
             parentViewModel.CurrentPerson.DateOfBirth = datePickerViewModel.SelectedDateTime;
-            this.Close();
+            Close();
+        }
+
+
+        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        {
+            //https://social.msdn.microsoft.com/Forums/vstudio/en-US/b4413872-59d0-4a06-9d20-8d21de126dc6/calendar-not-losing-focus-wpf-40?forum=wpf
+            base.OnPreviewMouseUp(e);
+            if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
+            {
+                Mouse.Capture(null);
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
