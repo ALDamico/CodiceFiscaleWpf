@@ -1,0 +1,57 @@
+﻿<Window x:Class="CodiceFiscaleUI.PlacesListView.PlacesList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodiceFiscaleUI.PlacesListView"
+        xmlns:vm1="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
+        mc:Ignorable="d"
+        Title="PlacesList" Height="450" Width="800">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Luoghi">
+            <!--<StackPanel Orientation="Vertical">-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"></TextBox>
+                <ListBox Grid.Row="1" ItemsSource="{Binding FilteredPlaces, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged"></ListBox>
+            </Grid>
+                
+            <!--</StackPanel>-->
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Informazioni">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">Nome:</Label>
+                <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedPlace.Name}"/>
+                <Label Grid.Row="1" Grid.Column="0">Provincia:</Label>
+                <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedPlace.Province}"/>
+                <Label Grid.Row="1" Grid.Column="2">Abbreviazione:</Label>
+                <Label Grid.Row="1" Grid.Column="3" Content="{Binding SelectedPlace.ProvinceAbbreviation}"/>
+                <Label Grid.Row="2" Grid.Column="0">Regione:</Label>
+                <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}"></Label>
+                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold">Codice:</Label>
+                <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}"></Label>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
