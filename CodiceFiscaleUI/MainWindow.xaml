@@ -10,20 +10,19 @@
         Title="Codice fiscale" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <!--Menu row-->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <!--Main row-->
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <!--Form row-->
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <!--Commands row-->
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" 
+        <Menu Grid.Row="0"
               Grid.Column="0">
             <MenuItem Header="File">
                 <MenuItem Header="Nuovo" Click="btnReset_Click"></MenuItem>
@@ -34,73 +33,71 @@
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">
             <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" 
+                <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
-                    <TextBox x:Name="txtFiscalCode" 
-                         HorizontalAlignment="Center" 
-                         MinWidth="200" 
-                         MaxWidth="600" 
-                         IsReadOnly="True" 
-                         IsReadOnlyCaretVisible="False" Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}"/>
-                    <Button x:Name="btnCopyToClipboard" 
-                        HorizontalAlignment="Center" 
-                        Content="Copia" 
-                        Click="btnCopyToClipboard_Click"/>
+                    <TextBox x:Name="txtFiscalCode"
+                         HorizontalAlignment="Center"
+                         MinWidth="200"
+                         MaxWidth="600"
+                         IsReadOnly="True"
+                         IsReadOnlyCaretVisible="False" Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
+                    <Button x:Name="btnCopyToClipboard"
+                        HorizontalAlignment="Center"
+                        Content="Copia"
+                        Click="btnCopyToClipboard_Click" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" 
+                <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
 
-                    <ListBox Height="288" 
-                         MinWidth="200" 
+                    <ListBox Height="288"
+                         MinWidth="200"
                          MaxWidth="600">
-                        
                     </ListBox>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Informazioni personali" 
+        <GroupBox Header="Informazioni personali"
                   Grid.Row="2">
-            <StackPanel Orientation="Vertical" 
-                        HorizontalAlignment="Center" 
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
                         Margin="3">
-                <StackPanel Orientation="Horizontal" 
+                <StackPanel Orientation="Horizontal"
                             Margin="3">
-                    <Label Content="Nome"/>
-                    <TextBox x:Name="txtName" 
-                             MinWidth="200" 
-                             VerticalContentAlignment="Center" 
+                    <Label Content="Nome" />
+                    <TextBox x:Name="txtName"
+                             MinWidth="200"
+                             VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Name}" />
-                    <Label Content="Cognome"/>
-                    <TextBox x:Name="txtSurname" 
-                             MinWidth="200" 
-                             VerticalContentAlignment="Center" 
-                             Text="{Binding CurrentPerson.Surname}"
-                             />
-                    <Label Content="Sesso"/>
-                    <ComboBox x:Name="drpGenderSelector" 
-                              SelectionChanged="drpGenderSelector_SelectionChanged" 
+                    <Label Content="Cognome" />
+                    <TextBox x:Name="txtSurname"
+                             MinWidth="200"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding CurrentPerson.Surname}" />
+                    <Label Content="Sesso" />
+                    <ComboBox x:Name="drpGenderSelector"
+                              SelectionChanged="drpGenderSelector_SelectionChanged"
                               Width="65">
                         <ComboBoxItem>M</ComboBoxItem>
                         <ComboBoxItem>F</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" 
-                            HorizontalAlignment="Center" 
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
                             Margin="3">
-                    <Label Content="Data di nascita"/>
-                    <TextBox IsReadOnly="False" 
-                             IsReadOnlyCaretVisible="False" 
-                             x:Name="txtCalendar" 
-                             MinWidth="100" 
-                             VerticalContentAlignment="Center" 
-                             HorizontalContentAlignment="Center" 
+                    <Label Content="Data di nascita" />
+                    <TextBox IsReadOnly="False"
+                             IsReadOnlyCaretVisible="False"
+                             x:Name="txtCalendar"
+                             MinWidth="100"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
                              MouseDown="txtCalendar_MouseDown"
                              MouseDoubleClick="txtCalendar_MouseDown"
-                             Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}"/>
-                    <Label Content="Luogo di nascita"/>
-                    <ComboBox x:Name="drpPlaceOfBirth" 
-                              MinWidth="200" 
-                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}" 
+                             Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}" />
+                    <Label Content="Luogo di nascita" />
+                    <ComboBox x:Name="drpPlaceOfBirth"
+                              MinWidth="200"
+                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}"
                               SelectionChanged="drpPlaceOfBirth_SelectionChanged">
                         <ComboBox.ItemsPanel>
                             <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->
@@ -108,20 +105,17 @@
                                 <VirtualizingStackPanel />
                             </ItemsPanelTemplate>
                         </ComboBox.ItemsPanel>
-
                     </ComboBox>
                 </StackPanel>
             </StackPanel>
-            
         </GroupBox>
-        <StackPanel Grid.Row="3" 
-                    Orientation="Horizontal" 
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Right">
-            <Button Margin="10" 
-                    x:Name="btnReset" 
+            <Button Margin="10"
+                    x:Name="btnReset"
                     Click="btnReset_Click">Reset</Button>
             <Button Margin="10" x:Name="btnCalculate" Click="btnCalculate_Click">Calcola</Button>
-            
         </StackPanel>
     </Grid>
 </Window>

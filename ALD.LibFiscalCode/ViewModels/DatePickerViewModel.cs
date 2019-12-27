@@ -8,6 +8,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             this.SelectedDateTime = startingDate;
         }
+
         public DateTime SelectedDateTime
         {
             get => selectedDateTime;
@@ -17,6 +18,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(SelectedDateTime));
             }
         }
+
         private DateTime selectedDateTime;
     }
 }

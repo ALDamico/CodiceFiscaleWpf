@@ -14,6 +14,7 @@ namespace ALD.LibFiscalCode.StringManipulation
             {
                 'A', 'E', 'I', 'O', 'U'
             };
+
         private static readonly List<char> _consonants = new List<char>()
             {
                 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'

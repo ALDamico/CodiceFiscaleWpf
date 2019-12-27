@@ -14,7 +14,9 @@ namespace ALD.LibFiscalCode.Lookups
 
             return lookup[input];
         }
+
         private readonly static Dictionary<int, string> lookup;
+
         static MonthOfDateLookup()
         {
             lookup = new Dictionary<int, string>()

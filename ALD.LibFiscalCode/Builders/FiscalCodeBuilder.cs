@@ -138,7 +138,5 @@ namespace ALD.LibFiscalCode.Builders
 
             return output;
         }
-
-
     }
 }

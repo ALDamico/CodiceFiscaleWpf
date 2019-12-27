@@ -8,8 +8,8 @@
         Title="Data di nascita" ResizeMode="NoResize" SizeToContent="WidthAndHeight" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Calendar Grid.Row="0" SelectedDate="{Binding CurrentPerson.DateOfBirth}" SelectionMode="SingleDate" x:Name="calDatePicker" SelectedDatesChanged="calDatePicker_SelectedDatesChanged"></Calendar>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">

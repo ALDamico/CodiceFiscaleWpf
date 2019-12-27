@@ -17,7 +17,6 @@
                 return $"{Name} ({Region})";
             }
 
-
             return $"{Name} ({ProvinceAbbreviation})";
         }
     }

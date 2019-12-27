@@ -1,8 +1,9 @@
 ﻿namespace ALD.LibFiscalCode.Validators
 {
-    interface IValidator
+    internal interface IValidator
     {
         bool IsValid { get; }
+
         void Validate();
     }
 }

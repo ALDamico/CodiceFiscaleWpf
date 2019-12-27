@@ -41,11 +41,7 @@ namespace CodiceFiscaleUI.PlacesListView
             {
                 viewModel.SelectedPlace = null;
             }
-
         }
-
-
-
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -61,9 +57,7 @@ namespace CodiceFiscaleUI.PlacesListView
             else
             {
                 viewModel.FilterPlaces(txtFilter.Text);
-
             }
-
         }
 
         private void txtFilter_GotFocus(object sender, RoutedEventArgs e)

@@ -13,7 +13,6 @@ namespace CodiceFiscaleUI.DatePicker
     {
         private DatePickerWindow()
         {
-
             InitializeComponent();
             calDatePicker.Focusable = false;
         }
@@ -33,16 +32,15 @@ namespace CodiceFiscaleUI.DatePicker
         {
             datePickerViewModel.SelectedDateTime = ((DateTime)e.AddedItems[0]);
         }
+
         private MainViewModel parentViewModel;
         private DatePickerViewModel datePickerViewModel;
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-
             parentViewModel.CurrentPerson.DateOfBirth = datePickerViewModel.SelectedDateTime;
             Close();
         }
-
 
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
