@@ -2,6 +2,7 @@
 using ALD.LibFiscalCode.Models;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Validators;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -36,7 +37,6 @@ namespace ALD.LibFiscalCode.ViewModels
 
                 OnPropertyChanged(nameof(Places));
             }
-
         }
 
         public Person CurrentPerson
@@ -78,10 +78,21 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public void CalculateFiscalCode()
+        public string CalculateFiscalCode()
         {
-            fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
-            FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+            var validator = new PersonValidator(CurrentPerson);
+            string errorMessages = null;
+            if (validator.IsValid)
+            {
+                fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+                FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+            }
+            else
+            {
+                errorMessages = string.Concat(validator.ValidationMessages);
+                errorMessages = "Convalida delle informazioni fornite non riuscita:\n" + errorMessages;
+            }
+            return errorMessages;
         }
 
         public FiscalCode FiscalCode

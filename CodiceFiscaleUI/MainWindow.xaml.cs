@@ -80,7 +80,11 @@ namespace CodiceFiscaleUI
 
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.CalculateFiscalCode();
+            var check = viewModel.CalculateFiscalCode();
+            if (!string.IsNullOrWhiteSpace(check))
+            {
+                MessageBox.Show(check, "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

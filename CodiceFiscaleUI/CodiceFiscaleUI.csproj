@@ -4,6 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Authors>Andrea Luciano Damico</Authors>
+    <Copyright>2019</Copyright>
+    <PackageProjectUrl>www.lucianodamico.info</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ALDamico/CodiceFiscaleWpf</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
