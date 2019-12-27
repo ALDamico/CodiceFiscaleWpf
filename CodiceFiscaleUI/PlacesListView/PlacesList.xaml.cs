@@ -2,15 +2,9 @@
 using ALD.LibFiscalCode.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
@@ -38,12 +32,20 @@ namespace CodiceFiscaleUI.PlacesListView
                 return;
             }
 
-            var selectedPlace = e.AddedItems[0] as Place;
-            viewModel.SelectedPlace = selectedPlace;
+            try
+            {
+                var selectedPlace = e.AddedItems[0] as Place;
+                viewModel.SelectedPlace = selectedPlace;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                viewModel.SelectedPlace = null;
+            }
+
         }
 
-        
-       
+
+
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -56,11 +58,12 @@ namespace CodiceFiscaleUI.PlacesListView
             {
                 viewModel.ResetFilter();
             }
-            else {
+            else
+            {
                 viewModel.FilterPlaces(txtFilter.Text);
-                
+
             }
-            
+
         }
 
         private void txtFilter_GotFocus(object sender, RoutedEventArgs e)

@@ -1,10 +1,8 @@
 ﻿using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
@@ -16,7 +14,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data source=C:/Users/Luciano/source/repos/CodiceFiscale/ALD.LibFiscalCode.Persistence/DataSource/app.db");
+            optionsBuilder.UseSqlite("Data source=C:/Users/aldam/Source/Repos/CodiceFiscaleWpf/ALD.LibFiscalCode.Persistence/DataSource/app.db");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -37,7 +35,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public Task<List<Place>> GetAllPlaces()
         {
             Task<List<Place>> placesTask = Places.OrderBy(p => p.ProvinceAbbreviation).ToListAsync();
-            //placesTask.ConfigureAwait(false);
+
             return placesTask;
         }
     }

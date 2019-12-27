@@ -1,31 +1,24 @@
 ﻿using ALD.LibFiscalCode.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CodiceFiscaleUI.DatePicker
 {
     /// <summary>
     /// Interaction logic for DatePicker.xaml
     /// </summary>
-    public partial class DatePicker : Window
+    public partial class DatePickerWindow : Window
     {
-        private DatePicker()
+        private DatePickerWindow()
         {
-            
+
             InitializeComponent();
             calDatePicker.Focusable = false;
         }
 
-        public DatePicker(MainViewModel viewModel):this()
+        public DatePickerWindow(MainViewModel viewModel) : this()
         {
             if (viewModel == null)
             {
@@ -45,7 +38,7 @@ namespace CodiceFiscaleUI.DatePicker
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-           
+
             parentViewModel.CurrentPerson.DateOfBirth = datePickerViewModel.SelectedDateTime;
             Close();
         }

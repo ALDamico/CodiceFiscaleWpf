@@ -1,11 +1,11 @@
-﻿using ALD.LibFiscalCode.Models;
+﻿using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Models;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.ObjectModel;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -36,7 +36,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
                 OnPropertyChanged(nameof(Places));
             }
-            
+
         }
 
         public Person CurrentPerson
@@ -78,7 +78,23 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        
+        public void CalculateFiscalCode()
+        {
+            fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+            FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+        }
+
+        public FiscalCode FiscalCode
+        {
+            get => fiscalCode;
+            private set
+            {
+                fiscalCode = value;
+                OnPropertyChanged(nameof(FiscalCode));
+            }
+        }
+
+        private FiscalCode fiscalCode;
 
         public ObservableCollection<Place> Places { get; set; }
 
@@ -103,6 +119,8 @@ namespace ALD.LibFiscalCode.ViewModels
         }
 
         private Place selectedPlace;
+
+        private FiscalCodeBuilder fiscalCodeBuilder;
 
         public bool HasPendingChanges
         {

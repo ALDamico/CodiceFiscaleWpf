@@ -25,7 +25,7 @@ namespace CodiceFiscaleUI
 
         private void txtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var datePicker = new DatePicker.DatePicker(viewModel)
+            var datePicker = new DatePicker.DatePickerWindow(viewModel)
             {
                 Owner = this
             };
@@ -76,6 +76,11 @@ namespace CodiceFiscaleUI
             var placesWin = new PlacesListView.PlacesList(this.viewModel.Places);
             placesWin.Owner = this;
             placesWin.Show();
+        }
+
+        private void btnCalculate_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.CalculateFiscalCode();
         }
     }
 }

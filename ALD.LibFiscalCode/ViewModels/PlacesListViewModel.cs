@@ -19,11 +19,11 @@ namespace ALD.LibFiscalCode.ViewModels
             FilteredPlaces = new ObservableCollection<Place>(places);
         }
 
-        public ObservableCollection<Place> Places { get;  }
+        public ObservableCollection<Place> Places { get; }
 
         public Place SelectedPlace
         {
-            get => selectedPlace; 
+            get => selectedPlace;
             set
             {
                 selectedPlace = value;
@@ -33,7 +33,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public void FilterPlaces(string filter)
         {
-            FilteredPlaces = new ObservableCollection<Place>(Places.Where(p => p.Name.Contains(filter, System.StringComparison.InvariantCultureIgnoreCase)));
+            FilteredPlaces = new ObservableCollection<Place>(Places.Where(p => p.Name.Contains(filter, System.StringComparison.InvariantCultureIgnoreCase)).OrderBy(p => Fastenshtein.Levenshtein.Distance(filter, p.Name)));
         }
 
         public void ResetFilter()
@@ -41,8 +41,9 @@ namespace ALD.LibFiscalCode.ViewModels
             FilteredPlaces = new ObservableCollection<Place>(Places);
         }
 
-        public ObservableCollection<Place> FilteredPlaces { 
-        get
+        public ObservableCollection<Place> FilteredPlaces
+        {
+            get
             {
                 return filteredPlaces;
             }
