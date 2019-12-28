@@ -29,6 +29,7 @@
             </MenuItem>
             <MenuItem Header="Avanzate">
                 <MenuItem Header="Elenco dei luoghi" x:Name="mnuPlaces" Click="mnuPlaces_Click"></MenuItem>
+                <MenuItem Header="Aggiorna database dei luoghi" x:Name="mnuUpdatePlaces" Click="mnuUpdatePlaces_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">

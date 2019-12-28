@@ -1,8 +1,6 @@
 ﻿using ALD.LibFiscalCode.Persistence.Models;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace ALD.LibFiscalCode.Persistence.EqualityComparers
 {

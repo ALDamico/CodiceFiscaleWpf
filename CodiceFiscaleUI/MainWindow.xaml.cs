@@ -86,5 +86,12 @@ namespace CodiceFiscaleUI
                 MessageBox.Show(check, "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void mnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
+        {
+            var updateWin = new PlaceImport.PlacesImportView();
+            updateWin.Owner = this;
+            updateWin.ShowDialog();
+        }
     }
 }

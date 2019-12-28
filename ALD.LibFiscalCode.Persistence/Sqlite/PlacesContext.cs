@@ -1,9 +1,11 @@
 ﻿using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using ALD.LibFiscalCode.Persistence.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Migrations;
+using ALD.LibFiscalCode.Enums;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
@@ -41,11 +43,9 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             peopleEntity.Property(p => p.Name).HasColumnName("name");
             peopleEntity.Property(p => p.Surname).HasColumnName("surname");
             peopleEntity.Property(p => p.DateOfBirth).HasColumnName("date_of_birth");
-            peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text").HasConversion(g => g == Enums.Gender.Male ? "M" : "F", g => g.Equals("M") ? Enums.Gender.Male : Enums.Gender.Female);
-            //.Property<int>("PlaceOfBirthId").HasColumnName("place_of_birth_id").HasColumnType("int");
+            peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text").HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
             
             peopleEntity.HasOne<Place>(p => p.PlaceOfBirth).WithMany();
-            //peopleEntity.Property<int>("PlaceId").HasColumnName("PlaceOfBirthId");
 
             base.OnModelCreating(modelBuilder);
         }
@@ -56,7 +56,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             if (!peopleTmp.Contains(person, person.GetEqualityComparer()))
             {
                 People.Add(person);
-                SaveChangesAsync();
+                await SaveChangesAsync();
             }
         }
 
