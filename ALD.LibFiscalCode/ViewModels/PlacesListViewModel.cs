@@ -1,4 +1,5 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
+﻿using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

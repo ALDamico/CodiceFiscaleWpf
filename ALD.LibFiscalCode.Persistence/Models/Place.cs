@@ -1,7 +1,24 @@
-﻿namespace ALD.LibFiscalCode.Persistence.Models
+﻿using ALD.LibFiscalCode.Persistence.EqualityComparers;
+
+namespace ALD.LibFiscalCode.Persistence.Models
 {
     public class Place
     {
+        public Place()
+        {
+            equalityComparer = new PlaceEqualityComparer();
+        }
+
+        public bool Equals(Place other)
+        {
+            return equalityComparer.Equals(this, other);
+        }
+
+        public PlaceEqualityComparer GetEqualityComparer()
+        {
+            return equalityComparer;
+        }
+        private PlaceEqualityComparer equalityComparer;
         public string Name { get; set; }
         public string Province { get; set; }
         public string ProvinceAbbreviation { get; set; }

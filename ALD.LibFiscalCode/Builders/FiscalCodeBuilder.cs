@@ -1,13 +1,13 @@
 ﻿using ALD.LibFiscalCode.Enums;
 using ALD.LibFiscalCode.Lookups;
-using ALD.LibFiscalCode.Models;
 using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.StringManipulation;
 using System;
 
 namespace ALD.LibFiscalCode.Builders
 {
-    public class FiscalCodeBuilder
+    public class FiscalCodeBuilder : AbstractNotifyPropertyChanged
     {
         public FiscalCodeBuilder(Person person)
         {
@@ -26,15 +26,30 @@ namespace ALD.LibFiscalCode.Builders
             ComputedFiscalCode = fiscalCode;
         }
 
+        public FiscalCodeBuilder(string partial)
+        {
+            if (partial.Length != 15)
+            {
+                throw new ArgumentException("The input parameter must be a string 15 characters long");
+            }
+
+            FiscalCode fiscalCode = new FiscalCode();
+            fiscalCode.Surname = partial.Substring(0, 3);
+            fiscalCode.Name = partial.Substring(3, 3);
+            fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5);
+            fiscalCode.Place = partial.Substring(10, 4);
+            fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+            ComputedFiscalCode = fiscalCode;
+        }
+
         public FiscalCode ComputedFiscalCode { get; private set; }
 
-        private string CalculateCheckDigit(string input)
+        internal string CalculateCheckDigit(string input)
         {
             if (input.Length != 15)
             {
                 throw new ArgumentException("The input parameter must be a string 15 characters long");
             }
-            string output = "";
 
             int accumulator = 0;
 
@@ -43,8 +58,7 @@ namespace ALD.LibFiscalCode.Builders
                 accumulator += CheckDigitLookup.GetValue(input[i], i);
             }
 
-            output = CheckDigitLookup.GetTranslatedValue(accumulator);
-
+            string output = CheckDigitLookup.GetTranslatedValue(accumulator);
             return output;
         }
 
@@ -71,9 +85,9 @@ namespace ALD.LibFiscalCode.Builders
 
             var nameSplitter = new ConsonantVowelSplitter(input);
 
-            if (nameSplitter.Consonants.Count == 3)
+            if (nameSplitter.Consonants.Count >= 3)
             {
-                output = new string(nameSplitter.Consonants.ToArray());
+                output = new string(nameSplitter.Consonants.ToArray().AsSpan(0, 3).ToArray());
             }
             else if (nameSplitter.Consonants.Count == 2)
             {
@@ -112,7 +126,7 @@ namespace ALD.LibFiscalCode.Builders
             }
             else if (nameSplitter.Consonants.Count == 3)
             {
-                output = new string(nameSplitter.Consonants.ToArray());
+                output = new string(nameSplitter.Consonants.ToArray().AsSpan(0, 3).ToArray());
             }
             else if (nameSplitter.Consonants.Count == 2)
             {

@@ -51,7 +51,7 @@
 
                     <ListBox Height="288"
                          MinWidth="200"
-                         MaxWidth="600">
+                         MaxWidth="600" x:Name="lstOmocode" ItemsSource="{Binding Omocodes}">
                     </ListBox>
                 </StackPanel>
             </StackPanel>

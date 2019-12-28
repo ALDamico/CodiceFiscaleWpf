@@ -1,4 +1,4 @@
-﻿using ALD.LibFiscalCode.Models;
+﻿using ALD.LibFiscalCode.Persistence.Models;
 using System.Collections.Generic;
 
 namespace ALD.LibFiscalCode.Validators

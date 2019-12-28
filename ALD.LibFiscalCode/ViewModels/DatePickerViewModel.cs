@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ALD.LibFiscalCode.Persistence.Events;
+using System;
 
 namespace ALD.LibFiscalCode.ViewModels
 {

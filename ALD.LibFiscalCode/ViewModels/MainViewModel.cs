@@ -1,8 +1,8 @@
 ﻿using ALD.LibFiscalCode.Builders;
-using ALD.LibFiscalCode.Models;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Validators;
+using ALD.LibFiscalCode.Persistence.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,13 +20,14 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
+            PropertyChanged += OnPropertyChanged(nameof(Omocodes));
         }
 
-        protected internal override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
-        {
-            HasPendingChanges = true;
-            return base.OnPropertyChanged(propertyName);
-        }
+          protected  override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
+          {
+              HasPendingChanges = true;
+              return base.OnPropertyChanged(propertyName);
+          }
 
         private async void PopulatePlacesList()
         {
@@ -39,7 +40,7 @@ namespace ALD.LibFiscalCode.ViewModels
             }
         }
 
-        public Person CurrentPerson
+        public ALD.LibFiscalCode.Persistence.Models.Person CurrentPerson
         {
             get
             {
@@ -86,6 +87,12 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                 FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+                omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
+                Omocodes = omocodeBuilder.Omocodes;
+                using (var context = new PlacesContext())
+                {
+                    context.SavePerson(CurrentPerson);
+                }
             }
             else
             {
@@ -104,6 +111,17 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(FiscalCode));
             }
         }
+
+        public List<FiscalCode> Omocodes
+        {
+            get => omocodes;
+            set
+            {
+                omocodes = value;
+                OnPropertyChanged(nameof(Omocodes));
+            }
+        }
+        private List<FiscalCode> omocodes;
 
         private FiscalCode fiscalCode;
 
@@ -137,5 +155,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             get; private set;
         }
+
+        private OmocodeBuilder omocodeBuilder;
     }
 }

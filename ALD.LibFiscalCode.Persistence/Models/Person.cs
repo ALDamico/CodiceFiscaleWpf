@@ -1,8 +1,9 @@
 ﻿using ALD.LibFiscalCode.Enums;
-using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Persistence.EqualityComparers;
+using ALD.LibFiscalCode.Persistence.Events;
 using System;
 
-namespace ALD.LibFiscalCode.Models
+namespace ALD.LibFiscalCode.Persistence.Models
 {
     public class Person : AbstractNotifyPropertyChanged
     {
@@ -13,7 +14,20 @@ namespace ALD.LibFiscalCode.Models
             DateOfBirth = DateTime.Now;
             Gender = Gender.Unspecified;
             PlaceOfBirth = null;
+            equalityComparer = new PersonEqualityComparer();
         }
+
+        public bool Equals(Person other)
+        {
+            return equalityComparer.Equals(this, other);
+        }
+
+        public PersonEqualityComparer GetEqualityComparer()
+        {
+            return this.equalityComparer;
+        }
+
+        private PersonEqualityComparer equalityComparer;
 
         public string Name
         {

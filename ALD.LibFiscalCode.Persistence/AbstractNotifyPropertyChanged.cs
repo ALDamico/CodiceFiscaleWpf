@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ALD.LibFiscalCode
+namespace ALD.LibFiscalCode.Persistence.Events
 {
     public abstract class AbstractNotifyPropertyChanged : INotifyPropertyChanged
     {
