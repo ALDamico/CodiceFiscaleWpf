@@ -4,22 +4,75 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodiceFiscaleUI.PlaceImport"
+        xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        d:DataContext="{d:DesignInstance vm:PlaceImportViewModel}"
         mc:Ignorable="d"
         Title="Importa dati nel DB" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20">
         <StackPanel Orientation="Horizontal">
-            <Label Content="File di origine"/>
-            <TextBox x:Name="txtFilename" Width="200"></TextBox>
+            <Label Content="File di origine" />
+            <TextBox x:Name="txtFilename" Width="200" Text="{Binding InputFilename, Mode=TwoWay}" LostFocus="txtFilename_LostFocus" TextChanged="txtFilename_TextChanged"></TextBox>
             <Button x:Name="btnOpenFile" Width="30" Content="..." Click="btnOpenFile_Click" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <GroupBox Header="Modalità">
-                <ItemsControl>
-                    <RadioButton Content="Sovrascrivi"></RadioButton>
-                    <RadioButton Content="Aggiorna"></RadioButton>
-                </ItemsControl>
-                
-            </GroupBox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <GroupBox Header="Modalità">
+                    <ItemsControl>
+                        <RadioButton Content="Sovrascrivi"></RadioButton>
+                        <RadioButton Content="Aggiorna"></RadioButton>
+                    </ItemsControl>
+                </GroupBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <GroupBox Header="Mapping personalizzato">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <CheckBox Grid.Row="0" 
+                                  Grid.Column="1" 
+                                  Content="Abilita" 
+                                  IsChecked="{Binding UsesCustomMapping}"/>
+                        <DataGrid Grid.Row="1" 
+                                  Grid.ColumnSpan="2" 
+                                  Grid.Column="0" 
+                                  Height="100" 
+                                  IsEnabled="{Binding UsesCustomMapping}" 
+                                  AutoGenerateColumns="False" 
+                                  CanUserSortColumns="False" 
+                                  ItemsSource="{Binding FieldMapping}">
+                            
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Nome" Binding="{Binding CsvName}"/>
+                                <DataGridTextColumn Header="Posizione" Binding="{Binding Position}" />
+                                <DataGridComboBoxColumn x:Name="colSel" Header="Corrisponde a"  ItemsSource="{Binding AvailableProperties, UpdateSourceTrigger=PropertyChanged}" SelectedItemBinding="{Binding SelectedPropertyName, UpdateSourceTrigger=PropertyChanged}">
+
+                                    
+                                </DataGridComboBoxColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnImport" Content="Importa" IsEnabled="{Binding CanStartImport}" Click="btnImport_Click"></Button>
+            <Separator Width="10" Visibility="Hidden" />
+            <Button x:Name="btnCancel" Content="Annulla" Click="btnCancel_Click" IsCancel="True"></Button>
         </StackPanel>
     </StackPanel>
 </Window>
