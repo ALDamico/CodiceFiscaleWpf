@@ -17,7 +17,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             CurrentPerson = new Person();
 
-            PopulatePlacesList();
+            Task.Run(PopulatePlacesList);
             
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
@@ -39,10 +39,10 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private async void PopulatePlacesList()
         {
-            using (var dbContext = new PlacesContext())
+            await using (var dbContext = new PlacesContext())
             {
-                Task<List<Place>> task = dbContext.GetAllPlaces();
-                Places = new ObservableCollection<Place>(await task.ConfigureAwait(false));
+                List<Place> task = await dbContext.GetAllPlaces();
+                Places = new ObservableCollection<Place>(task);
 
                 OnPropertyChanged(nameof(Places));
             }
@@ -88,7 +88,7 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public IValidator CalculateFiscalCode()
+        public async Task<IValidator> CalculateFiscalCode()
         {
             Validator = new PersonValidator(CurrentPerson);
             string errorMessages = null;
@@ -102,7 +102,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 {
                     context.SavePerson(CurrentPerson);
                     SaveFiscalCode(context, new List<FiscalCodeDecorator>(Omocodes), CurrentPerson);
-                    context.SaveChangesAsync();
+                    Task.Run(() => context.SaveChangesAsync());
                 }
             }
             return Validator;

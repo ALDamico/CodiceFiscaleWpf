@@ -81,9 +81,9 @@ namespace CodiceFiscaleUI
             placesWin.Show();
         }
 
-        private void btnCalculate_Click(object sender, RoutedEventArgs e)
+        private async void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            var check = viewModel.CalculateFiscalCode();
+            var check = await viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
                 MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);

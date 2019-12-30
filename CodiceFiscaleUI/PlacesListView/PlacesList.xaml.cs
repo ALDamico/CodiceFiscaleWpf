@@ -23,7 +23,7 @@ namespace CodiceFiscaleUI.PlacesListView
 
         private bool loading;
 
-        private PlacesListViewModel viewModel;
+        private readonly PlacesListViewModel viewModel;
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

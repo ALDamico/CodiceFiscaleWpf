@@ -64,16 +64,18 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public async void SavePerson(Person person)
         {
             var peopleTmp = People.Include(p => p.PlaceOfBirth).ToList();
-            if (!peopleTmp.Contains(person, person.GetEqualityComparer()))
+            if (peopleTmp.Contains(person, person.GetEqualityComparer()))
             {
-                People.Add(person);
-                await SaveChangesAsync();
+                return;
             }
+
+            People.Add(person);
+            await SaveChangesAsync();
         }
 
         public Task<List<Place>> GetAllPlaces()
         {
-            Task<List<Place>> placesTask = Places.OrderBy(p => p.ProvinceAbbreviation).ToListAsync();
+            Task<List<Place>> placesTask = Places.OrderBy(p => p.Name).ToListAsync();
 
             return placesTask;
         }
