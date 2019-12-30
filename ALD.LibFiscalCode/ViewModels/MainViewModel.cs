@@ -126,7 +126,7 @@ namespace ALD.LibFiscalCode.ViewModels
             get => fiscalCode;
             private set
             {
-                fiscalCode = value
+                fiscalCode = value;
                 OnPropertyChanged(nameof(FiscalCode));
             }
         }
