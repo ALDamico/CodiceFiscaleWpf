@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows.Media;
+using CodiceFiscaleUI.ResetWindow;
 
 namespace CodiceFiscaleUI
 {
@@ -136,6 +137,13 @@ namespace CodiceFiscaleUI
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void mnuResetDataSource_Click(object sender, RoutedEventArgs e)
+        {
+            var resetWindow = new ResetWindow.ResetWindow();
+            resetWindow.Owner = this;
+            resetWindow.Show();
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿<Window x:Class="CodiceFiscaleUI.ResetWindow.ResetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodiceFiscaleUI.ResetWindow"
+        mc:Ignorable="d"
+        xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        d:DataContext="{d:DesignInstance vm:ResetViewModel}"
+        Title="Reimposta predefiniti" SizeToContent="WidthAndHeight">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+        <CheckBox Content="Reimposta database dei luoghi" ToolTip="Ripristina il database dei luoghi. Utile se il database si corrompe." IsChecked="{Binding ResetDataSource}" />
+        <CheckBox Content="Elimina cronologia" ToolTip="Elimina la cronologia dei codici fiscali salvata dall'applicazione." IsChecked="{Binding ResetHistory}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+            <Button IsEnabled="{Binding CanStartRestore}" x:Name="btnStartRestore" Click="BtnStartRestore_OnClick">Avvia</Button>
+            <Separator Width="20" Visibility="Hidden"></Separator>
+            <Button IsCancel="True" x:Name="btnCancel" Click="BtnCancel_OnClick">Annulla</Button>
+        </StackPanel>
+    </StackPanel>
+
+</Window>
