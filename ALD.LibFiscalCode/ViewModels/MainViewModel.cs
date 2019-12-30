@@ -85,11 +85,11 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public string CalculateFiscalCode()
+        public IValidator CalculateFiscalCode()
         {
-            var validator = new PersonValidator(CurrentPerson);
+            Validator = new PersonValidator(CurrentPerson);
             string errorMessages = null;
-            if (validator.IsValid)
+            if (Validator.IsValid)
             {
                 fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                 FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
@@ -102,13 +102,12 @@ namespace ALD.LibFiscalCode.ViewModels
                     context.SaveChangesAsync();
                 }
             }
-            else
-            {
-                errorMessages = string.Concat(validator.ValidationMessages);
-                errorMessages = "Convalida delle informazioni fornite non riuscita:\n" + errorMessages;
-            }
-            return errorMessages;
+            return Validator;
         }
+
+      
+
+        public PersonValidator Validator { get; set; }
 
         private void SaveFiscalCode(PlacesContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {

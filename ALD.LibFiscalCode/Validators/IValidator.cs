@@ -1,9 +1,13 @@
-﻿namespace ALD.LibFiscalCode.Validators
+﻿using System.Collections.Generic;
+
+namespace ALD.LibFiscalCode.Validators
 {
-    internal interface IValidator
+    public interface IValidator
     {
         bool IsValid { get; }
 
         void Validate();
+        List<string> ValidationMessages { get; }
+        string GetValidationMessagesAsString();
     }
 }
