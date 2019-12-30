@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -23,11 +24,16 @@ namespace ALD.LibFiscalCode.ViewModels
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
         }
 
-          protected  override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
-          {
-              HasPendingChanges = true;
-              return base.OnPropertyChanged(propertyName);
-          }
+        public void SetMainFiscalCode(FiscalCode code)
+        {
+            FiscalCode = code;
+        }
+
+        protected override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
+        {
+            HasPendingChanges = true;
+            return base.OnPropertyChanged(propertyName);
+        }
 
         private async void PopulatePlacesList()
         {
@@ -92,6 +98,8 @@ namespace ALD.LibFiscalCode.ViewModels
                 using (var context = new PlacesContext())
                 {
                     context.SavePerson(CurrentPerson);
+                    SaveFiscalCode(context, new List<FiscalCodeDecorator>(Omocodes), CurrentPerson);
+                    context.SaveChangesAsync();
                 }
             }
             else
@@ -100,6 +108,15 @@ namespace ALD.LibFiscalCode.ViewModels
                 errorMessages = "Convalida delle informazioni fornite non riuscita:\n" + errorMessages;
             }
             return errorMessages;
+        }
+
+        private void SaveFiscalCode(PlacesContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
+        {
+            var newFc = new FiscalCodeEntity();
+            newFc.FiscalCode = codes.Where(fc => fc.IsMain).FirstOrDefault().FiscalCode.FullFiscalCode;
+            newFc.Person = person;
+            context.FiscalCodes.Add(newFc);
+            context.SaveChangesAsync();
         }
 
         public FiscalCode FiscalCode
@@ -112,7 +129,7 @@ namespace ALD.LibFiscalCode.ViewModels
             }
         }
 
-        public List<FiscalCode> Omocodes
+        public List<FiscalCodeDecorator> Omocodes
         {
             get => omocodes;
             set
@@ -121,7 +138,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(Omocodes));
             }
         }
-        private List<FiscalCode> omocodes;
+        private List<FiscalCodeDecorator> omocodes;
 
         private FiscalCode fiscalCode;
 

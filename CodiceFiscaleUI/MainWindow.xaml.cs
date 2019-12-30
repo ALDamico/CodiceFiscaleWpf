@@ -3,6 +3,7 @@ using ALD.LibFiscalCode.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace CodiceFiscaleUI
 {
@@ -73,7 +74,7 @@ namespace CodiceFiscaleUI
 
         private void mnuPlaces_Click(object sender, RoutedEventArgs e)
         {
-            var placesWin = new PlacesListView.PlacesList(this.viewModel.Places);
+            var placesWin = new PlacesListView.PlacesList(viewModel.Places);
             placesWin.Owner = this;
             placesWin.Show();
         }
@@ -85,6 +86,7 @@ namespace CodiceFiscaleUI
             {
                 MessageBox.Show(check, "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
         }
 
         private void mnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
@@ -92,6 +94,25 @@ namespace CodiceFiscaleUI
             var updateWin = new PlaceImport.PlacesImportView();
             updateWin.Owner = this;
             updateWin.ShowDialog();
+        }
+
+        private void mnuLstOmocode_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedCode = lstOmocode.SelectedItem;
+            if (selectedCode != null)
+            {
+                viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
+
+                var tmp = lstOmocode.ItemContainerGenerator.ContainerFromItem(lstOmocode.SelectedItem) as ListBoxItem;
+
+                foreach (var v in lstOmocode.Items)
+                {
+                    var lbi = lstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
+                    lbi.FontWeight= FontWeights.Normal;
+                }
+
+                tmp.FontWeight = FontWeights.Bold;
+            }
         }
     }
 }

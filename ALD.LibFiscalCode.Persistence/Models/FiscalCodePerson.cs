@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ALD.LibFiscalCode.Persistence.Models
 {
     public class FiscalCodePerson
     {
+        public FiscalCodePerson()
+        {
+
+        }
         public FiscalCodePerson(Person person, IEnumerable<FiscalCodeDecorator> fiscalCodes)
         {
             if (person == null)
@@ -20,9 +25,15 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
             Person = person;
             FiscalCodes = fiscalCodes as List<FiscalCodeDecorator>;
+            FiscalCodes[0].IsMain = true;
         }
         public Person Person { get; set; }
+        [NotMapped]
         public List<FiscalCodeDecorator> FiscalCodes { get; private set; }
+        [NotMapped]
+        public FiscalCode MainFiscalCode => FiscalCodes.Where(fc => fc.IsMain).FirstOrDefault()?.FiscalCode;
+        [NotMapped]
+        public string MainFiscalCodeString => MainFiscalCode?.FullFiscalCode;
 
         public void SetMainFiscalCode(FiscalCode fiscalCode)
         {

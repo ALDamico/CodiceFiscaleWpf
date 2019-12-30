@@ -16,8 +16,8 @@ namespace ALD.LibFiscalCode.Builders
                 throw new ArgumentException("The parameter builder can't be null");
             }
             fiscalCodeBuilder = builder;
-            Omocodes = new List<FiscalCode>();
-            Omocodes.Add(builder.ComputedFiscalCode);
+            Omocodes = new List<FiscalCodeDecorator>();
+            Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
 
             string partial = builder.ComputedFiscalCode.Surname + 
                 builder.ComputedFiscalCode.Name + 
@@ -31,13 +31,14 @@ namespace ALD.LibFiscalCode.Builders
                     char newChar = OmocodeLookup.Get(letter);
                     partial = partial.Replace(letter, newChar);
                     FiscalCodeBuilder omocodeBuilder = new FiscalCodeBuilder(partial);
-                    Omocodes.Add(omocodeBuilder.ComputedFiscalCode);
+                    Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
                     OnPropertyChanged(nameof(Omocodes));
                 }
             }
+            Omocodes[0].IsMain = true;
         }
 
-        public List<FiscalCode> Omocodes { get; }
+        public List<FiscalCodeDecorator> Omocodes { get; private set; }
         private FiscalCodeBuilder fiscalCodeBuilder;
     }
 }

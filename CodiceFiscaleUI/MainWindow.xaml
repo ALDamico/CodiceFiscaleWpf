@@ -41,7 +41,8 @@
                          MinWidth="200"
                          MaxWidth="600"
                          IsReadOnly="True"
-                         IsReadOnlyCaretVisible="False" Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
+                         IsReadOnlyCaretVisible="False"
+                            Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                     <Button x:Name="btnCopyToClipboard"
                         HorizontalAlignment="Center"
                         Content="Copia"
@@ -53,6 +54,24 @@
                     <ListBox Height="288"
                          MinWidth="200"
                          MaxWidth="600" x:Name="lstOmocode" ItemsSource="{Binding Omocodes}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding}">
+                                        <Setter Property="FontWeight" Value="Black"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Copia" Click="btnCopyToClipboard_Click" />
+                                <Separator />
+                                <MenuItem Header="Imposta come principale" x:Name="mnuLstOmocode" Click="mnuLstOmocode_Click"></MenuItem>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                     </ListBox>
                 </StackPanel>
             </StackPanel>
