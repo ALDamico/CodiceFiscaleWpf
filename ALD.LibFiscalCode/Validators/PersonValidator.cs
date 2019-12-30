@@ -22,6 +22,11 @@ namespace ALD.LibFiscalCode.Validators
 
         public List<string> ValidationMessages { get; }
 
+        public string GetValidationMessagesAsString()
+        {
+            return string.Concat(ValidationMessages);
+        }
+
         public void Validate()
         {
             if (string.IsNullOrWhiteSpace(person.Name))
