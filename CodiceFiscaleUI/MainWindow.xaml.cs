@@ -1,8 +1,10 @@
 ﻿using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.ComponentModel;
 using System.Windows.Media;
 
 namespace CodiceFiscaleUI
@@ -112,6 +114,27 @@ namespace CodiceFiscaleUI
                 }
 
                 tmp.FontWeight = FontWeights.Bold;
+            }
+        }
+
+        private void mnuQuit_Click(object sender, RoutedEventArgs e)
+        {
+            Window_Closing(this, new CancelEventArgs());
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (viewModel.HasPendingChanges)
+            {
+                var result = MessageBox.Show("Hai delle modifiche in sospeso che verranno perse se esci dall'applicazione. Sei sicuro?", "Conferma uscita", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk, MessageBoxResult.Cancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
             }
         }
     }

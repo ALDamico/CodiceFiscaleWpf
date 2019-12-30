@@ -18,10 +18,12 @@ namespace ALD.LibFiscalCode.ViewModels
             CurrentPerson = new Person();
 
             PopulatePlacesList();
-            HasPendingChanges = false;
+            
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
+
+            HasPendingChanges = false;
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -55,8 +57,9 @@ namespace ALD.LibFiscalCode.ViewModels
             set
             {
                 _currentPerson = value;
-                OnPropertyChanged(nameof(CurrentPerson));
                 HasPendingChanges = true;
+                OnPropertyChanged(nameof(CurrentPerson));
+                
             }
         }
 
@@ -124,7 +127,7 @@ namespace ALD.LibFiscalCode.ViewModels
             get => fiscalCode;
             private set
             {
-                fiscalCode = value;
+                fiscalCode = value
                 OnPropertyChanged(nameof(FiscalCode));
             }
         }
