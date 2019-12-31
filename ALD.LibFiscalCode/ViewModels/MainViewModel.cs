@@ -17,7 +17,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             CurrentPerson = new Person();
 
-            PopulatePlacesList();
+            Task.Run(PopulatePlacesList);
             
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
@@ -31,7 +31,7 @@ namespace ALD.LibFiscalCode.ViewModels
             FiscalCode = code;
         }
 
-        protected override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
+        protected sealed override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
         {
             HasPendingChanges = true;
             return base.OnPropertyChanged(propertyName);
@@ -39,31 +39,28 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private async void PopulatePlacesList()
         {
-            using (var dbContext = new PlacesContext())
+            await using (var dbContext = new PlacesContext())
             {
-                Task<List<Place>> task = dbContext.GetAllPlaces();
-                Places = new ObservableCollection<Place>(await task.ConfigureAwait(false));
+                List<Place> task = await dbContext.GetAllPlaces();
+                Places = new ObservableCollection<Place>(task);
 
                 OnPropertyChanged(nameof(Places));
             }
         }
 
-        public ALD.LibFiscalCode.Persistence.Models.Person CurrentPerson
+        public Person CurrentPerson
         {
-            get
-            {
-                return _currentPerson;
-            }
+            get => currentPerson;
             set
             {
-                _currentPerson = value;
+                currentPerson = value;
                 HasPendingChanges = true;
                 OnPropertyChanged(nameof(CurrentPerson));
                 
             }
         }
 
-        private Person _currentPerson;
+        private Person currentPerson;
 
         public void SetGender(string gender)
         {
@@ -88,22 +85,29 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public IValidator CalculateFiscalCode()
+        public async Task<IValidator> CalculateFiscalCode()
         {
             Validator = new PersonValidator(CurrentPerson);
             string errorMessages = null;
             if (Validator.IsValid)
             {
-                fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
-                FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
-                omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
-                Omocodes = omocodeBuilder.Omocodes;
-                using (var context = new PlacesContext())
-                {
-                    context.SavePerson(CurrentPerson);
-                    SaveFiscalCode(context, new List<FiscalCodeDecorator>(Omocodes), CurrentPerson);
-                    context.SaveChangesAsync();
-                }
+                //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
+                Task.Run(
+                    () =>
+                    {
+                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+                        FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+                        omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
+                        Omocodes = omocodeBuilder.Omocodes;
+                        using (var context = new PlacesContext())
+                        {
+                            context.SavePerson(CurrentPerson);
+                            SaveFiscalCode(context, Omocodes, CurrentPerson);
+                            context.SaveChangesAsync();
+                        }
+                    }
+                );
+                
             }
             return Validator;
         }

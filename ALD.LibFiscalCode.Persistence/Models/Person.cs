@@ -17,6 +17,8 @@ namespace ALD.LibFiscalCode.Persistence.Models
             equalityComparer = new PersonEqualityComparer();
         }
 
+        public int Id { get; set; }
+
         public bool Equals(Person other)
         {
             return equalityComparer.Equals(this, other);

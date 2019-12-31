@@ -4,6 +4,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
 {
     public class Place
     {
+        public int Id { get; set; }
         public Place()
         {
             equalityComparer = new PlaceEqualityComparer();
