@@ -29,5 +29,10 @@ namespace ALD.LibFiscalCode.Persistence.Models
         {
             return new FiscalCodeDecorator(code);
         }
+
+        public override string ToString()
+        {
+            return FiscalCode.ToString();
+        }
     }
 }
