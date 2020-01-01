@@ -1,55 +1,44 @@
-﻿using System;
-using ALD.LibFiscalCode.Persistence.Events;
+﻿using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Data;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class PlacesListViewModel : AbstractNotifyPropertyChanged
     {
-        public CollectionViewSource ViewSource { get; set; }
-     
+        private readonly ObservableCollection<Place> places;
+        private string filterText;
 
         public PlacesListViewModel(ICollection<Place> places)
         {
-            Places = new ObservableCollection<Place>(places);
-            ViewSource = new CollectionViewSource {Source = Places};
-
+            this.places = new ObservableCollection<Place>(places);
+            ViewSource = new CollectionViewSource { Source = this.places };
         }
-        public string FilterText { get; set; }
 
-        public ObservableCollection<Place> Places { get; }
-
+        public CollectionViewSource ViewSource { get; set; }
 
         public void Filter(string filterText)
         {
-            FilterText = filterText;
+            this.filterText = filterText;
+
             ViewSource.Filter += ViewSourceOnFilter;
-            OnPropertyChanged(nameof(ViewSource));
         }
 
         private void ViewSourceOnFilter(object sender, FilterEventArgs e)
         {
-            var item = e.Item as Place;
-            if (item != null)
+            if (e.Item is Place item)
             {
-                e.Accepted = item.Name.Contains(FilterText, StringComparison.InvariantCultureIgnoreCase);
+                e.Accepted = item.Name.Contains(filterText, StringComparison.InvariantCultureIgnoreCase);
             }
-
-            
         }
-
-       
 
         public void ResetFilter()
         {
-            FilterText = "";
+            filterText = "";
             ViewSource.Filter -= ViewSourceOnFilter;
         }
-
-       
     }
 }

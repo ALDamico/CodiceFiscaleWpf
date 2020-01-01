@@ -2,6 +2,7 @@
 using ALD.LibFiscalCode.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
@@ -17,13 +18,16 @@ namespace CodiceFiscaleUI.PlacesListView
     {
         public CollectionViewSource ViewSource { get; set; }
 
-        
         public PlacesList(ICollection<Place> places)
         {
             viewModel = new PlacesListViewModel(places);
+
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.NameLength), ListSortDirection.Ascending));
+
             DataContext = viewModel;
             loading = true;
-           //ViewSource = new CollectionViewSource();
+            //ViewSource = new CollectionViewSource();
             InitializeComponent();
         }
 
@@ -37,7 +41,6 @@ namespace CodiceFiscaleUI.PlacesListView
             {
                 return;
             }
-
         }
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
@@ -55,15 +58,9 @@ namespace CodiceFiscaleUI.PlacesListView
             }
             else
             {
+                viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
                 viewModel.Filter(filterText);
             }
-        }
-
-        private void ViewSourceOnFilter(object sender, FilterEventArgs e)
-        {
-            var temp = e.Item as Place;
-            var filterText = (sender as TextBox).Text;
-            e.Accepted = temp.Name.Contains(filterText, StringComparison.InvariantCultureIgnoreCase);
         }
 
         private void txtFilter_GotFocus(object sender, RoutedEventArgs e)
