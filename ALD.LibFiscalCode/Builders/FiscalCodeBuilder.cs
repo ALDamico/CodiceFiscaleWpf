@@ -1,7 +1,7 @@
 ﻿using ALD.LibFiscalCode.Enums;
 using ALD.LibFiscalCode.Lookups;
-using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.StringManipulation;
 using System;
 

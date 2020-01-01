@@ -1,11 +1,9 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
+﻿using ALD.LibFiscalCode.Enums;
+using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using ALD.LibFiscalCode.Persistence.Enums;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Migrations;
-using ALD.LibFiscalCode.Enums;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
@@ -63,12 +61,10 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         public async Task SavePerson(Person person)
         {
-
             if (await People.Include(p => p.PlaceOfBirth).ContainsAsync(person))
             {
                 return;
             }
-            
 
             People.AddAsync(person);
         }

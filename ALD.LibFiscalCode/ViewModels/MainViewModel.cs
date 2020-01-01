@@ -1,13 +1,13 @@
 ﻿using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Validators;
-using ALD.LibFiscalCode.Persistence.Events;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -18,7 +18,7 @@ namespace ALD.LibFiscalCode.ViewModels
             CurrentPerson = new Person();
 
             Task.Run(PopulatePlacesList);
-            
+
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
@@ -56,7 +56,6 @@ namespace ALD.LibFiscalCode.ViewModels
                 currentPerson = value;
                 HasPendingChanges = true;
                 OnPropertyChanged(nameof(CurrentPerson));
-                
             }
         }
 
@@ -107,12 +106,9 @@ namespace ALD.LibFiscalCode.ViewModels
                         }
                     }
                 );
-                
             }
             return Validator;
         }
-
-      
 
         public PersonValidator Validator { get; set; }
 
@@ -144,6 +140,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(Omocodes));
             }
         }
+
         private List<FiscalCodeDecorator> omocodes;
 
         private FiscalCode fiscalCode;

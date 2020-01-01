@@ -1,13 +1,12 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using System.Collections.Generic;
-using ALD.LibFiscalCode.Lookups;
-using ALD.LibFiscalCode.Persistence;
-using System;
+﻿using ALD.LibFiscalCode.Lookups;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Models;
+using System;
+using System.Collections.Generic;
 
 namespace ALD.LibFiscalCode.Builders
 {
-    public class OmocodeBuilder: AbstractNotifyPropertyChanged
+    public class OmocodeBuilder : AbstractNotifyPropertyChanged
     {
         public OmocodeBuilder(FiscalCodeBuilder builder)
         {
@@ -19,9 +18,9 @@ namespace ALD.LibFiscalCode.Builders
             Omocodes = new List<FiscalCodeDecorator>();
             Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
 
-            string partial = builder.ComputedFiscalCode.Surname + 
-                builder.ComputedFiscalCode.Name + 
-                builder.ComputedFiscalCode.DateOfBirthAndGender 
+            string partial = builder.ComputedFiscalCode.Surname +
+                builder.ComputedFiscalCode.Name +
+                builder.ComputedFiscalCode.DateOfBirthAndGender
                 + builder.ComputedFiscalCode.Place;
 
             foreach (var letter in partial)

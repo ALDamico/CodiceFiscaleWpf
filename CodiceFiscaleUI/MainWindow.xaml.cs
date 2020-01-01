@@ -1,11 +1,10 @@
 ﻿using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Windows.Media;
 
 namespace CodiceFiscaleUI
 {
@@ -88,7 +87,6 @@ namespace CodiceFiscaleUI
             {
                 MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            
         }
 
         private void mnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
@@ -110,7 +108,7 @@ namespace CodiceFiscaleUI
                 foreach (var v in lstOmocode.Items)
                 {
                     var lbi = lstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
-                    lbi.FontWeight= FontWeights.Normal;
+                    lbi.FontWeight = FontWeights.Normal;
                 }
 
                 tmp.FontWeight = FontWeights.Bold;

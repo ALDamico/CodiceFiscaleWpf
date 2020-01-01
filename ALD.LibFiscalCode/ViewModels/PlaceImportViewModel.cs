@@ -1,19 +1,16 @@
 ﻿using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Importer;
+using ALD.LibFiscalCode.Persistence.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using ALD.LibFiscalCode.Persistence.Importer;
-using ALD.LibFiscalCode.Persistence.Sqlite;
-using ALD.LibFiscalCode.Persistence.Models;
-using System.Reflection;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
-    public class PlaceImportViewModel:AbstractNotifyPropertyChanged
+    public class PlaceImportViewModel : AbstractNotifyPropertyChanged
     {
         public PlaceImportViewModel()
         {
@@ -28,8 +25,8 @@ namespace ALD.LibFiscalCode.ViewModels
             OnPropertyChanged(nameof(FieldMapping));
         }
 
-       
         private string inputFilename;
+
         public string InputFilename
         {
             get => inputFilename;
@@ -40,6 +37,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(CanStartImport));
             }
         }
+
         public bool UsesCustomMapping
         {
             get => usesCustomMapping;
@@ -55,6 +53,7 @@ namespace ALD.LibFiscalCode.ViewModels
         public ImportMode Mode { get; set; }
         public bool CanStartImport => !(string.IsNullOrWhiteSpace(InputFilename));
         public ImporterConfiguration Configuration { get; set; }
+
         public ObservableCollection<PlaceCsvMapper> FieldMapping
         {
             get => fieldMapping;
@@ -64,6 +63,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(FieldMapping));
             }
         }
+
         private ObservableCollection<PlaceCsvMapper> fieldMapping;
 
         public async void Import()
