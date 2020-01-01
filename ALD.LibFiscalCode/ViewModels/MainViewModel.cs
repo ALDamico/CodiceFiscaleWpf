@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -17,13 +18,20 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             CurrentPerson = new Person();
 
-            Task.Run(PopulatePlacesList);
+            PopulatePlaceList();
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             HasPendingChanges = false;
+        }
+
+        private async Task PopulatePlaceList()
+        {
+            var t = new PlacesContext().Places;
+            await Task.Run(() => Places = new ObservableCollection<Place>(t)).ConfigureAwait(true);
+            OnPropertyChanged(nameof(Places));
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -37,16 +45,17 @@ namespace ALD.LibFiscalCode.ViewModels
             return base.OnPropertyChanged(propertyName);
         }
 
+        /*
         private async void PopulatePlacesList()
         {
-            await using (var dbContext = new PlacesContext())
+            using (var dbContext = new PlacesContext())
             {
-                List<Place> task = await dbContext.GetAllPlaces();
-                Places = new ObservableCollection<Place>(task);
+                List<Place> task = dbContext.GetAllPlaces();
+                Places = dbContext.Places;
 
                 OnPropertyChanged(nameof(Places));
             }
-        }
+        }*/
 
         public Person CurrentPerson
         {
@@ -84,7 +93,7 @@ namespace ALD.LibFiscalCode.ViewModels
             HasPendingChanges = false;
         }
 
-        public async Task<IValidator> CalculateFiscalCode()
+        public async Task<IValidator> CalculateFiscalCodeAsync()
         {
             Validator = new PersonValidator(CurrentPerson);
             string errorMessages = null;

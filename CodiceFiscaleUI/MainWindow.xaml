@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="Codice fiscale" Height="450" Width="800" Closing="Window_Closing">
+        Title="Codice fiscale" Height="450" Width="800" Closing="Window_Closing" Loaded="MainWindow_OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
@@ -32,6 +32,9 @@
             <MenuItem Header="Avanzate">
                 <MenuItem Header="Elenco dei luoghi" x:Name="mnuPlaces" Click="mnuPlaces_Click"></MenuItem>
                 <MenuItem Header="Aggiorna database dei luoghi" x:Name="mnuUpdatePlaces" Click="mnuUpdatePlaces_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="?">
+                <MenuItem Header="Informazioni su Codice Fiscale" x:Name="mnuAbout" Click="MnuAbout_OnClick"></MenuItem>
             </MenuItem>
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">
@@ -118,7 +121,7 @@
                     <Label Content="Luogo di nascita" />
                     <ComboBox x:Name="drpPlaceOfBirth"
                               MinWidth="200"
-                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True}"
+                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                               SelectionChanged="drpPlaceOfBirth_SelectionChanged">
                         <ComboBox.ItemsPanel>
                             <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->

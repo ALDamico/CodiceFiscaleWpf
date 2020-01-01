@@ -16,6 +16,17 @@ namespace CodiceFiscaleUI.PlacesListView
     /// </summary>
     public partial class PlacesList : Window
     {
+        public PlacesList(IEnumerable<Place> places)
+        {
+            viewModel = new PlacesListViewModel(places as ICollection<Place>);
+
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
+
+            DataContext = viewModel;
+            loading = true;
+            InitializeComponent();
+        }
+
         public PlacesList(ICollection<Place> places)
         {
             viewModel = new PlacesListViewModel(places);
