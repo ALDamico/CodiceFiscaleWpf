@@ -18,6 +18,18 @@ namespace ALD.LibFiscalCode.ViewModels
             ViewSource = new CollectionViewSource { Source = this.places };
         }
 
+        public Place SelectedPlace
+        {
+            get => selectedPlace;
+            set
+            {
+                selectedPlace = value;
+                OnPropertyChanged(nameof(SelectedPlace));
+            }
+        }
+
+        private Place selectedPlace;
+
         public CollectionViewSource ViewSource { get; set; }
 
         public void Filter(string filterText)

@@ -16,18 +16,14 @@ namespace CodiceFiscaleUI.PlacesListView
     /// </summary>
     public partial class PlacesList : Window
     {
-        public CollectionViewSource ViewSource { get; set; }
-
         public PlacesList(ICollection<Place> places)
         {
             viewModel = new PlacesListViewModel(places);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
-            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.NameLength), ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
-            //ViewSource = new CollectionViewSource();
             InitializeComponent();
         }
 
@@ -41,6 +37,8 @@ namespace CodiceFiscaleUI.PlacesListView
             {
                 return;
             }
+
+            viewModel.SelectedPlace = viewModel.ViewSource.View.CurrentItem as Place;
         }
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
