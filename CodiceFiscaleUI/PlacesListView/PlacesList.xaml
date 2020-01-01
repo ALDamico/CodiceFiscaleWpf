@@ -8,7 +8,7 @@
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
         Title="PlacesList" Height="450" Width="800">
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -21,8 +21,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"></TextBox>
-                <ListBox Grid.Row="1" ItemsSource="{Binding FilteredPlaces, Mode=TwoWay}" SelectionChanged="ListBox_SelectionChanged"></ListBox>
+                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"  ></TextBox>
+                <ListBox Grid.Row="1" ItemsSource="{Binding ViewSource.View }" SelectionChanged="ListBox_SelectionChanged">
+                    
+                </ListBox>
             </Grid>
 
             <!--</StackPanel>-->

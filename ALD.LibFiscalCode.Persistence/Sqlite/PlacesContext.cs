@@ -24,7 +24,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         public DbSet<Place> Places { get; set; }
 
-        internal DbSet<Person> People { get; set; }
+        public DbSet<Person> People { get; set; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

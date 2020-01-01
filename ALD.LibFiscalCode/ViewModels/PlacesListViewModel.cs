@@ -1,61 +1,55 @@
-﻿using ALD.LibFiscalCode.Persistence.Events;
+﻿using System;
+using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class PlacesListViewModel : AbstractNotifyPropertyChanged
     {
-        public PlacesListViewModel()
-        {
-            SelectedPlace = null;
-        }
+        public CollectionViewSource ViewSource { get; set; }
+     
 
         public PlacesListViewModel(ICollection<Place> places)
         {
-            SelectedPlace = null;
             Places = new ObservableCollection<Place>(places);
-            FilteredPlaces = new ObservableCollection<Place>(places);
+            ViewSource = new CollectionViewSource {Source = Places};
+
         }
+        public string FilterText { get; set; }
 
         public ObservableCollection<Place> Places { get; }
 
-        public Place SelectedPlace
+
+        public void Filter(string filterText)
         {
-            get => selectedPlace;
-            set
-            {
-                selectedPlace = value;
-                OnPropertyChanged(nameof(SelectedPlace));
-            }
+            FilterText = filterText;
+            ViewSource.Filter += ViewSourceOnFilter;
+            OnPropertyChanged(nameof(ViewSource));
         }
 
-        public void FilterPlaces(string filter)
+        private void ViewSourceOnFilter(object sender, FilterEventArgs e)
         {
-            FilteredPlaces = new ObservableCollection<Place>(Places.Where(p => p.Name.Contains(filter, System.StringComparison.InvariantCultureIgnoreCase)).OrderBy(p => Fastenshtein.Levenshtein.Distance(filter, p.Name)));
+            var item = e.Item as Place;
+            if (item != null)
+            {
+                e.Accepted = item.Name.Contains(FilterText, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            
         }
+
+       
 
         public void ResetFilter()
         {
-            FilteredPlaces = new ObservableCollection<Place>(Places);
+            FilterText = "";
+            ViewSource.Filter -= ViewSourceOnFilter;
         }
 
-        public ObservableCollection<Place> FilteredPlaces
-        {
-            get
-            {
-                return filteredPlaces;
-            }
-            set
-            {
-                filteredPlaces = value;
-                OnPropertyChanged(nameof(FilteredPlaces));
-            }
-        }
-
-        private ObservableCollection<Place> filteredPlaces;
-        private Place selectedPlace;
+       
     }
 }
