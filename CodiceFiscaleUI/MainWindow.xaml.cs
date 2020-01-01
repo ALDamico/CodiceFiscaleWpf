@@ -2,9 +2,11 @@
 using ALD.LibFiscalCode.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CodiceFiscaleUI.AboutView;
 
 namespace CodiceFiscaleUI
 {
@@ -16,8 +18,10 @@ namespace CodiceFiscaleUI
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            DataContext = viewModel;
+            Task.Run(() =>
+            {
+                viewModel = new MainViewModel();
+            });
         }
 
         private void btnCopyToClipboard_Click(object sender, RoutedEventArgs e)
@@ -34,7 +38,7 @@ namespace CodiceFiscaleUI
             datePicker.ShowDialog();
         }
 
-        private readonly MainViewModel viewModel;
+        private MainViewModel viewModel;
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
@@ -82,7 +86,7 @@ namespace CodiceFiscaleUI
 
         private async void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            var check = await viewModel.CalculateFiscalCode();
+            var check = await viewModel.CalculateFiscalCodeAsync();
             if (!check.IsValid)
             {
                 MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -134,6 +138,18 @@ namespace CodiceFiscaleUI
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void MnuAbout_OnClick(object sender, RoutedEventArgs e)
+        {
+            var aboutDialog = new AboutWindow();
+            aboutDialog.Owner = this;
+            aboutDialog.ShowDialog();
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            DataContext = viewModel;
         }
     }
 }
