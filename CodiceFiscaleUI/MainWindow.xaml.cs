@@ -79,8 +79,16 @@ namespace CodiceFiscaleUI
 
         private void mnuPlaces_Click(object sender, RoutedEventArgs e)
         {
-            var placesWin = new PlacesListView.PlacesList(viewModel.Places);
-            placesWin.Owner = this;
+            ShowPlacesWindow();
+        }
+
+        private void ShowPlacesWindow()
+        {
+            var placesWin = new PlacesListView.PlacesList(viewModel.Places, viewModel)
+            {
+                Owner = this
+            };
+
             placesWin.Show();
         }
 
@@ -150,6 +158,11 @@ namespace CodiceFiscaleUI
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             DataContext = viewModel;
+        }
+
+        private void BtnOpenPlaceList_OnClick(object sender, RoutedEventArgs e)
+        {
+            ShowPlacesWindow();
         }
     }
 }
