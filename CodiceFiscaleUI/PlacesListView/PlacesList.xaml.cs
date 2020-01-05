@@ -1,49 +1,48 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
+using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.ViewModels;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
     /// <summary>
-    /// Interaction logic for PlacesList.xaml
+    ///     Interaction logic for PlacesList.xaml
     /// </summary>
-    public partial class PlacesList : Window
+    public partial class PlacesList
     {
+        private readonly MainViewModel parentViewModel;
+
+        private readonly PlacesListViewModel viewModel;
+
+        private bool loading;
+
         public PlacesList(IEnumerable<Place> places)
         {
             viewModel = new PlacesListViewModel(places as ICollection<Place>);
 
-            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
+                ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
             InitializeComponent();
         }
 
-        private readonly MainViewModel parentViewModel;
-
         public PlacesList(ICollection<Place> places, MainViewModel parentViewModel)
         {
             viewModel = new PlacesListViewModel(places);
 
-            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
+                ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
             this.parentViewModel = parentViewModel;
             InitializeComponent();
         }
-
-        private bool loading;
-
-        private readonly PlacesListViewModel viewModel;
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -70,7 +69,8 @@ namespace CodiceFiscaleUI.PlacesListView
             }
             else
             {
-                viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name), ListSortDirection.Ascending));
+                viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
+                    ListSortDirection.Ascending));
                 viewModel.Filter(filterText);
             }
         }

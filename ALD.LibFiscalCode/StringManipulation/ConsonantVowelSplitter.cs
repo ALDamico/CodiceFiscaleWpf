@@ -5,27 +5,23 @@ namespace ALD.LibFiscalCode.StringManipulation
 {
     internal class ConsonantVowelSplitter
     {
-        private string word;
+        private static readonly List<char> _vowels = new List<char>
+        {
+            'A', 'E', 'I', 'O', 'U'
+        };
 
-        public List<char> Vowels { get; }
-        public List<char> Consonants { get; }
+        private static readonly List<char> _consonants = new List<char>
+        {
+            'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
+        };
 
-        private static readonly List<char> _vowels = new List<char>()
-            {
-                'A', 'E', 'I', 'O', 'U'
-            };
-
-        private static readonly List<char> _consonants = new List<char>()
-            {
-                'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
-            };
 
         public ConsonantVowelSplitter(string word)
         {
-            this.word = Unidecoder.Unidecode(word.ToUpperInvariant());
+            word= word.ToUpperInvariant().Unidecode();
             Vowels = new List<char>();
             Consonants = new List<char>();
-            foreach (var letter in this.word)
+            foreach (var letter in word)
             {
                 if (_vowels.Contains(letter))
                 {
@@ -37,5 +33,8 @@ namespace ALD.LibFiscalCode.StringManipulation
                 }
             }
         }
+
+        public List<char> Vowels { get; }
+        public List<char> Consonants { get; }
     }
 }

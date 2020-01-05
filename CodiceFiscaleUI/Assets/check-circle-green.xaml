@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--This file is compatible with Silverlight-->
-<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg113" Width="512" Height="512">
-  <Canvas.RenderTransform>
-    <TranslateTransform X="0" Y="0"/>
-  </Canvas.RenderTransform>
-  <Canvas.Resources/>
-  <!--Unknown tag: metadata-->
-  <!--Unknown tag: sodipodi:namedview-->
-  <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path111" Fill="#FF008000" Data="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/>
+<Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Svg113" Width="512" Height="512">
+    <Canvas.RenderTransform>
+        <TranslateTransform X="0" Y="0" />
+    </Canvas.RenderTransform>
+    <Canvas.Resources />
+    <!--Unknown tag: metadata-->
+    <!--Unknown tag: sodipodi:namedview-->
+    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="Path111" Fill="#FF008000"
+          Data="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z" />
 </Canvas>

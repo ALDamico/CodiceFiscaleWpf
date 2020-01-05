@@ -1,5 +1,5 @@
 ﻿using System;
-using ALD.LibFiscalCode.Enums;
+using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.EqualityComparers;
 using ALD.LibFiscalCode.Persistence.Events;
 
@@ -7,6 +7,14 @@ namespace ALD.LibFiscalCode.Persistence.Models
 {
     public class Person : AbstractNotifyPropertyChanged
     {
+        private readonly PersonEqualityComparer equalityComparer;
+        private DateTime _dateOfBirth;
+
+        private string _name;
+        private string _surname;
+
+        private Place placeOfBirth;
+
         public Person()
         {
             Name = "";
@@ -19,24 +27,9 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         public int Id { get; set; }
 
-        public bool Equals(Person other)
-        {
-            return equalityComparer.Equals(this, other);
-        }
-
-        public PersonEqualityComparer GetEqualityComparer()
-        {
-            return equalityComparer;
-        }
-
-        private readonly PersonEqualityComparer equalityComparer;
-
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
@@ -46,10 +39,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         public string Surname
         {
-            get
-            {
-                return _surname;
-            }
+            get => _surname;
             set
             {
                 _surname = value;
@@ -59,10 +49,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         public DateTime DateOfBirth
         {
-            get
-            {
-                return _dateOfBirth;
-            }
+            get => _dateOfBirth;
             set
             {
                 _dateOfBirth = value;
@@ -73,10 +60,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         public Place PlaceOfBirth
         {
-            get
-            {
-                return placeOfBirth;
-            }
+            get => placeOfBirth;
             set
             {
                 placeOfBirth = value;
@@ -84,13 +68,18 @@ namespace ALD.LibFiscalCode.Persistence.Models
             }
         }
 
-        private Place placeOfBirth;
         public Gender Gender { get; set; }
 
         public string PrettyDate => DateOfBirth.Date.ToShortDateString();
 
-        private string _name;
-        private string _surname;
-        private DateTime _dateOfBirth;
+        public bool Equals(Person other)
+        {
+            return equalityComparer.Equals(this, other);
+        }
+
+        public PersonEqualityComparer GetEqualityComparer()
+        {
+            return equalityComparer;
+        }
     }
 }

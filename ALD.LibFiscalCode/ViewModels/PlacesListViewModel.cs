@@ -1,9 +1,9 @@
-﻿using ALD.LibFiscalCode.Persistence.Events;
-using ALD.LibFiscalCode.Persistence.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -12,10 +12,12 @@ namespace ALD.LibFiscalCode.ViewModels
         private readonly ObservableCollection<Place> places;
         private string filterText;
 
+        private Place selectedPlace;
+
         public PlacesListViewModel(ICollection<Place> places)
         {
-            this.places = new ObservableCollection<Place>(places);
-            ViewSource = new CollectionViewSource { Source = this.places };
+            places = new ObservableCollection<Place>(places);
+            ViewSource = new CollectionViewSource {Source = places};
         }
 
         public Place SelectedPlace
@@ -27,8 +29,6 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(SelectedPlace));
             }
         }
-
-        private Place selectedPlace;
 
         public CollectionViewSource ViewSource { get; set; }
 

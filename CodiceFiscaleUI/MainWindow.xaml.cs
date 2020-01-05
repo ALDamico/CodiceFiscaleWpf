@@ -1,28 +1,29 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.ViewModels;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.AboutView;
+using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
+using CodiceFiscaleUI.PlacesListView;
 
 namespace CodiceFiscaleUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {
+        private MainViewModel viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
-            Task.Run(() =>
-            {
-                viewModel = new MainViewModel();
-            });
+            Task.Run(() => { viewModel = new MainViewModel(); });
         }
 
         private void BtnCopyToClipboard_Click(object sender, RoutedEventArgs e)
@@ -32,14 +33,12 @@ namespace CodiceFiscaleUI
 
         private void TxtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var datePicker = new DatePicker.DatePickerWindow(viewModel)
+            var datePicker = new DatePickerWindow(viewModel)
             {
                 Owner = this
             };
             datePicker.ShowDialog();
         }
-
-        private MainViewModel viewModel;
 
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
@@ -57,7 +56,7 @@ namespace CodiceFiscaleUI
 
             if (viewModel.CanUserInteract)
             {
-                drpPlaceOfBirth.SelectedItem = null;
+                DrpPlaceOfBirth.SelectedItem = null;
                 DrpGenderSelector.SelectedItem = null;
             }
 
@@ -78,6 +77,7 @@ namespace CodiceFiscaleUI
             {
                 return;
             }
+
             if (e.AddedItems[0] is Place selectedItem)
             {
                 viewModel.ChangePlace(selectedItem);
@@ -91,7 +91,7 @@ namespace CodiceFiscaleUI
 
         private void ShowPlacesWindow()
         {
-            var placesWin = new PlacesListView.PlacesList(viewModel.Places, viewModel)
+            var placesWin = new PlacesList(viewModel.Places, viewModel)
             {
                 Owner = this
             };
@@ -99,18 +99,19 @@ namespace CodiceFiscaleUI
             placesWin.Show();
         }
 
-        private async void BtnCalculate_Click(object sender, RoutedEventArgs e)
+        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
             var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
-                MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
         private void MnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
         {
-            var updateWin = new PlacesImportView() { Owner = this };
+            var updateWin = new PlacesImportView {Owner = this};
             updateWin.ShowDialog();
         }
 
@@ -126,10 +127,18 @@ namespace CodiceFiscaleUI
                 foreach (var v in LstOmocode.Items)
                 {
                     var lbi = LstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
-                    lbi.FontWeight = FontWeights.Normal;
+                    if (lbi != null)
+                    {
+                        lbi.FontWeight = FontWeights.Normal;
+                    }
+                    
                 }
 
-                tmp.FontWeight = FontWeights.Bold;
+                if (tmp != null)
+                {
+                    tmp.FontWeight = FontWeights.Bold;
+                }
+               
             }
         }
 
@@ -138,11 +147,15 @@ namespace CodiceFiscaleUI
             Window_Closing(this, new CancelEventArgs());
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (viewModel.HasPendingChanges)
             {
-                var result = MessageBox.Show("Hai delle modifiche in sospeso che verranno perse se esci dall'applicazione. Sei sicuro?", "Conferma uscita", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk, MessageBoxResult.Cancel);
+                var result =
+                    MessageBox.Show(
+                        "Hai delle modifiche in sospeso che verranno perse se esci dall'applicazione. Sei sicuro?",
+                        "Conferma uscita", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk,
+                        MessageBoxResult.Cancel);
                 if (result == MessageBoxResult.OK)
                 {
                     Environment.Exit(0);
@@ -156,7 +169,7 @@ namespace CodiceFiscaleUI
 
         private void MnuAbout_OnClick(object sender, RoutedEventArgs e)
         {
-            var aboutDialog = new AboutWindow { Owner = this };
+            var aboutDialog = new AboutWindow {Owner = this};
             aboutDialog.ShowDialog();
         }
 

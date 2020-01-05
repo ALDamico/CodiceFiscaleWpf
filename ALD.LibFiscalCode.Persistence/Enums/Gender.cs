@@ -1,4 +1,4 @@
-﻿namespace ALD.LibFiscalCode.Enums
+﻿namespace ALD.LibFiscalCode.Persistence.Enums
 {
     public enum Gender
     {

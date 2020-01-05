@@ -1,29 +1,23 @@
-﻿using ALD.LibFiscalCode.Enums;
+﻿using System.Threading.Tasks;
+using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
     public class PlacesContext : DbContext
     {
-        public PlacesContext()
-        {
-            // Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data source=C:/Users/aldam/Source/Repos/CodiceFiscaleWpf/ALD.LibFiscalCode.Persistence/DataSource/app.db");
-            base.OnConfiguring(optionsBuilder);
-        }
-
         public DbSet<Place> Places { get; set; }
 
         public DbSet<Person> People { get; set; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(
+                "Data source=C:/Users/aldam/Source/Repos/CodiceFiscaleWpf/ALD.LibFiscalCode.Persistence/DataSource/app.db");
+            base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,7 +39,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             peopleEntity.Property(p => p.Name).HasColumnName("name");
             peopleEntity.Property(p => p.Surname).HasColumnName("surname");
             peopleEntity.Property(p => p.DateOfBirth).HasColumnName("date_of_birth");
-            peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text").HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
+            peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text")
+                .HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
             peopleEntity.HasOne(p => p.PlaceOfBirth);
 
             var fiscalCodeEntity = modelBuilder.Entity<FiscalCodeEntity>();

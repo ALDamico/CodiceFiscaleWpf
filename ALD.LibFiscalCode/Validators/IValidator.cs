@@ -6,9 +6,9 @@ namespace ALD.LibFiscalCode.Validators
     {
         bool IsValid { get; }
 
-        void Validate();
-
         List<string> ValidationMessages { get; }
+
+        void Validate();
 
         string GetValidationMessagesAsString();
     }

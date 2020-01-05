@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Documents;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class AboutWindowViewModel
     {
-        public string CreditString =
+        public Uri AlusHyperlink => new Uri("http://www.alus.it");
+
+        public string CreditString =>
             "Questo software è scritto da Andrea Luciano Damico e rilasciato sotto licenza MIT";
 
-        public Uri PersonalWebsite = new Uri("https://www.lucianodamico.info");
+        public Uri PersonalWebsite => new Uri("https://www.lucianodamico.info");
 
         public string MitLicense => @"Copyright 2019-2020 Andrea Luciano Damico
 
@@ -20,7 +19,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
 
-        public string SpecialThanks => @"Durante la scrittura di questo software, utilissima si è rivelata la consultazione del sito di Alberto Realis-Luc, a cui va la mia immensa gratitudine";
-        public readonly Uri AlusHyperlink = new Uri("http://www.alus.it");
+        public string SpecialThanks =>
+            @"Durante la scrittura di questo software, utilissima si è rivelata la consultazione del sito di Alberto Realis-Luc, a cui va la mia immensa gratitudine";
     }
 }

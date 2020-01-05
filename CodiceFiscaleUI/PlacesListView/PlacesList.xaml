@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CodiceFiscaleUI.PlacesListView"
         xmlns:vm1="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
@@ -40,7 +39,7 @@
 
             <!--</StackPanel>-->
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="Informazioni">
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="Informazioni">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -61,16 +60,16 @@
                 <Label Grid.Row="1" Grid.Column="2">Abbreviazione:</Label>
                 <Label Grid.Row="1" Grid.Column="3" Content="{Binding SelectedPlace.ProvinceAbbreviation}" />
                 <Label Grid.Row="2" Grid.Column="0">Regione:</Label>
-                <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}"></Label>
+                <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}" />
                 <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold">Codice:</Label>
-                <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}"></Label>
+                <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}" />
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick">
-            </Button>
+            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick" />
             <Separator Visibility="Hidden" Width="20" />
-            <Button x:Name="BtnClose" Content="Chiudi" Click="BtnClose_OnClick" ToolTip="Chiudi la finestra senza selezionare un luogo"></Button>
+            <Button x:Name="BtnClose" Content="Chiudi" Click="BtnClose_OnClick"
+                    ToolTip="Chiudi la finestra senza selezionare un luogo" />
         </StackPanel>
     </Grid>
 </Window>

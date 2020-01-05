@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CodiceFiscaleUI.ResetWindow"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:ResetViewModel}"
@@ -25,11 +24,13 @@
                     VerticalAlignment="Center"
                     Margin="20">
             <Button IsEnabled="{Binding CanStartRestore}"
-                    x:Name="BtnStartRestore" Click="BtnStartRestore_OnClick">Avvia</Button>
-            <Separator Width="20" Visibility="Hidden"></Separator>
+                    x:Name="BtnStartRestore" Click="BtnStartRestore_OnClick">
+                Avvia
+            </Button>
+            <Separator Width="20" Visibility="Hidden" />
             <Button IsCancel="True" x:Name="BtnCancel" Click="BtnCancel_OnClick">Annulla</Button>
         </StackPanel>
-        <ProgressBar x:Name="prgRestoreProgressBar" Height="16"></ProgressBar>
-        <Label x:Name="lblCurrentProgress" ></Label>
+        <ProgressBar x:Name="PrgRestoreProgressBar" Height="16" />
+        <Label x:Name="LblCurrentProgress" />
     </StackPanel>
 </Window>

@@ -1,25 +1,36 @@
-﻿using ALD.LibFiscalCode.Builders;
-using ALD.LibFiscalCode.Persistence.Events;
-using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.Sqlite;
-using ALD.LibFiscalCode.Validators;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Persistence.Enums;
+using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Validators;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-        private readonly bool canUserInteract;
-        public bool CanUserInteract => canUserInteract;
+        private Person currentPerson;
+
+        private FiscalCode fiscalCode;
+
+        private FiscalCodeBuilder fiscalCodeBuilder;
+
+        private OmocodeBuilder omocodeBuilder;
+
+        private List<FiscalCodeDecorator> omocodes;
+
+        private ObservableCollection<Place> places;
+
+        private Place selectedPlace;
 
         public MainViewModel()
         {
-            canUserInteract = false;
+            CanUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
 
@@ -28,13 +39,89 @@ namespace ALD.LibFiscalCode.ViewModels
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             CancelEdit();
-            canUserInteract = true;
+            CanUserInteract = true;
         }
 
-        private async Task PopulatePlaceList()
+        public bool CanUserInteract { get; }
+
+        public Person CurrentPerson
         {
-            var t = new PlacesContext().Places;
-            Task.Run(() => Places = new ObservableCollection<Place>(t));
+            get => currentPerson;
+            set
+            {
+                currentPerson = value;
+                OnPropertyChanged(nameof(CurrentPerson));
+            }
+        }
+
+        public PersonValidator Validator { get; set; }
+
+        public FiscalCode FiscalCode
+        {
+            get => fiscalCode;
+            private set
+            {
+                fiscalCode = value;
+                OnPropertyChanged(nameof(FiscalCode));
+            }
+        }
+
+        public List<FiscalCodeDecorator> Omocodes
+        {
+            get => omocodes;
+        }
+
+        public ObservableCollection<Place> Places
+        {
+            get => places;
+            /*set
+            {
+                places = value;
+                OnPropertyChanged(nameof(Places));
+                OnPropertyChanged(nameof(PlacesLoaded));
+            }*/
+        }
+
+        public Place SelectedPlace
+        {
+            get => selectedPlace;
+            set
+            {
+                selectedPlace = value;
+                OnPropertyChanged(nameof(SelectedPlace));
+            }
+        }
+
+        public bool HasPendingChanges { get; private set; }
+
+        public bool PlacesLoaded => Places?.Count > 0;
+
+        public void BeginEdit()
+        {
+            if (CanUserInteract)
+                HasPendingChanges = true;
+        }
+
+        public void CancelEdit()
+        {
+            if (!CanUserInteract)
+            {
+                HasPendingChanges = false;
+                CurrentPerson = new Person();
+            }
+        }
+
+        public void EndEdit()
+        {
+            if (CanUserInteract)
+                HasPendingChanges = false;
+        }
+
+        private void PopulatePlaceList()
+        {
+            using var ctx = new PlacesContext();
+            var t = ctx.Places;
+            Task.Run(() => places = new ObservableCollection<Place>(t));
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -52,32 +139,14 @@ namespace ALD.LibFiscalCode.ViewModels
             return base.OnPropertyChanged(propertyName);
         }
 
-        public Person CurrentPerson
-        {
-            get => currentPerson;
-            set
-            {
-                currentPerson = value;
-                OnPropertyChanged(nameof(CurrentPerson));
-            }
-        }
-
-        private Person currentPerson;
-
         public void SetGender(string gender)
         {
-            if (gender == "M")
+            CurrentPerson.Gender = gender switch
             {
-                CurrentPerson.Gender = Enums.Gender.Male;
-            }
-            else if (gender == "F")
-            {
-                CurrentPerson.Gender = Enums.Gender.Female;
-            }
-            else
-            {
-                CurrentPerson.Gender = Enums.Gender.Unspecified;
-            }
+                "M" => Gender.Male,
+                "F" => Gender.Female,
+                _ => Gender.Unspecified
+            };
         }
 
         public void ResetPerson()
@@ -89,7 +158,6 @@ namespace ALD.LibFiscalCode.ViewModels
         public IValidator CalculateFiscalCode()
         {
             Validator = new PersonValidator(CurrentPerson);
-            string errorMessages = null;
             if (Validator.IsValid)
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
@@ -99,7 +167,7 @@ namespace ALD.LibFiscalCode.ViewModels
                         fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
-                        Omocodes = omocodeBuilder.Omocodes;
+                        omocodes = omocodeBuilder.Omocodes;
                         using var context = new PlacesContext();
                         context.SavePerson(CurrentPerson);
                         SaveFiscalCode(context, Omocodes, CurrentPerson);
@@ -107,10 +175,9 @@ namespace ALD.LibFiscalCode.ViewModels
                     }
                 );
             }
+
             return Validator;
         }
-
-        public PersonValidator Validator { get; set; }
 
         private void SaveFiscalCode(PlacesContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {
@@ -123,94 +190,10 @@ namespace ALD.LibFiscalCode.ViewModels
             context.SaveChangesAsync();
         }
 
-        public FiscalCode FiscalCode
-        {
-            get => fiscalCode;
-            private set
-            {
-                fiscalCode = value;
-                OnPropertyChanged(nameof(FiscalCode));
-            }
-        }
-
-        public List<FiscalCodeDecorator> Omocodes
-        {
-            get => omocodes;
-            set
-            {
-                omocodes = value;
-                OnPropertyChanged(nameof(Omocodes));
-            }
-        }
-
-        private List<FiscalCodeDecorator> omocodes;
-
-        private FiscalCode fiscalCode;
-
-        public ObservableCollection<Place> Places
-        {
-            get => places;
-            set
-            {
-                places = value;
-                OnPropertyChanged(nameof(Places));
-                OnPropertyChanged(nameof(PlacesLoaded));
-            }
-        }
-
-        private ObservableCollection<Place> places;
-
-        public Place SelectedPlace
-        {
-            get
-            {
-                return selectedPlace;
-            }
-            set
-            {
-                selectedPlace = value;
-                OnPropertyChanged(nameof(SelectedPlace));
-            }
-        }
-
         public void ChangePlace(Place newPlace)
         {
             SelectedPlace = newPlace;
             CurrentPerson.PlaceOfBirth = newPlace;
         }
-
-        private Place selectedPlace;
-
-        private FiscalCodeBuilder fiscalCodeBuilder;
-
-        public bool HasPendingChanges
-        {
-            get; private set;
-        }
-
-        private OmocodeBuilder omocodeBuilder;
-
-        public void BeginEdit()
-        {
-            if (canUserInteract)
-                HasPendingChanges = true;
-        }
-
-        public void CancelEdit()
-        {
-            if (!canUserInteract)
-            {
-                HasPendingChanges = false;
-                CurrentPerson = new Person();
-            }
-        }
-
-        public void EndEdit()
-        {
-            if (canUserInteract)
-                HasPendingChanges = false;
-        }
-
-        public bool PlacesLoaded => Places?.Count > 0;
     }
 }

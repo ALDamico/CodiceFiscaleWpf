@@ -1,13 +1,15 @@
-﻿using ALD.LibFiscalCode.Persistence.Events;
-using System;
+﻿using System;
+using ALD.LibFiscalCode.Persistence.Events;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class DatePickerViewModel : AbstractNotifyPropertyChanged
     {
+        private DateTime selectedDateTime;
+
         public DatePickerViewModel(DateTime startingDate = default)
         {
-            this.SelectedDateTime = startingDate;
+            SelectedDateTime = startingDate;
         }
 
         public DateTime SelectedDateTime
@@ -19,7 +21,5 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(SelectedDateTime));
             }
         }
-
-        private DateTime selectedDateTime;
     }
 }

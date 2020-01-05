@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Progress;
@@ -11,6 +7,11 @@ namespace ALD.LibFiscalCode.ViewModels
 {
     public class ResetViewModel : AbstractNotifyPropertyChanged
     {
+        private bool _resetDataSource;
+        private bool _resetHistory;
+
+        private Progress<ResetProgress> currentProgress;
+
         public ResetViewModel()
         {
             CurrentProgress = new Progress<ResetProgress>();
@@ -40,9 +41,6 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public bool CanStartRestore => ResetDataSource || ResetHistory;
 
-        private bool _resetDataSource;
-        private bool _resetHistory;
-
         public Progress<ResetProgress> CurrentProgress
         {
             get => currentProgress;
@@ -52,8 +50,6 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(CurrentProgress));
             }
         }
-
-        private Progress<ResetProgress> currentProgress;
 
         public async void DropHistory(IProgress<ResetProgress> progress)
         {

@@ -1,15 +1,17 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using CsvHelper.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using ALD.LibFiscalCode.Persistence.Models;
+using CsvHelper.Configuration;
 
 namespace ALD.LibFiscalCode.Persistence.Importer
 {
-    public class ImporterConfiguration 
+    public class ImporterConfiguration
     {
-        public ImporterConfiguration(string delimiter, char escape, Encoding encoding) 
+        private Type typeInfo = new Place().GetType();
+
+        public ImporterConfiguration(string delimiter, char escape, Encoding encoding)
         {
             Delimiter = delimiter;
             Escape = escape;
@@ -24,12 +26,11 @@ namespace ALD.LibFiscalCode.Persistence.Importer
             Encoding = Encoding.UTF8;
             ClassMap = new PlaceMap();
         }
+
         public string Delimiter { get; set; }
         public char Escape { get; set; }
         public Encoding Encoding { get; set; }
         public ClassMap<Place> ClassMap { get; set; }
-
-        private Type typeInfo = new Place().GetType();
         public Dictionary<string, PropertyInfo> Mapping { get; private set; }
 
         internal void ConfigureClassMap()
@@ -50,10 +51,9 @@ namespace ALD.LibFiscalCode.Persistence.Importer
             output.Encoding = Encoding;
             output.HasHeaderRecord = true;
             //output.PrepareHeaderForMatch = ((s, i) => s.Replace("place_", "").ToSentenceCase());
-            
+
 
             return output;
         }
-
     }
 }
