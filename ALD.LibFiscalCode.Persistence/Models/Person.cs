@@ -11,7 +11,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
         {
             Name = "";
             Surname = "";
-            DateOfBirth = DateTime.Now;
+            DateOfBirth = DateTime.Today;
             Gender = Gender.Unspecified;
             PlaceOfBirth = null;
             equalityComparer = new PersonEqualityComparer();

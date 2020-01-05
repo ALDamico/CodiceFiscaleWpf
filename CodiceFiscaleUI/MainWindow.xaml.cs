@@ -50,8 +50,12 @@ namespace CodiceFiscaleUI
 
             if (response == MessageBoxResult.OK || response == MessageBoxResult.None)
             {
-                drpPlaceOfBirth.SelectedItem = null;
-                drpGenderSelector.SelectedItem = null;
+                if (viewModel.CanUserInteract)
+                {
+                    drpPlaceOfBirth.SelectedItem = null;
+                    drpGenderSelector.SelectedItem = null;
+                }
+
                 viewModel.ResetPerson();
             }
         }
