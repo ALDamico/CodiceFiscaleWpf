@@ -12,25 +12,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
-    public class MainViewModel : AbstractNotifyPropertyChanged
+    public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
+        private bool _canUserInteract;
+        public bool CanUserInteract => _canUserInteract;
+
         public MainViewModel()
         {
+            _canUserInteract = false;
             CurrentPerson = new Person();
-
             PopulatePlaceList();
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
-            HasPendingChanges = false;
+            CancelEdit();
+            _canUserInteract = true;
         }
 
         private async Task PopulatePlaceList()
         {
             var t = new PlacesContext().Places;
-            await Task.Run(() => Places = new ObservableCollection<Place>(t)).ConfigureAwait(true);
+            Task.Run(() => Places = new ObservableCollection<Place>(t)).ConfigureAwait(true);
             OnPropertyChanged(nameof(Places));
         }
 
@@ -41,21 +45,9 @@ namespace ALD.LibFiscalCode.ViewModels
 
         protected sealed override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
         {
-            HasPendingChanges = true;
+            BeginEdit();
             return base.OnPropertyChanged(propertyName);
         }
-
-        /*
-        private async void PopulatePlacesList()
-        {
-            using (var dbContext = new PlacesContext())
-            {
-                List<Place> task = dbContext.GetAllPlaces();
-                Places = dbContext.Places;
-
-                OnPropertyChanged(nameof(Places));
-            }
-        }*/
 
         public Person CurrentPerson
         {
@@ -63,7 +55,6 @@ namespace ALD.LibFiscalCode.ViewModels
             set
             {
                 currentPerson = value;
-                HasPendingChanges = true;
                 OnPropertyChanged(nameof(CurrentPerson));
             }
         }
@@ -84,13 +75,12 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 CurrentPerson.Gender = Enums.Gender.Unspecified;
             }
-            HasPendingChanges = true;
         }
 
         public void ResetPerson()
         {
             CurrentPerson = new Person();
-            HasPendingChanges = false;
+            CancelEdit();
         }
 
         public async Task<IValidator> CalculateFiscalCodeAsync()
@@ -165,7 +155,6 @@ namespace ALD.LibFiscalCode.ViewModels
             set
             {
                 selectedPlace = value;
-                HasPendingChanges = true;
                 OnPropertyChanged(nameof(SelectedPlace));
             }
         }
@@ -186,5 +175,26 @@ namespace ALD.LibFiscalCode.ViewModels
         }
 
         private OmocodeBuilder omocodeBuilder;
+
+        public void BeginEdit()
+        {
+            if (_canUserInteract)
+                HasPendingChanges = true;
+        }
+
+        public void CancelEdit()
+        {
+            if (!_canUserInteract)
+            {
+                HasPendingChanges = false;
+                CurrentPerson = new Person();
+            }
+        }
+
+        public void EndEdit()
+        {
+            if (_canUserInteract)
+                HasPendingChanges = false;
+        }
     }
 }
