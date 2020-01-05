@@ -27,7 +27,9 @@ namespace CodiceFiscaleUI.PlacesListView
             InitializeComponent();
         }
 
-        public PlacesList(ICollection<Place> places)
+        private readonly MainViewModel parentViewModel;
+
+        public PlacesList(ICollection<Place> places, MainViewModel parentViewModel)
         {
             viewModel = new PlacesListViewModel(places);
 
@@ -35,6 +37,7 @@ namespace CodiceFiscaleUI.PlacesListView
 
             DataContext = viewModel;
             loading = true;
+            this.parentViewModel = parentViewModel;
             InitializeComponent();
         }
 
@@ -60,8 +63,8 @@ namespace CodiceFiscaleUI.PlacesListView
                 return;
             }
 
-            var filterText = (sender as TextBox).Text;
-            if (string.IsNullOrEmpty(filterText))
+            var filterText = (sender as TextBox)?.Text;
+            if (string.IsNullOrEmpty(filterText) || filterText == "Filtra i risultati...")
             {
                 viewModel.ResetFilter();
             }
@@ -74,8 +77,41 @@ namespace CodiceFiscaleUI.PlacesListView
 
         private void txtFilter_GotFocus(object sender, RoutedEventArgs e)
         {
-            txtFilter.Text = "";
-            txtFilter.Foreground = Brushes.Black;
+            if (string.IsNullOrWhiteSpace(txtFilter.Text))
+            {
+                txtFilter.Foreground = Brushes.Gainsboro;
+                txtFilter.Text = "Filtra i risultati...";
+            }
+            else if (txtFilter.Text == "Filtra i risultati...")
+            {
+                txtFilter.Text = "";
+                txtFilter.Foreground = Brushes.Black;
+            }
+        }
+
+        private void BtnSelectPlace_OnClick(object sender, RoutedEventArgs e)
+        {
+            parentViewModel.SelectedPlace = viewModel.SelectedPlace;
+            Close();
+        }
+
+        private void TxtFilter_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtFilter.Text))
+            {
+                txtFilter.Foreground = Brushes.Gainsboro;
+                txtFilter.Text = "Filtra i risultati...";
+            }
+            else if (txtFilter.Text == "Filtra i risultati...")
+            {
+                txtFilter.Text = "";
+                txtFilter.Foreground = Brushes.Black;
+            }
+        }
+
+        private void BtnClose_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

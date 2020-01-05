@@ -10,6 +10,10 @@
         Title="PlacesList" Height="450" Width="800">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
@@ -21,7 +25,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"  ></TextBox>
+                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" LostFocus="TxtFilter_OnLostFocus" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"  ></TextBox>
                 <ListBox Grid.Row="1" ItemsSource="{Binding ViewSource.View }" SelectionChanged="ListBox_SelectionChanged">
                 </ListBox>
             </Grid>
@@ -54,5 +58,10 @@
                 <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}"></Label>
             </Grid>
         </GroupBox>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick"></Button>
+            <Separator Visibility="Hidden" Width="20" />
+            <Button x:Name="BtnClose" Content="Chiudi" Click="BtnClose_OnClick" ToolTip="Chiudi la finestra senza selezionare un luogo"></Button>
+        </StackPanel>
     </Grid>
 </Window>
