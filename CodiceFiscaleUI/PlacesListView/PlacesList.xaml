@@ -7,7 +7,9 @@
         xmlns:vm1="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
-        Title="PlacesList" Height="450" Width="800">
+        Title="Seleziona il luogo di nascita"
+        Height="450"
+        Width="800">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -18,16 +20,22 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Luoghi">
-            <!--<StackPanel Orientation="Vertical">-->
+        <GroupBox Header="Luoghi" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Text="Filtra i risultati..." Foreground="Gainsboro" x:Name="txtFilter" LostFocus="TxtFilter_OnLostFocus" GotFocus="txtFilter_GotFocus" TextChanged="txtFilter_TextChanged"  ></TextBox>
-                <ListBox Grid.Row="1" ItemsSource="{Binding ViewSource.View }" SelectionChanged="ListBox_SelectionChanged">
-                </ListBox>
+                <TextBox Grid.Row="0"
+                         Text="Filtra i risultati..."
+                         Foreground="Gainsboro"
+                         x:Name="TxtFilter"
+                         LostFocus="TxtFilter_OnLostFocus"
+                         GotFocus="TxtFilter_GotFocus"
+                         TextChanged="TxtFilter_TextChanged" />
+                <ListBox Grid.Row="1"
+                         ItemsSource="{Binding ViewSource.View }"
+                         SelectionChanged="ListBox_SelectionChanged" />
             </Grid>
 
             <!--</StackPanel>-->
@@ -59,7 +67,8 @@
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick"></Button>
+            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick">
+            </Button>
             <Separator Visibility="Hidden" Width="20" />
             <Button x:Name="BtnClose" Content="Chiudi" Click="BtnClose_OnClick" ToolTip="Chiudi la finestra senza selezionare un luogo"></Button>
         </StackPanel>

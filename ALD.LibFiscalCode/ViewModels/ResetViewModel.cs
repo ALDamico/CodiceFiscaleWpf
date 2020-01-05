@@ -9,12 +9,13 @@ using ALD.LibFiscalCode.Progress;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
-    public class ResetViewModel:AbstractNotifyPropertyChanged
+    public class ResetViewModel : AbstractNotifyPropertyChanged
     {
         public ResetViewModel()
         {
             CurrentProgress = new Progress<ResetProgress>();
         }
+
         public bool ResetDataSource
         {
             get => _resetDataSource;
@@ -36,6 +37,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(CanStartRestore));
             }
         }
+
         public bool CanStartRestore => ResetDataSource || ResetHistory;
 
         private bool _resetDataSource;
@@ -56,24 +58,19 @@ namespace ALD.LibFiscalCode.ViewModels
         public async void DropHistory(IProgress<ResetProgress> progress)
         {
             var reportProgress = new ResetProgress();
-            
-            using (var context = new PlacesContext())
-            {
-                
-                context.FiscalCodes.RemoveRange(context.FiscalCodes);
-                reportProgress.TaskDescriptions.Add("Rimozione dei codici fiscali");
-                reportProgress.TaskDescriptions.Add("Rimozione delle informazioni personali");
-                reportProgress.CompletedTasks = 1;
-                reportProgress.CurrentTask = reportProgress.TaskDescriptions[0];
-                progress?.Report(reportProgress);
-                context.People.RemoveRange(context.People);
-                reportProgress.CompletedTasks = 2;
-                reportProgress.CurrentTask = reportProgress.TaskDescriptions[1];
-                progress?.Report(reportProgress);
-                context.SaveChangesAsync();
-            }
-        }
 
-       
+            using var context = new PlacesContext();
+            context.FiscalCodes.RemoveRange(context.FiscalCodes);
+            reportProgress.TaskDescriptions.Add("Rimozione dei codici fiscali");
+            reportProgress.TaskDescriptions.Add("Rimozione delle informazioni personali");
+            reportProgress.CompletedTasks = 1;
+            reportProgress.CurrentTask = reportProgress.TaskDescriptions[0];
+            progress?.Report(reportProgress);
+            context.People.RemoveRange(context.People);
+            reportProgress.CompletedTasks = 2;
+            reportProgress.CurrentTask = reportProgress.TaskDescriptions[1];
+            progress?.Report(reportProgress);
+            context.SaveChangesAsync();
+        }
     }
 }

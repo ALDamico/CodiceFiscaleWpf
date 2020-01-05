@@ -68,12 +68,5 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
             People.AddAsync(person);
         }
-
-        public Task<List<Place>> GetAllPlaces()
-        {
-            Task<List<Place>> placesTask = Places.OrderBy(p => p.Name).ToListAsync();
-
-            return placesTask;
-        }
     }
 }

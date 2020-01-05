@@ -31,12 +31,12 @@ namespace CodiceFiscaleUI.ResetWindow
             Close();
         }
 
-        private ResetViewModel viewModel;
+        private readonly ResetViewModel viewModel;
 
         private void BtnStartRestore_OnClick(object sender, RoutedEventArgs e)
         {
             viewModel.CurrentProgress.ProgressChanged += ReportProgress;
-           // prog.ProgressChanged += ReportProgress;
+            // prog.ProgressChanged += ReportProgress;
             viewModel.DropHistory(viewModel.CurrentProgress);
         }
 

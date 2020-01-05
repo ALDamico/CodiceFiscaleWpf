@@ -1,7 +1,7 @@
-﻿using ALD.LibFiscalCode.Enums;
+﻿using System;
+using ALD.LibFiscalCode.Enums;
 using ALD.LibFiscalCode.Persistence.EqualityComparers;
 using ALD.LibFiscalCode.Persistence.Events;
-using System;
 
 namespace ALD.LibFiscalCode.Persistence.Models
 {
@@ -26,10 +26,10 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         public PersonEqualityComparer GetEqualityComparer()
         {
-            return this.equalityComparer;
+            return equalityComparer;
         }
 
-        private PersonEqualityComparer equalityComparer;
+        private readonly PersonEqualityComparer equalityComparer;
 
         public string Name
         {

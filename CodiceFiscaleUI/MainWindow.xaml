@@ -7,7 +7,11 @@
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="Codice fiscale" Height="450" Width="800" Closing="Window_Closing" Loaded="MainWindow_OnLoaded">
+        Title="Codice fiscale"
+        Height="450"
+        Width="800"
+        Closing="Window_Closing"
+        Loaded="MainWindow_OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
@@ -25,55 +29,67 @@
         <Menu Grid.Row="0"
               Grid.Column="0">
             <MenuItem Header="File">
-                <MenuItem Header="Nuovo" Click="btnReset_Click"></MenuItem>
+                <MenuItem Header="Nuovo"
+                          Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="Esci" x:Name="mnuQuit" Click="mnuQuit_Click"></MenuItem>
+                <MenuItem Header="Esci"
+                          x:Name="MnuQuit"
+                          Click="MnuQuit_Click" />
             </MenuItem>
             <MenuItem Header="Avanzate">
-                <MenuItem Header="Elenco dei luoghi" x:Name="mnuPlaces" Click="mnuPlaces_Click"></MenuItem>
-                <MenuItem Header="Aggiorna database dei luoghi" x:Name="mnuUpdatePlaces" Click="mnuUpdatePlaces_Click"></MenuItem>
+                <MenuItem Header="Elenco dei luoghi"
+                          x:Name="MnuPlaces"
+                          Click="MnuPlaces_Click" />
+                <MenuItem Header="Aggiorna database dei luoghi"
+                          x:Name="mnuUpdatePlaces"
+                          Click="MnuUpdatePlaces_Click" />
             </MenuItem>
             <MenuItem Header="?">
-                <MenuItem Header="Informazioni su Codice Fiscale" x:Name="mnuAbout" Click="MnuAbout_OnClick"></MenuItem>
+                <MenuItem Header="Informazioni su Codice Fiscale"
+                          x:Name="MnuAbout"
+                          Click="MnuAbout_OnClick" />
             </MenuItem>
         </Menu>
         <GroupBox Header="Codici fiscali"  Grid.Row="1">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
-                    <TextBox x:Name="txtFiscalCode"
+                    <TextBox x:Name="TxtFiscalCode"
                          HorizontalAlignment="Center"
                          MinWidth="200"
                          MaxWidth="600"
                          IsReadOnly="True"
                          IsReadOnlyCaretVisible="False"
-                            Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
+                         Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                     <Button x:Name="btnCopyToClipboard"
                         HorizontalAlignment="Center"
                         Content="Copia"
-                        Click="btnCopyToClipboard_Click" />
+                        Click="BtnCopyToClipboard_Click" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
 
                     <ListBox Height="288"
                          MinWidth="200"
-                         MaxWidth="600" x:Name="lstOmocode" ItemsSource="{Binding Omocodes}">
+                         MaxWidth="600" x:Name="LstOmocode" ItemsSource="{Binding Omocodes}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding}">
-                                        <Setter Property="FontWeight" Value="Black" />
+                                        <Setter Property="FontWeight"
+                                                Value="Black" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Copia" Click="btnCopyToClipboard_Click" />
+                                <MenuItem Header="Copia"
+                                          Click="BtnCopyToClipboard_Click" />
                                 <Separator />
-                                <MenuItem Header="Imposta come principale" x:Name="mnuLstOmocode" Click="mnuLstOmocode_Click"></MenuItem>
+                                <MenuItem Header="Imposta come principale"
+                                          x:Name="MnuLstOmocode"
+                                          Click="MnuLstOmocode_Click" />
                             </ContextMenu>
                         </ListBox.ContextMenu>
                     </ListBox>
@@ -93,13 +109,13 @@
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Name}" />
                     <Label Content="Cognome" />
-                    <TextBox x:Name="txtSurname"
+                    <TextBox x:Name="TxtSurname"
                              MinWidth="200"
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Surname}" />
                     <Label Content="Sesso" />
-                    <ComboBox x:Name="drpGenderSelector"
-                              SelectionChanged="drpGenderSelector_SelectionChanged"
+                    <ComboBox x:Name="DrpGenderSelector"
+                              SelectionChanged="DrpGenderSelector_SelectionChanged"
                               Width="65">
                         <ComboBoxItem>M</ComboBoxItem>
                         <ComboBoxItem>F</ComboBoxItem>
@@ -111,18 +127,20 @@
                     <Label Content="Data di nascita" />
                     <TextBox IsReadOnly="False"
                              IsReadOnlyCaretVisible="False"
-                             x:Name="txtCalendar"
+                             x:Name="TxtCalendar"
                              MinWidth="100"
                              VerticalContentAlignment="Center"
                              HorizontalContentAlignment="Center"
-                             MouseDown="txtCalendar_MouseDown"
-                             MouseDoubleClick="txtCalendar_MouseDown"
+                             MouseDown="TxtCalendar_MouseDown"
+                             MouseDoubleClick="TxtCalendar_MouseDown"
                              Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}" />
                     <Label Content="Luogo di nascita" />
                     <ComboBox x:Name="drpPlaceOfBirth"
                               MinWidth="200"
-                              IsEditable="True" ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                              SelectionChanged="drpPlaceOfBirth_SelectionChanged" SelectedItem="{Binding SelectedPlace}">
+                              IsEditable="True"
+                              ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                              SelectionChanged="DrpGenderSelector_SelectionChanged"
+                              SelectedItem="{Binding SelectedPlace}">
                         <ComboBox.ItemsPanel>
                             <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->
                             <ItemsPanelTemplate>
@@ -130,16 +148,20 @@
                             </ItemsPanelTemplate>
                         </ComboBox.ItemsPanel>
                     </ComboBox>
-                    <Button x:Name="BtnOpenPlaceList" Click="BtnOpenPlaceList_OnClick" Width="25" Height="25">
-                        <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg3745"  ZIndex="1000">
-                            <Canvas.RenderTransform>
-                                <TranslateTransform X="-8" Y="-8" />
-                            </Canvas.RenderTransform>
-                            <Canvas.Resources />
-                            <!--Unknown tag: metadata-->
-                            <!--Unknown tag: sodipodi:namedview-->
-                            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  Name="path3743" Fill="#000000" Data="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" Height="16" Stretch="UniformToFill" Width="16" />
-                        </Canvas>
+                    <Button x:Name="BtnOpenPlaceList" Click="BtnOpenPlaceList_OnClick" Height="25" IsEnabled="{Binding PlacesLoaded}">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Canvas xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg3745">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform X="0" Y="8" />
+                                </Canvas.RenderTransform>
+                                <Canvas.Resources />
+                                <!--Unknown tag: metadata-->
+                                <!--Unknown tag: sodipodi:namedview-->
+                                <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  Name="path3743" Fill="#000000" Data="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" Height="16" Stretch="UniformToFill" Width="16" />
+                            </Canvas>
+                            <Separator Width="55"></Separator>
+                            <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center">Cerca</Label>
+                        </StackPanel>
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -148,9 +170,9 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Margin="10"
-                    x:Name="btnReset"
-                    Click="btnReset_Click">Reset</Button>
-            <Button Margin="10" x:Name="btnCalculate" Click="btnCalculate_Click">
+                    x:Name="BtnReset"
+                    Click="BtnReset_Click">Reset</Button>
+            <Button Margin="10" x:Name="BtnCalculate" Click="BtnCalculate_Click">
                 Calcola
             </Button>
         </StackPanel>

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CodiceFiscaleUI.AboutView;
+using CodiceFiscaleUI.PlaceImport;
 
 namespace CodiceFiscaleUI
 {
@@ -24,12 +25,12 @@ namespace CodiceFiscaleUI
             });
         }
 
-        private void btnCopyToClipboard_Click(object sender, RoutedEventArgs e)
+        private void BtnCopyToClipboard_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(txtFiscalCode.Text);
+            Clipboard.SetText(TxtFiscalCode.Text);
         }
 
-        private void txtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
+        private void TxtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var datePicker = new DatePicker.DatePickerWindow(viewModel)
             {
@@ -40,48 +41,50 @@ namespace CodiceFiscaleUI
 
         private MainViewModel viewModel;
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult response = MessageBoxResult.None;
+            var response = MessageBoxResult.None;
             if (viewModel.HasPendingChanges)
             {
-                response = MessageBox.Show("Hai delle modifiche in sospeso. Sei sicuro di voler reimpostare?", "Conferma", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                response = MessageBox.Show("Hai delle modifiche in sospeso. Sei sicuro di voler reimpostare?",
+                    "Conferma",
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    MessageBoxResult.Cancel);
             }
 
-            if (response == MessageBoxResult.OK || response == MessageBoxResult.None)
+            if (response != MessageBoxResult.OK && response != MessageBoxResult.None) return;
+
+            if (viewModel.CanUserInteract)
             {
-                if (viewModel.CanUserInteract)
-                {
-                    drpPlaceOfBirth.SelectedItem = null;
-                    drpGenderSelector.SelectedItem = null;
-                }
-
-                viewModel.ResetPerson();
+                drpPlaceOfBirth.SelectedItem = null;
+                DrpGenderSelector.SelectedItem = null;
             }
+
+            viewModel.ResetPerson();
         }
 
-        private void drpGenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DrpGenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
             {
-                viewModel.SetGender((e.AddedItems[0] as ComboBoxItem).Content.ToString());
+                viewModel.SetGender((e.AddedItems[0] as ComboBoxItem)?.Content.ToString());
             }
         }
 
-        private void drpPlaceOfBirth_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DrpPlaceOfBirth_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count == 0)
             {
                 return;
             }
-            var selectedItem = e.AddedItems[0] as Place;
-            if (selectedItem != null)
+            if (e.AddedItems[0] is Place selectedItem)
             {
                 viewModel.ChangePlace(selectedItem);
             }
         }
 
-        private void mnuPlaces_Click(object sender, RoutedEventArgs e)
+        private void MnuPlaces_Click(object sender, RoutedEventArgs e)
         {
             ShowPlacesWindow();
         }
@@ -96,34 +99,33 @@ namespace CodiceFiscaleUI
             placesWin.Show();
         }
 
-        private async void btnCalculate_Click(object sender, RoutedEventArgs e)
+        private async void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            var check = await viewModel.CalculateFiscalCodeAsync();
+            var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
                 MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void mnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
+        private void MnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
         {
-            var updateWin = new PlaceImport.PlacesImportView();
-            updateWin.Owner = this;
+            var updateWin = new PlacesImportView() { Owner = this };
             updateWin.ShowDialog();
         }
 
-        private void mnuLstOmocode_Click(object sender, RoutedEventArgs e)
+        private void MnuLstOmocode_Click(object sender, RoutedEventArgs e)
         {
-            var selectedCode = lstOmocode.SelectedItem;
+            var selectedCode = LstOmocode.SelectedItem;
             if (selectedCode != null)
             {
                 viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
 
-                var tmp = lstOmocode.ItemContainerGenerator.ContainerFromItem(lstOmocode.SelectedItem) as ListBoxItem;
+                var tmp = LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem) as ListBoxItem;
 
-                foreach (var v in lstOmocode.Items)
+                foreach (var v in LstOmocode.Items)
                 {
-                    var lbi = lstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
+                    var lbi = LstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
                     lbi.FontWeight = FontWeights.Normal;
                 }
 
@@ -131,7 +133,7 @@ namespace CodiceFiscaleUI
             }
         }
 
-        private void mnuQuit_Click(object sender, RoutedEventArgs e)
+        private void MnuQuit_Click(object sender, RoutedEventArgs e)
         {
             Window_Closing(this, new CancelEventArgs());
         }
@@ -154,8 +156,7 @@ namespace CodiceFiscaleUI
 
         private void MnuAbout_OnClick(object sender, RoutedEventArgs e)
         {
-            var aboutDialog = new AboutWindow();
-            aboutDialog.Owner = this;
+            var aboutDialog = new AboutWindow { Owner = this };
             aboutDialog.ShowDialog();
         }
 

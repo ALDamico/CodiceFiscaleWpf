@@ -55,7 +55,7 @@ namespace CodiceFiscaleUI.PlacesListView
             viewModel.SelectedPlace = viewModel.ViewSource.View.CurrentItem as Place;
         }
 
-        private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (loading)
             {
@@ -75,17 +75,17 @@ namespace CodiceFiscaleUI.PlacesListView
             }
         }
 
-        private void txtFilter_GotFocus(object sender, RoutedEventArgs e)
+        private void TxtFilter_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtFilter.Text))
+            if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
-                txtFilter.Foreground = Brushes.Gainsboro;
-                txtFilter.Text = "Filtra i risultati...";
+                TxtFilter.Foreground = Brushes.Gainsboro;
+                TxtFilter.Text = "Filtra i risultati...";
             }
-            else if (txtFilter.Text == "Filtra i risultati...")
+            else if (TxtFilter.Text == "Filtra i risultati...")
             {
-                txtFilter.Text = "";
-                txtFilter.Foreground = Brushes.Black;
+                TxtFilter.Text = "";
+                TxtFilter.Foreground = Brushes.Black;
             }
         }
 
@@ -97,15 +97,15 @@ namespace CodiceFiscaleUI.PlacesListView
 
         private void TxtFilter_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtFilter.Text))
+            if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
-                txtFilter.Foreground = Brushes.Gainsboro;
-                txtFilter.Text = "Filtra i risultati...";
+                TxtFilter.Foreground = Brushes.Gainsboro;
+                TxtFilter.Text = "Filtra i risultati...";
             }
-            else if (txtFilter.Text == "Filtra i risultati...")
+            else if (TxtFilter.Text == "Filtra i risultati...")
             {
-                txtFilter.Text = "";
-                txtFilter.Foreground = Brushes.Black;
+                TxtFilter.Text = "";
+                TxtFilter.Foreground = Brushes.Black;
             }
         }
 

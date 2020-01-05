@@ -14,12 +14,12 @@ namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-        private bool _canUserInteract;
-        public bool CanUserInteract => _canUserInteract;
+        private readonly bool canUserInteract;
+        public bool CanUserInteract => canUserInteract;
 
         public MainViewModel()
         {
-            _canUserInteract = false;
+            canUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
 
@@ -28,14 +28,13 @@ namespace ALD.LibFiscalCode.ViewModels
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             CancelEdit();
-            _canUserInteract = true;
+            canUserInteract = true;
         }
 
         private async Task PopulatePlaceList()
         {
             var t = new PlacesContext().Places;
-            Task.Run(() => Places = new ObservableCollection<Place>(t)).ConfigureAwait(true);
-            OnPropertyChanged(nameof(Places));
+            Task.Run(() => Places = new ObservableCollection<Place>(t));
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -45,7 +44,11 @@ namespace ALD.LibFiscalCode.ViewModels
 
         protected sealed override PropertyChangedEventHandler OnPropertyChanged(string propertyName)
         {
-            BeginEdit();
+            if (propertyName != nameof(PlacesLoaded))
+            {
+                BeginEdit();
+            }
+
             return base.OnPropertyChanged(propertyName);
         }
 
@@ -83,7 +86,7 @@ namespace ALD.LibFiscalCode.ViewModels
             CancelEdit();
         }
 
-        public async Task<IValidator> CalculateFiscalCodeAsync()
+        public IValidator CalculateFiscalCode()
         {
             Validator = new PersonValidator(CurrentPerson);
             string errorMessages = null;
@@ -97,12 +100,10 @@ namespace ALD.LibFiscalCode.ViewModels
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         Omocodes = omocodeBuilder.Omocodes;
-                        using (var context = new PlacesContext())
-                        {
-                            context.SavePerson(CurrentPerson);
-                            SaveFiscalCode(context, Omocodes, CurrentPerson);
-                            context.SaveChangesAsync();
-                        }
+                        using var context = new PlacesContext();
+                        context.SavePerson(CurrentPerson);
+                        SaveFiscalCode(context, Omocodes, CurrentPerson);
+                        context.SaveChangesAsync();
                     }
                 );
             }
@@ -113,9 +114,11 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private void SaveFiscalCode(PlacesContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {
-            var newFc = new FiscalCodeEntity();
-            newFc.FiscalCode = codes.Where(fc => fc.IsMain).FirstOrDefault().FiscalCode.FullFiscalCode;
-            newFc.Person = person;
+            var newFc = new FiscalCodeEntity
+            {
+                FiscalCode = codes.FirstOrDefault(fc => fc.IsMain)?.FiscalCode.FullFiscalCode,
+                Person = person
+            };
             context.FiscalCodes.Add(newFc);
             context.SaveChangesAsync();
         }
@@ -144,7 +147,18 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private FiscalCode fiscalCode;
 
-        public ObservableCollection<Place> Places { get; set; }
+        public ObservableCollection<Place> Places
+        {
+            get => places;
+            set
+            {
+                places = value;
+                OnPropertyChanged(nameof(Places));
+                OnPropertyChanged(nameof(PlacesLoaded));
+            }
+        }
+
+        private ObservableCollection<Place> places;
 
         public Place SelectedPlace
         {
@@ -178,13 +192,13 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public void BeginEdit()
         {
-            if (_canUserInteract)
+            if (canUserInteract)
                 HasPendingChanges = true;
         }
 
         public void CancelEdit()
         {
-            if (!_canUserInteract)
+            if (!canUserInteract)
             {
                 HasPendingChanges = false;
                 CurrentPerson = new Person();
@@ -193,8 +207,10 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public void EndEdit()
         {
-            if (_canUserInteract)
+            if (canUserInteract)
                 HasPendingChanges = false;
         }
+
+        public bool PlacesLoaded => Places?.Count > 0;
     }
 }
