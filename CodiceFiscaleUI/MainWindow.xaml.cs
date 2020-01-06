@@ -23,8 +23,17 @@ namespace CodiceFiscaleUI
         public MainWindow()
         {
             InitializeComponent();
-            Task.Run(() => { viewModel = new MainViewModel(); });
+            
+            viewModel = new MainViewModel();
+            foreach (var str in viewModel.LocalizedStrings)
+            {
+                Resources.Add(str.Key, str.Value);
+            }
+            //Task.Run(() => { viewModel = new MainViewModel(); });
+
         }
+        
+       
 
         private void BtnCopyToClipboard_Click(object sender, RoutedEventArgs e)
         {

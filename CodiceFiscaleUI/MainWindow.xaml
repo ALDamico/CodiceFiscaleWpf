@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
-        Title="Codice fiscale"
+        Title="{DynamicResource MainWindowTitle}"
         Height="450"
         Width="800"
         Closing="Window_Closing"

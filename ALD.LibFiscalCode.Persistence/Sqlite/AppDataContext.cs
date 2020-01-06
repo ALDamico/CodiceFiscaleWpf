@@ -1,16 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
-    public class PlacesContext : DbContext
+    public class AppDataContext : DbContext
     {
         public DbSet<Place> Places { get; set; }
 
         public DbSet<Person> People { get; set; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
+        public DbSet<LanguageInfo> Languages { get; set; }
+        public DbSet<LocalizedString> LocalizedStrings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -51,6 +57,22 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             fiscalCodeEntity.Property<int>("PersonId").HasColumnName("person_id");
             fiscalCodeEntity.HasOne(fc => fc.Person);
 
+            var languageInfoEntity = modelBuilder.Entity<LanguageInfo>();
+            languageInfoEntity.ToTable("Languages");
+            languageInfoEntity.Property(l => l.Id).HasColumnName("id");
+            languageInfoEntity.HasKey(l => l.Id);
+            languageInfoEntity.Property(l => l.Name).HasColumnName("name");
+            languageInfoEntity.Property(l => l.Iso2Code).HasColumnName("iso_2_code");
+            languageInfoEntity.Property(l => l.Iso3Code).HasColumnName("iso_3_code");
+
+            var localizedStringEntity = modelBuilder.Entity<LocalizedString>();
+            localizedStringEntity.Property(s => s.Id).HasColumnName("id");
+            localizedStringEntity.HasKey(s => s.Id);
+            localizedStringEntity.Property(s => s.Name).HasColumnName("name");
+            localizedStringEntity.Property(s => s.Value).HasColumnName("value");
+            localizedStringEntity.Property<int>("language_id").HasColumnName("language_id").HasColumnType("int");
+            localizedStringEntity.HasOne(s => s.Language).WithMany().HasForeignKey("language_id");
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -62,6 +84,15 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             }
 
             People.AddAsync(person);
+        }
+
+        public Dictionary<string, string> GetLocalizedStrings(LanguageInfo languageInfo)
+        {
+            var dic = (from l in LocalizedStrings.Include(l => l.Language)
+                    where l.Language.Equals(languageInfo)
+                    select l
+                ).ToDictionary(l => l.Name, x => x.Value);
+            return dic;
         }
     }
 }

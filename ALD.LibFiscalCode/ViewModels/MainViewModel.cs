@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Validators;
@@ -14,6 +16,17 @@ namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
+        public LocalizationProvider LocalizationProvider
+        {
+            get => localizationProvider;
+            private set
+            {
+                localizationProvider = value;
+                OnPropertyChanged(nameof(LocalizationProvider));
+            }
+        }
+        private LocalizationProvider localizationProvider;
+        
         private Person currentPerson;
 
         private FiscalCode fiscalCode;
@@ -33,7 +46,14 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
-
+            using var dbcontext = new AppDataContext();
+            LocalizedStrings =
+                dbcontext.GetLocalizedStrings(dbcontext.Languages.Where(l => l.Iso2Code.Equals("it")).FirstOrDefault());
+            /*LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(new CultureInfo("it")));
+            LocalizedStrings = MainWindowLocalizationBuilder.GetMainWindowLocalizationImpl(
+                LocalizationProvider.GetLocalizedStrings(), 
+                LocalizationProvider.RetrievalStrategy.Language);*/
+            
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
@@ -42,6 +62,26 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = true;
         }
 
+        public Dictionary<string, string> LocalizedStrings
+        {
+            get => localizedStrings;
+            set
+            {
+                localizedStrings = value;
+                OnPropertyChanged(nameof(LocalizedStrings));
+            }
+        }
+
+        private Dictionary<string, string> localizedStrings;
+       /* public object LocalizedStrings
+        {
+            get => localizedStrings;
+            set
+            {
+                localizedStrings = value;
+                OnPropertyChanged(nameof(LocalizedStrings));
+            } }
+        private object localizedStrings;*/
         public bool CanUserInteract { get; }
 
         public Person CurrentPerson
@@ -119,9 +159,9 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private void PopulatePlaceList()
         {
-            using var ctx = new PlacesContext();
-            var t = ctx.Places;
-            Task.Run(() => places = new ObservableCollection<Place>(t));
+            using var ctx = new AppDataContext();
+            places = new ObservableCollection<Place>(ctx.Places);
+            // Task.Run(() => );
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -168,7 +208,7 @@ namespace ALD.LibFiscalCode.ViewModels
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
-                        using var context = new PlacesContext();
+                        using var context = new AppDataContext();
                         context.SavePerson(CurrentPerson);
                         SaveFiscalCode(context, Omocodes, CurrentPerson);
                         context.SaveChangesAsync();
@@ -179,7 +219,7 @@ namespace ALD.LibFiscalCode.ViewModels
             return Validator;
         }
 
-        private void SaveFiscalCode(PlacesContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
+        private void SaveFiscalCode(AppDataContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {
             var newFc = new FiscalCodeEntity
             {

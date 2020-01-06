@@ -15,7 +15,7 @@ namespace ALD.LibFiscalCode.Persistence.Importer
         {
             using (var reader = new StreamReader(filename))
             using (var csv = new CsvReader(reader, configuration.ToConfiguration()))
-            using (var context = new PlacesContext())
+            using (var context = new AppDataContext())
             {
                 var records = csv.GetRecords<Place>();
                 csv.Configuration.RegisterClassMap(configuration.ClassMap);
