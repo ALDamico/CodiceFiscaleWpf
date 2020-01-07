@@ -4,6 +4,13 @@ import sqlite3
 import csv
 import logging
 import datetime
+from shutil import copy
+
+
+def execute_query(conn, query):
+    logging.info("Executing query")
+    logging.info(query)
+    conn.execute(query)
 
 
 class Place(object):
@@ -29,11 +36,11 @@ start_time = datetime.datetime.now()
 log_file = "cleanup.log"
 csv_file_name = "data_source_dump.csv"
 logging.basicConfig(filename=log_file, level=logging.INFO, filemode='w')
-logging.log(logging.INFO, "Started cleanup at {}".format(start_time))
+logging.info("Started cleanup at {}".format(start_time))
 
 database_file = "./app.db"
-logging.log(logging.INFO,
-            "Attempting to connect to database '{}'".format(database_file))
+logging.info(
+    "Attempting to connect to database '{}'".format(database_file))
 conn = sqlite3.connect(database_file)
 
 drop_queries = (
@@ -49,10 +56,10 @@ for query in drop_queries:
     try:
         conn.execute(query)
     except sqlite3.OperationalError as e:
-        logging.log(logging.INFO, "{}. Skipping.".format(e))
+        logging.info("{}. Skipping.".format(e))
 
 
-logging.log(logging.INFO, "Tables dropped. Recreating table structures")
+logging.info("Tables dropped. Recreating table structures")
 
 ddl_queries = (
     """
@@ -109,9 +116,7 @@ ddl_queries = (
 )
 
 for query in ddl_queries:
-    logging.log(logging.INFO, "Executing query")
-    logging.log(logging.INFO, query)
-    conn.execute(query)
+    execute_query(conn, query)
 
 languages_default_values = (
     {
@@ -127,12 +132,12 @@ languages_default_values = (
 )
 
 for el in languages_default_values:
-    logging.log(logging.INFO, "Executing query")
+    logging.info("Executing query")
     query = """
         INSERT INTO Languages(name, iso_2_code, iso_3_code)
         VALUES (?, ?, ?)
     """
-    logging.log(logging.INFO, query)
+    logging.info(query)
     conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"]))
 
 with open(csv_file_name, encoding='utf-8') as csv_file:
@@ -142,7 +147,7 @@ with open(csv_file_name, encoding='utf-8') as csv_file:
     csv_file.seek(0)
     next(place_reader, None)
     for row in place_reader:
-        logging.log(logging.INFO, "Inserting place {}".format(row[0]))
+        logging.info("Inserting place {}".format(row[0]))
         name = row[0]
         province = row[1]
         province_abbreviation = row[2]
@@ -164,12 +169,20 @@ index_queries = (
     "CREATE INDEX idx_region ON Places(region_name)"
 )
 for query in index_queries:
-    logging.log(logging.INFO, "Executing query")
-    logging.log(logging.INFO, query)
-    conn.execute(query)
+    execute_query(conn, query)
 
 conn.commit()
 conn.close()
-logging.log(logging.INFO, "Completed at {}".format(datetime.datetime.now()))
+logging.debug("Connection to {} closed".format(database_file))
+
+destination = "../ALD.LibFiscalCode.Persistence/DataSource"
+logging.debug("Copying {} to {}".format(database_file, destination))
+try:
+    copy(database_file, destination)
+    logging.debug("Done.")
+except Exception as e:
+    logging.exception(e)
+
+logging.info("Completed at {}".format(datetime.datetime.now()))
 logging.shutdown()
 exit(0)

@@ -1,4 +1,4 @@
-INFO:root:Started cleanup at 2020-01-07 02:51:07.658954
+INFO:root:Started cleanup at 2020-01-07 14:54:37.218768
 INFO:root:Attempting to connect to database './app.db'
 INFO:root:Tables dropped. Recreating table structures
 INFO:root:Executing query
@@ -8213,4 +8213,4 @@ INFO:root:Executing query
 INFO:root:CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)
 INFO:root:Executing query
 INFO:root:CREATE INDEX idx_region ON Places(region_name)
-INFO:root:Completed at 2020-01-07 02:51:08.101877
+INFO:root:Completed at 2020-01-07 14:54:37.680532
