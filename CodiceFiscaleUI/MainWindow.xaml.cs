@@ -57,7 +57,7 @@ namespace CodiceFiscaleUI
 
             if (viewModel.CanUserInteract)
             {
-                drpPlaceOfBirth.SelectedItem = null;
+                DrpPlaceOfBirth.SelectedItem = null;
                 DrpGenderSelector.SelectedItem = null;
             }
 
