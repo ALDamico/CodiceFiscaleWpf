@@ -70,7 +70,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             var windowsEntity = modelBuilder.Entity<WindowModel>();
             windowsEntity.ToTable("Windows");
             windowsEntity.Property(w => w.Id).HasColumnName("id");
-            windowsEntity.Property(w => w.Name).HasColumnName("name");
+            windowsEntity.Property(w => w.Name).HasColumnName("window_name");
 
             var localizedStringEntity = modelBuilder.Entity<LocalizedString>();
             localizedStringEntity.Property(s => s.Id).HasColumnName("id");

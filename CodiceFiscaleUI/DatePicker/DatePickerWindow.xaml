@@ -4,21 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Data di nascita" 
-        ResizeMode="NoResize" 
-        SizeToContent="WidthAndHeight" 
+        Title="{DynamicResource DatePickerWindowTitle}"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
         ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Calendar Grid.Row="0" SelectedDate="{Binding CurrentPerson.DateOfBirth}" SelectionMode="SingleDate"
-                  x:Name="CalDatePicker" SelectedDatesChanged="calDatePicker_SelectedDatesChanged" />
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnOk" Content="Ok" Click="btnOk_Click" Width="40" />
+        <Calendar Grid.Row="0" SelectedDate="{Binding CurrentPerson.DateOfBirth}"
+                  SelectionMode="SingleDate"
+                  x:Name="CalDatePicker"
+                  SelectedDatesChanged="calDatePicker_SelectedDatesChanged" />
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Button x:Name="BtnOk"
+                    Content="{DynamicResource BtnOk}"
+                    Click="btnOk_Click"
+                    Width="40" />
             <Separator Visibility="Hidden" Width="10" />
-            <Button x:Name="BtnCancel" Content="Cancel" Click="btnCancel_Click" Width="40" />
+            <Button x:Name="BtnCancel"
+                    Content="{DynamicResource BtnCancel}"
+                    Click="btnCancel_Click"
+                    Width="40" />
         </StackPanel>
     </Grid>
 </Window>
