@@ -6,7 +6,7 @@
         xmlns:vm1="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
-        Title="Seleziona il luogo di nascita"
+        Title="{DynamicResource PlacesListTitle}"
         Height="450"
         Width="800">
 
@@ -19,14 +19,18 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Luoghi" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+        <GroupBox Header="{DynamicResource GrpBxPlaces}"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <!-- TODO Handle this update even in code-behind -->
                 <TextBox Grid.Row="0"
-                         Text="Filtra i risultati..."
+                         Text="{DynamicResource TxtFilterResults}"
                          Foreground="Gainsboro"
                          x:Name="TxtFilter"
                          LostFocus="TxtFilter_OnLostFocus"
@@ -36,10 +40,10 @@
                          ItemsSource="{Binding ViewSource.View }"
                          SelectionChanged="ListBox_SelectionChanged" />
             </Grid>
-
-            <!--</StackPanel>-->
         </GroupBox>
-        <GroupBox Grid.Row="0" Grid.Column="1" Header="Informazioni">
+        <GroupBox Grid.Row="0"
+                  Grid.Column="1"
+                  Header="{DynamicResource GrpBxInformation}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -53,23 +57,23 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">Nome:</Label>
+                <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource LblName}" />
                 <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedPlace.Name}" />
-                <Label Grid.Row="1" Grid.Column="0">Provincia:</Label>
+                <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource LblProvince}" />
                 <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedPlace.Province}" />
-                <Label Grid.Row="1" Grid.Column="2">Abbreviazione:</Label>
+                <Label Grid.Row="1" Grid.Column="2" Content="{DynamicResource LblAbbreviation}" />
                 <Label Grid.Row="1" Grid.Column="3" Content="{Binding SelectedPlace.ProvinceAbbreviation}" />
-                <Label Grid.Row="2" Grid.Column="0">Regione:</Label>
+                <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource LblRegion}" />
                 <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}" />
-                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold">Codice:</Label>
+                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{DynamicResource LblCode}" />
                 <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}" />
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnSelectPlace" Content="Seleziona" Click="BtnSelectPlace_OnClick" />
+            <Button x:Name="BtnSelectPlace" Content="{DynamicResource BtnSelectPlace}" Click="BtnSelectPlace_OnClick" />
             <Separator Visibility="Hidden" Width="20" />
-            <Button x:Name="BtnClose" Content="Chiudi" Click="BtnClose_OnClick"
-                    ToolTip="Chiudi la finestra senza selezionare un luogo" />
+            <Button x:Name="BtnClose" Content="{DynamicResource BtnClose}" Click="BtnClose_OnClick"
+                    ToolTip="{DynamicResource BtnCloseToolTip}" />
         </StackPanel>
     </Grid>
 </Window>

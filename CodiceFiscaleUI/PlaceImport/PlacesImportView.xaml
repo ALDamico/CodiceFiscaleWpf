@@ -6,14 +6,22 @@
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:PlaceImportViewModel}"
         mc:Ignorable="d"
-        Title="Importa dati nel DB" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        Title="{DynamicResource PlacesImportViewTitle}"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20">
+    <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Center"
+                Margin="20">
         <StackPanel Orientation="Horizontal">
-            <Label Content="File di origine" />
-            <TextBox x:Name="TxtFilename" Width="200" Text="{Binding InputFilename, Mode=TwoWay}"
+            <Label Content="{DynamicResource LblSourceFile}" />
+            <TextBox x:Name="TxtFilename"
+                     Width="200"
+                     Text="{Binding InputFilename, Mode=TwoWay}"
                      LostFocus="txtFilename_LostFocus" TextChanged="txtFilename_TextChanged" />
-            <Button x:Name="BtnOpenFile" Width="30" Content="..." Click="btnOpenFile_Click" />
+            <Button x:Name="BtnOpenFile"
+                    Width="30" Content="..."
+                    Click="btnOpenFile_Click" />
         </StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -24,15 +32,15 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Margin="5">
-                <GroupBox Header="Modalità">
+                <GroupBox Header="{DynamicResource GrpBxMode}">
                     <ItemsControl>
-                        <RadioButton Content="Sovrascrivi" />
-                        <RadioButton Content="Aggiorna" />
+                        <RadioButton Content="{DynamicResource BtnOverwrite}" />
+                        <RadioButton Content="{DynamicResource BtnUpdate}" />
                     </ItemsControl>
                 </GroupBox>
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <GroupBox Header="Mapping personalizzato">
+                <GroupBox Header="{DynamicResource GrpBxCustomMapping}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -48,7 +56,7 @@
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="Abilita"
+                                  Content="{DynamicResource ChkEnableCustMapping}"
                                   IsChecked="{Binding UsesCustomMapping}" />
                         <DataGrid Grid.Row="1"
                                   Grid.ColumnSpan="2"
@@ -60,10 +68,10 @@
                                   ItemsSource="{Binding FieldMapping}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Nome" Binding="{Binding CsvName}" />
-                                <DataGridTextColumn Header="Posizione" Binding="{Binding Position}" />
+                                <DataGridTextColumn Header="{DynamicResource HdrFieldName}" Binding="{Binding CsvName}" />
+                                <DataGridTextColumn Header="{DynamicResource HdrFieldPosition}" Binding="{Binding Position}" />
                                 <DataGridComboBoxColumn x:Name="ColSel"
-                                                        Header="Corrisponde a"
+                                                        Header="{DynamicResource HdrFieldMapsTo}"
                                                         ItemsSource="{Binding AvailableProperties, UpdateSourceTrigger=PropertyChanged}"
                                                         SelectedItemBinding="{Binding SelectedPropertyName, UpdateSourceTrigger=PropertyChanged}" />
                             </DataGrid.Columns>
@@ -74,9 +82,9 @@
         </Grid>
 
         <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="BtnImport" Content="Importa" IsEnabled="{Binding CanStartImport}" Click="btnImport_Click" />
+            <Button x:Name="BtnImport" Content="{DynamicResource BtnStartImport}" IsEnabled="{Binding CanStartImport}" Click="btnImport_Click" />
             <Separator Width="10" Visibility="Hidden" />
-            <Button x:Name="BtnCancel" Content="Annulla" Click="btnCancel_Click" IsCancel="True" />
+            <Button x:Name="BtnCancel" Content="{DynamicResource BtnCancel}" Click="btnCancel_Click" IsCancel="True" />
         </StackPanel>
     </StackPanel>
 </Window>
