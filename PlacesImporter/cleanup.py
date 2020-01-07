@@ -97,13 +97,22 @@ ddl_queries = (
         )
     """,
     """
+        CREATE TABLE Windows
+        (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            window_name TEXT
+        )
+    """,
+    """
         CREATE TABLE LocalizedStrings
         (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             value TEXT,
             language_id INTEGER,
-            FOREIGN KEY (language_id) REFERENCES Languages(id)
+            window_id INTEGER,
+            FOREIGN KEY (language_id) REFERENCES Languages(id) ON DELETE SET NULL,
+            FOREIGN KEY (window_id) REFERENCES Windows(id) ON DELETE SET NULL
         )
     """
 )
@@ -161,7 +170,8 @@ index_queries = (
     "CREATE INDEX idx_fk_loc_strings ON LocalizedStrings(language_id)",
     "CREATE INDEX idx_place_id ON People(place_of_birth_id)",
     "CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)",
-    "CREATE INDEX idx_region ON Places(region_name)"
+    "CREATE INDEX idx_region ON Places(region_name)",
+    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)"
 )
 for query in index_queries:
     logging.log(logging.INFO, "Executing query")
