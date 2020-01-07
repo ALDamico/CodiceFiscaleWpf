@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
         public DbSet<LanguageInfo> Languages { get; set; }
         public DbSet<LocalizedString> LocalizedStrings { get; set; }
+        public DbSet<WindowModel> Windows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +67,11 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             languageInfoEntity.Property(l => l.Iso2Code).HasColumnName("iso_2_code");
             languageInfoEntity.Property(l => l.Iso3Code).HasColumnName("iso_3_code");
 
+            var windowsEntity = modelBuilder.Entity<WindowModel>();
+            windowsEntity.ToTable("Windows");
+            windowsEntity.Property(w => w.Id).HasColumnName("id");
+            windowsEntity.Property(w => w.Name).HasColumnName("name");
+
             var localizedStringEntity = modelBuilder.Entity<LocalizedString>();
             localizedStringEntity.Property(s => s.Id).HasColumnName("id");
             localizedStringEntity.HasKey(s => s.Id);
@@ -72,6 +79,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             localizedStringEntity.Property(s => s.Value).HasColumnName("value");
             localizedStringEntity.Property<int>("language_id").HasColumnName("language_id").HasColumnType("int");
             localizedStringEntity.HasOne(s => s.Language).WithMany().HasForeignKey("language_id");
+            localizedStringEntity.Property<int>("window_id").HasColumnName("window_id").HasColumnType("int");
+            localizedStringEntity.HasOne(s => s.Window).WithMany().HasForeignKey("window_id");
 
             base.OnModelCreating(modelBuilder);
         }
@@ -89,8 +98,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public Dictionary<string, string> GetLocalizedStrings(LanguageInfo languageInfo)
         {
             var dic = (from l in LocalizedStrings.Include(l => l.Language)
-                    where l.Language.Equals(languageInfo)
-                    select l
+                       where l.Language.Equals(languageInfo)
+                       select l
                 ).ToDictionary(l => l.Name, x => x.Value);
             return dic;
         }

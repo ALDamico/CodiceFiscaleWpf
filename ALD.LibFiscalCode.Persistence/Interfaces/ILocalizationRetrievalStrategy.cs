@@ -7,9 +7,8 @@ namespace ALD.LibFiscalCode.Persistence.Interfaces
 {
     public interface ILocalizationRetrievalStrategy
     {
-        LocalizedString GetLocalizedString(string name);
-        Task<LocalizedString> GetLocalizedStringAsync(string name);
         CultureInfo Language { get; }
-        List<LocalizedString> GetLocalizedStringsAsList();
+
+        IEnumerable<LocalizedString> GetLocalizedStrings(string windowName);
     }
 }

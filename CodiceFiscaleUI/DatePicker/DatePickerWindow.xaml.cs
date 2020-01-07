@@ -10,7 +10,7 @@ namespace CodiceFiscaleUI.DatePicker
     /// <summary>
     ///     Interaction logic for DatePicker.xaml
     /// </summary>
-    public partial class DatePickerWindow 
+    public partial class DatePickerWindow
     {
         private readonly DatePickerViewModel datePickerViewModel;
 
@@ -26,7 +26,7 @@ namespace CodiceFiscaleUI.DatePicker
         {
             if (viewModel == null)
             {
-                throw new ArgumentException("The viewModel argument cannot be null");
+                throw new ArgumentNullException(nameof(viewModel));
             }
 
             parentViewModel = viewModel;
@@ -36,7 +36,7 @@ namespace CodiceFiscaleUI.DatePicker
 
         private void calDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            datePickerViewModel.SelectedDateTime = (DateTime) e.AddedItems[0];
+            datePickerViewModel.SelectedDateTime = (DateTime)e.AddedItems[0];
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)

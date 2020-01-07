@@ -47,7 +47,7 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
-            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture));
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "MainWindow");
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));

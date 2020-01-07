@@ -9,15 +9,16 @@ namespace ALD.LibFiscalCode.Persistence.Localization
 {
     public class LocalizationProvider
     {
-        public LocalizationProvider(ILocalizationRetrievalStrategy retrievalStrat)
+        public LocalizationProvider(ILocalizationRetrievalStrategy retrievalStrat, string windowName)
         {
             retrievalStrategy = retrievalStrat;
+            targetWindow = windowName;
         }
 
         public ResourceDictionary GetResourceDictionary()
         {
             var rd = new ResourceDictionary();
-            var localizedStrings = retrievalStrategy.GetLocalizedStringsAsList();
+            var localizedStrings = retrievalStrategy.GetLocalizedStrings(targetWindow);
 
             foreach (var localizedString in localizedStrings)
             {
@@ -27,6 +28,8 @@ namespace ALD.LibFiscalCode.Persistence.Localization
             return rd;
         }
 
-        private ILocalizationRetrievalStrategy retrievalStrategy;
+        private readonly ILocalizationRetrievalStrategy retrievalStrategy;
+
+        private readonly string targetWindow;
     }
 }

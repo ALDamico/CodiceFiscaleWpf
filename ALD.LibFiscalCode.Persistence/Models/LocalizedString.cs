@@ -6,6 +6,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public string Name { get; set; }
         public string Value { get; set; }
         public LanguageInfo Language { get; set; }
+        public WindowModel Window { get; set; }
 
         public override string ToString()
         {
