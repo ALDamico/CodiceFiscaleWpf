@@ -25,30 +25,30 @@
 
         <Menu Grid.Row="0"
               Grid.Column="0">
-            <MenuItem Header="File" x:Name="MnuFile">
-                <MenuItem Header="Nuovo"
+            <MenuItem Header="{DynamicResource MnuFile}" x:Name="MnuFile">
+                <MenuItem Header="{DynamicResource MnuNew}"
                           x:Name="MnuNew"
                           Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="Esci"
+                <MenuItem Header="{DynamicResource MnuQuit}"
                           x:Name="MnuQuit"
                           Click="MnuQuit_Click" />
             </MenuItem>
-            <MenuItem Header="Avanzate" x:Name="MnuAdvanced">
-                <MenuItem Header="Elenco dei luoghi"
+            <MenuItem Header="{DynamicResource MnuAdvanced}" x:Name="MnuAdvanced">
+                <MenuItem Header="{DynamicResource MnuPlaces}"
                           x:Name="MnuPlaces"
                           Click="MnuPlaces_Click" />
-                <MenuItem Header="Aggiorna database dei luoghi"
+                <MenuItem Header="{DynamicResource MnuUpdatePlaces}"
                           x:Name="MnuUpdatePlaces"
                           Click="MnuUpdatePlaces_Click" />
             </MenuItem>
-            <MenuItem x:Name="MnuHelp" Header="?">
-                <MenuItem Header="Informazioni su Codice Fiscale"
+            <MenuItem x:Name="MnuHelp" Header="{DynamicResource MnuHelp}">
+                <MenuItem Header="{DynamicResource MnuAbout}"
                           x:Name="MnuAbout"
                           Click="MnuAbout_OnClick" />
             </MenuItem>
         </Menu>
-        <GroupBox x:Name="GrpBxFiscalCodes" Header="Codici fiscali" Grid.Row="1">
+        <GroupBox x:Name="GrpBxFiscalCodes" Header="{DynamicResource GrpBxFiscalCodes}" Grid.Row="1">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
@@ -61,7 +61,7 @@
                              Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                     <Button x:Name="BtnCopyToClipboard"
                             HorizontalAlignment="Center"
-                            Content="Copia"
+                            Content="{DynamicResource BtnCopyToClipboard}"
                             Click="BtnCopyToClipboard_Click" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
@@ -82,10 +82,10 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem x:Name="CtxMnuCopy" Header="Copia"
+                                <MenuItem x:Name="CtxMnuCopy" Header="{DynamicResource CtxMnuCopy}"
                                           Click="BtnCopyToClipboard_Click" />
                                 <Separator />
-                                <MenuItem Header="Imposta come principale"
+                                <MenuItem Header="{DynamicResource CtxMnuCopy}"
                                           x:Name="CtxMnuLstOmocode"
                                           Click="MnuLstOmocode_Click" />
                             </ContextMenu>
@@ -94,7 +94,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="GrpBxPersonalInfo" Header="Informazioni personali"
+        <GroupBox x:Name="GrpBxPersonalInfo" Header="{DynamicResource GrpBxPersonalInfo}"
                   Grid.Row="2">
             <StackPanel Orientation="Vertical"
                         HorizontalAlignment="Center"
@@ -106,12 +106,12 @@
                              MinWidth="200"
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Name}" />
-                    <Label x:Name="LblSurname" Content="Cognome" />
+                    <Label x:Name="LblSurname" Content="{DynamicResource LblSurname}" />
                     <TextBox x:Name="TxtSurname"
                              MinWidth="200"
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Surname}" />
-                    <Label x:Name="LblGender" Content="Sesso" />
+                    <Label x:Name="LblGender" Content="{DynamicResource LblGender}" />
                     <ComboBox x:Name="DrpGenderSelector"
                               SelectionChanged="DrpGenderSelector_SelectionChanged"
                               Width="65">
@@ -123,7 +123,7 @@
                             HorizontalAlignment="Center"
                             Margin="3">
                     <Label x:Name="LblDateOfBirth"
-                           Content="Data di nascita" />
+                           Content="{DynamicResource LblDateOfBirth}" />
                     <TextBox IsReadOnly="False"
                              IsReadOnlyCaretVisible="False"
                              x:Name="TxtCalendar"
@@ -133,7 +133,7 @@
                              MouseDown="TxtCalendar_MouseDown"
                              MouseDoubleClick="TxtCalendar_MouseDown"
                              Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}" />
-                    <Label x:Name="LblPlaceOfBirth" Content="Luogo di nascita" />
+                    <Label x:Name="LblPlaceOfBirth" Content="{DynamicResource LblPlaceOfBirth}" />
                     <ComboBox x:Name="DrpPlaceOfBirth"
                               MinWidth="200"
                               IsEditable="True"
@@ -164,9 +164,7 @@
                             </Canvas>
                             <Separator Width="55" />
                             <Label x:Name="LblSearch" HorizontalContentAlignment="Right"
-                                   VerticalContentAlignment="Center">
-                                Cerca
-                            </Label>
+                                   VerticalContentAlignment="Center" Content="{DynamicResource LblSearch}" />
                         </StackPanel>
                     </Button>
                 </StackPanel>

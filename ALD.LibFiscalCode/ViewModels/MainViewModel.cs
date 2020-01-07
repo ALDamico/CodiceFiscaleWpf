@@ -25,8 +25,9 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(LocalizationProvider));
             }
         }
+
         private LocalizationProvider localizationProvider;
-        
+
         private Person currentPerson;
 
         private FiscalCode fiscalCode;
@@ -46,14 +47,8 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
-            using var dbcontext = new AppDataContext();
-            LocalizedStrings =
-                dbcontext.GetLocalizedStrings(dbcontext.Languages.Where(l => l.Iso2Code.Equals("it")).FirstOrDefault());
-            /*LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(new CultureInfo("it")));
-            LocalizedStrings = MainWindowLocalizationBuilder.GetMainWindowLocalizationImpl(
-                LocalizationProvider.GetLocalizedStrings(), 
-                LocalizationProvider.RetrievalStrategy.Language);*/
-            
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture));
+
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
@@ -73,15 +68,15 @@ namespace ALD.LibFiscalCode.ViewModels
         }
 
         private Dictionary<string, string> localizedStrings;
-       /* public object LocalizedStrings
-        {
-            get => localizedStrings;
-            set
-            {
-                localizedStrings = value;
-                OnPropertyChanged(nameof(LocalizedStrings));
-            } }
-        private object localizedStrings;*/
+        /* public object LocalizedStrings
+         {
+             get => localizedStrings;
+             set
+             {
+                 localizedStrings = value;
+                 OnPropertyChanged(nameof(LocalizedStrings));
+             } }
+         private object localizedStrings;*/
         public bool CanUserInteract { get; }
 
         public Person CurrentPerson

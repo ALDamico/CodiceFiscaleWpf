@@ -1,8 +1,9 @@
 ﻿using System;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Sqlite;
-using ALD.LibFiscalCode.Progress;
 
+//using ALD.LibFiscalCode.Progress;
+/*
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class ResetViewModel : AbstractNotifyPropertyChanged
@@ -69,4 +70,4 @@ namespace ALD.LibFiscalCode.ViewModels
             context.SaveChangesAsync();
         }
     }
-}
+}*/

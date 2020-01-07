@@ -16,24 +16,19 @@ namespace CodiceFiscaleUI
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow 
+    public partial class MainWindow
     {
         private MainViewModel viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            
-            viewModel = new MainViewModel();
-            foreach (var str in viewModel.LocalizedStrings)
-            {
-                Resources.Add(str.Key, str.Value);
-            }
-            //Task.Run(() => { viewModel = new MainViewModel(); });
 
+            viewModel = new MainViewModel();
+            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
+
+            //Task.Run(() => { viewModel = new MainViewModel(); });
         }
-        
-       
 
         private void BtnCopyToClipboard_Click(object sender, RoutedEventArgs e)
         {
@@ -120,7 +115,7 @@ namespace CodiceFiscaleUI
 
         private void MnuUpdatePlaces_Click(object sender, RoutedEventArgs e)
         {
-            var updateWin = new PlacesImportView {Owner = this};
+            var updateWin = new PlacesImportView { Owner = this };
             updateWin.ShowDialog();
         }
 
@@ -140,14 +135,12 @@ namespace CodiceFiscaleUI
                     {
                         lbi.FontWeight = FontWeights.Normal;
                     }
-                    
                 }
 
                 if (tmp != null)
                 {
                     tmp.FontWeight = FontWeights.Bold;
                 }
-               
             }
         }
 
@@ -178,7 +171,7 @@ namespace CodiceFiscaleUI
 
         private void MnuAbout_OnClick(object sender, RoutedEventArgs e)
         {
-            var aboutDialog = new AboutWindow {Owner = this};
+            var aboutDialog = new AboutWindow { Owner = this };
             aboutDialog.ShowDialog();
         }
 
