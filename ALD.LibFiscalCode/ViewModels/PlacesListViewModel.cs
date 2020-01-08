@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Data;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.ViewModels
@@ -14,10 +16,13 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private Place selectedPlace;
 
+        public LocalizationProvider LocalizationProvider { get; }
+
         public PlacesListViewModel(ICollection<Place> places)
         {
             this.places = new ObservableCollection<Place>(places);
             ViewSource = new CollectionViewSource { Source = this.places };
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "PlacesList");
         }
 
         public Place SelectedPlace

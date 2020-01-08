@@ -27,6 +27,7 @@ namespace CodiceFiscaleUI.PlacesListView
                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
+            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
             loading = true;
             InitializeComponent();
         }
@@ -39,6 +40,7 @@ namespace CodiceFiscaleUI.PlacesListView
                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
+            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
             loading = true;
             this.parentViewModel = parentViewModel;
             InitializeComponent();
