@@ -1,6 +1,6 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.Persistence.EqualityComparers
 {
@@ -12,6 +12,7 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
             {
                 return true;
             }
+
             if (x == null && y != null || x != null && y == null)
             {
                 return false;

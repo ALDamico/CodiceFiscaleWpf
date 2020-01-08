@@ -1,11 +1,6 @@
 ﻿<Application x:Class="CodiceFiscaleUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CodiceFiscaleUI"
-             xmlns:aboutView="clr-namespace:CodiceFiscaleUI.AboutView"
-             xmlns:datePicker="clr-namespace:CodiceFiscaleUI.DatePicker"
-             xmlns:placeImport="clr-namespace:CodiceFiscaleUI.PlaceImport"
-             xmlns:placeListView="clr-namespace:CodiceFiscaleUI.PlacesListView"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
     </Application.Resources>

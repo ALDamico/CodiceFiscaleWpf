@@ -1,7 +1,6 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.Persistence.EqualityComparers
 {
@@ -14,7 +13,7 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
                 return true;
             }
 
-            if (x == null && y != null || x != null && y == null)
+            if (x == null || y == null)
             {
                 return false;
             }
@@ -31,7 +30,6 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
             }
 
             return false;
-            throw new NotImplementedException();
         }
 
         public int GetHashCode([DisallowNull] Place obj)

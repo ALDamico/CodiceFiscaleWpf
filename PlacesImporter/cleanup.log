@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 INFO:root:Started cleanup at 2020-01-07 14:54:37.218768
 INFO:root:Attempting to connect to database './app.db'
+=======
+INFO:root:Started cleanup at 2020-01-07 22:47:23.910840
+INFO:root:Attempting to connect to database './app.db'
+INFO:root:no such table: FiscalCodes. Skipping.
+INFO:root:no such table: People. Skipping.
+INFO:root:no such table: Languages. Skipping.
+INFO:root:no such table: LocalizedStrings. Skipping.
+>>>>>>> feature-localization
 INFO:root:Tables dropped. Recreating table structures
 INFO:root:Executing query
 INFO:root:
@@ -48,13 +57,30 @@ INFO:root:
     
 INFO:root:Executing query
 INFO:root:
+<<<<<<< HEAD
+=======
+        CREATE TABLE Windows
+        (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            window_name TEXT
+        )
+    
+INFO:root:Executing query
+INFO:root:
+>>>>>>> feature-localization
         CREATE TABLE LocalizedStrings
         (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             value TEXT,
             language_id INTEGER,
+<<<<<<< HEAD
             FOREIGN KEY (language_id) REFERENCES Languages(id)
+=======
+            window_id INTEGER,
+            FOREIGN KEY (language_id) REFERENCES Languages(id) ON DELETE SET NULL,
+            FOREIGN KEY (window_id) REFERENCES Windows(id) ON DELETE SET NULL
+>>>>>>> feature-localization
         )
     
 INFO:root:Executing query
@@ -8213,4 +8239,10 @@ INFO:root:Executing query
 INFO:root:CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)
 INFO:root:Executing query
 INFO:root:CREATE INDEX idx_region ON Places(region_name)
+<<<<<<< HEAD
 INFO:root:Completed at 2020-01-07 14:54:37.680532
+=======
+INFO:root:Executing query
+INFO:root:CREATE INDEX idx_win_id ON LocalizedStrings(window_id)
+INFO:root:Completed at 2020-01-07 22:47:25.156476
+>>>>>>> feature-localization

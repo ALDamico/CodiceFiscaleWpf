@@ -9,8 +9,8 @@ namespace ALD.LibFiscalCode.Persistence.Models
     {
         public FiscalCodePerson()
         {
-
         }
+
         public FiscalCodePerson(Person person, IEnumerable<FiscalCodeDecorator> fiscalCodes)
         {
             if (person == null)
@@ -27,13 +27,14 @@ namespace ALD.LibFiscalCode.Persistence.Models
             FiscalCodes = fiscalCodes as List<FiscalCodeDecorator>;
             FiscalCodes[0].IsMain = true;
         }
+
         public Person Person { get; set; }
-        [NotMapped]
-        public List<FiscalCodeDecorator> FiscalCodes { get; private set; }
-        [NotMapped]
-        public FiscalCode MainFiscalCode => FiscalCodes.Where(fc => fc.IsMain).FirstOrDefault()?.FiscalCode;
-        [NotMapped]
-        public string MainFiscalCodeString => MainFiscalCode?.FullFiscalCode;
+
+        [NotMapped] public List<FiscalCodeDecorator> FiscalCodes { get; }
+
+        [NotMapped] public FiscalCode MainFiscalCode => FiscalCodes.Where(fc => fc.IsMain).FirstOrDefault()?.FiscalCode;
+
+        [NotMapped] public string MainFiscalCodeString => MainFiscalCode?.FullFiscalCode;
 
         public void SetMainFiscalCode(FiscalCode fiscalCode)
         {

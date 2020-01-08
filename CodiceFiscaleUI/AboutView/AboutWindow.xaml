@@ -3,14 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CodiceFiscaleUI.AboutView"
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:AboutWindowViewModel}"
         mc:Ignorable="d"
-        Title="Informazioni su Codice Fiscale" Width="640" SizeToContent="Height">
+        Title="{DynamicResource AboutWindowTitle}" Width="640" SizeToContent="Height">
     <StackPanel HorizontalAlignment="Center">
-        <Label FontSize="28" FontStyle="Italic" HorizontalAlignment="Center">Informazioni su Codice fiscale</Label>
-        <TextBox HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Text="{Binding MitLicense}">
-        </TextBox>
+        <Label FontSize="28" FontStyle="Italic" HorizontalAlignment="Center" Content="{DynamicResource AboutWindowTitle}" />
+        <TextBox HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
+                 HorizontalAlignment="Stretch" Text="{Binding MitLicense}" />
     </StackPanel>
 </Window>

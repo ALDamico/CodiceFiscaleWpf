@@ -1,9 +1,9 @@
-﻿using ALD.LibFiscalCode.Enums;
+﻿using System;
 using ALD.LibFiscalCode.Lookups;
+using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.StringManipulation;
-using System;
 
 namespace ALD.LibFiscalCode.Builders
 {
@@ -15,13 +15,14 @@ namespace ALD.LibFiscalCode.Builders
             {
                 throw new ArgumentException("Parametro non valido");
             }
-            FiscalCode fiscalCode = new FiscalCode();
+
+            var fiscalCode = new FiscalCode();
             fiscalCode.Name = CalculateNameString(person.Name);
             fiscalCode.Surname = CalculateSurnameString(person.Surname);
             fiscalCode.DateOfBirthAndGender = CalculateDateOfBirthAndGenderString(person.DateOfBirth, person.Gender);
-            fiscalCode.Place = person.PlaceOfBirth.Code;
+            fiscalCode.PlaceCode = person.PlaceOfBirth.Code;
 
-            string partial = fiscalCode.Surname + fiscalCode.Name + fiscalCode.DateOfBirthAndGender + fiscalCode.Place;
+            var partial = fiscalCode.Surname + fiscalCode.Name + fiscalCode.DateOfBirthAndGender + fiscalCode.PlaceCode;
             fiscalCode.CheckDigit = CalculateCheckDigit(partial);
             ComputedFiscalCode = fiscalCode;
         }
@@ -33,16 +34,16 @@ namespace ALD.LibFiscalCode.Builders
                 throw new ArgumentException("The input parameter must be a string 15 characters long");
             }
 
-            FiscalCode fiscalCode = new FiscalCode();
+            var fiscalCode = new FiscalCode();
             fiscalCode.Surname = partial.Substring(0, 3);
             fiscalCode.Name = partial.Substring(3, 3);
             fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5);
-            fiscalCode.Place = partial.Substring(10, 4);
+            fiscalCode.PlaceCode = partial.Substring(10, 4);
             fiscalCode.CheckDigit = CalculateCheckDigit(partial);
             ComputedFiscalCode = fiscalCode;
         }
 
-        public FiscalCode ComputedFiscalCode { get; private set; }
+        public FiscalCode ComputedFiscalCode { get; }
 
         internal string CalculateCheckDigit(string input)
         {
@@ -51,30 +52,30 @@ namespace ALD.LibFiscalCode.Builders
                 throw new ArgumentException("The input parameter must be a string 15 characters long");
             }
 
-            int accumulator = 0;
+            var accumulator = 0;
 
-            for (int i = 0; i < 15; i++)
+            for (var i = 0; i < 15; i++)
             {
                 accumulator += CheckDigitLookup.GetValue(input[i], i);
             }
 
-            string output = CheckDigitLookup.GetTranslatedValue(accumulator);
+            var output = CheckDigitLookup.GetTranslatedValue(accumulator);
             return output;
         }
 
         private string CalculateDateOfBirthAndGenderString(DateTime dateOfBirth, Gender gender)
         {
-            string output = "";
+            var output = "";
 
-            string yearOfBirth = dateOfBirth.ToString("yy");
-            string monthOfBirth = MonthOfDateLookup.GetValue(dateOfBirth.Month);
-            int dayOfBirth = dateOfBirth.Day;
+            var yearOfBirth = dateOfBirth.ToString("yy");
+            var monthOfBirth = MonthOfDateLookup.GetValue(dateOfBirth.Month);
+            var dayOfBirth = dateOfBirth.Day;
             if (gender == Gender.Female)
             {
                 dayOfBirth += 40;
             }
 
-            string dayOfBirthStr = dayOfBirth < 10 ? "0" + dayOfBirth.ToString() : dayOfBirth.ToString();
+            var dayOfBirthStr = dayOfBirth < 10 ? "0" + dayOfBirth : dayOfBirth.ToString();
             output = $"{yearOfBirth}{monthOfBirth}{dayOfBirthStr}";
             return output;
         }
@@ -91,11 +92,12 @@ namespace ALD.LibFiscalCode.Builders
             }
             else if (nameSplitter.Consonants.Count == 2)
             {
-                output = new string(new char[3] { nameSplitter.Consonants[0], nameSplitter.Consonants[1], nameSplitter.Vowels[0] });
+                output = new string(new[]
+                    {nameSplitter.Consonants[0], nameSplitter.Consonants[1], nameSplitter.Vowels[0]});
             }
             else if (nameSplitter.Consonants.Count == 1)
             {
-                output = new string(new char[2] { nameSplitter.Consonants[0], nameSplitter.Vowels[0] });
+                output = new string(new[] {nameSplitter.Consonants[0], nameSplitter.Vowels[0]});
                 if (nameSplitter.Vowels.Count >= 2)
                 {
                     output += nameSplitter.Vowels[1];
@@ -122,7 +124,8 @@ namespace ALD.LibFiscalCode.Builders
 
             if (nameSplitter.Consonants.Count >= 4)
             {
-                output = new string(new char[3] { nameSplitter.Consonants[0], nameSplitter.Consonants[2], nameSplitter.Consonants[3] });
+                output = new string(new []
+                    {nameSplitter.Consonants[0], nameSplitter.Consonants[2], nameSplitter.Consonants[3]});
             }
             else if (nameSplitter.Consonants.Count == 3)
             {
@@ -130,11 +133,12 @@ namespace ALD.LibFiscalCode.Builders
             }
             else if (nameSplitter.Consonants.Count == 2)
             {
-                output = new string(new char[3] { nameSplitter.Consonants[0], nameSplitter.Consonants[1], nameSplitter.Vowels[0] });
+                output = new string(new[]
+                    {nameSplitter.Consonants[0], nameSplitter.Consonants[1], nameSplitter.Vowels[0]});
             }
             else if (nameSplitter.Consonants.Count == 1)
             {
-                output = new string(new char[2] { nameSplitter.Consonants[0], nameSplitter.Vowels[0] });
+                output = new string(new [] {nameSplitter.Consonants[0], nameSplitter.Vowels[0]});
                 if (nameSplitter.Vowels.Count >= 2)
                 {
                     output += nameSplitter.Vowels[1];

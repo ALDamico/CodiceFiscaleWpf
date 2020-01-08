@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Text;
 using ALD.LibFiscalCode.Persistence.Events;
 
 namespace ALD.LibFiscalCode.Persistence.Importer
 {
-    public class PlaceCsvMapper:AbstractNotifyPropertyChanged
+    public class PlaceCsvMapper : AbstractNotifyPropertyChanged
     {
+        private ObservableCollection<string> availableProperties;
+        private string csvName;
+        private int position;
+        private string propertyName;
 
         internal PlaceCsvMapper(IEnumerable<PropertyInfo> properties, string propertyName)
         {
@@ -18,9 +20,11 @@ namespace ALD.LibFiscalCode.Persistence.Importer
             {
                 AvailableProperties.Add(prop.Name);
             }
+
             OnPropertyChanged(nameof(AvailableProperties));
-           // AvailableProperties = properties as ObservableCollection<string>;
+            // AvailableProperties = properties as ObservableCollection<string>;
         }
+
         public string SelectedPropertyName
         {
             get => propertyName;
@@ -40,7 +44,7 @@ namespace ALD.LibFiscalCode.Persistence.Importer
                 OnPropertyChanged(nameof(AvailableProperties));
             }
         }
-        private ObservableCollection<string> availableProperties;
+
         public string CsvName
         {
             get => csvName;
@@ -50,6 +54,7 @@ namespace ALD.LibFiscalCode.Persistence.Importer
                 OnPropertyChanged(nameof(CsvName));
             }
         }
+
         public int Position
         {
             get => position;
@@ -59,8 +64,5 @@ namespace ALD.LibFiscalCode.Persistence.Importer
                 OnPropertyChanged(nameof(Position));
             }
         }
-        private string propertyName;
-        private string csvName;
-        private int position;
     }
 }

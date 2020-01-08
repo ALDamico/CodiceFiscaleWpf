@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ALD.LibFiscalCode.Persistence.Models
 {
@@ -12,14 +9,17 @@ namespace ALD.LibFiscalCode.Persistence.Models
             FiscalCode = null;
             IsMain = false;
         }
+
         public FiscalCodeDecorator(FiscalCode code, bool isMain = false)
         {
             FiscalCode = code;
             IsMain = isMain;
         }
-        [NotMapped]
-        public FiscalCode FiscalCode { get; private set; }
+
+        [NotMapped] public FiscalCode FiscalCode { get; }
+
         public bool IsMain { get; set; }
+
         public static explicit operator FiscalCode(FiscalCodeDecorator decorated)
         {
             return decorated.FiscalCode;
