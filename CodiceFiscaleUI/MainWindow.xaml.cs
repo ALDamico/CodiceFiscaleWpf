@@ -106,7 +106,7 @@ namespace CodiceFiscaleUI
             var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
-                MessageBox.Show(check.GetValidationMessagesAsString(), "Errore di convalida!", MessageBoxButton.OK,
+                MessageBox.Show(check.GetValidationMessagesAsString(), Resources["ValidationDialogCaption"].ToString(), MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -152,9 +152,10 @@ namespace CodiceFiscaleUI
             if (viewModel.HasPendingChanges)
             {
                 var result =
-                    MessageBox.Show(
-                        "Hai delle modifiche in sospeso che verranno perse se esci dall'applicazione. Sei sicuro?",
-                        "Conferma uscita", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk,
+                    MessageBox.Show(Resources["DialogConfirmExitText"].ToString(),
+                        Resources["DialogConfirmExitCaption"].ToString(),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Asterisk,
                         MessageBoxResult.Cancel);
                 if (result == MessageBoxResult.OK)
                 {

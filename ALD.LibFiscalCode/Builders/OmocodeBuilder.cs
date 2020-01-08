@@ -12,12 +12,7 @@ namespace ALD.LibFiscalCode.Builders
 
         public OmocodeBuilder(FiscalCodeBuilder builder)
         {
-            if (builder == null)
-            {
-                throw new ArgumentException("The parameter builder can't be null");
-            }
-
-            fiscalCodeBuilder = builder;
+            fiscalCodeBuilder = builder ?? throw new ArgumentNullException(nameof(builder));
             Omocodes = new List<FiscalCodeDecorator>();
             Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
 
@@ -34,7 +29,7 @@ namespace ALD.LibFiscalCode.Builders
                     partial = partial.Replace(letter, newChar);
                     var omocodeBuilder = new FiscalCodeBuilder(partial);
                     Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
-                    OnPropertyChanged(nameof(Omocodes));
+                    base.OnPropertyChanged(nameof(Omocodes));
                 }
             }
 

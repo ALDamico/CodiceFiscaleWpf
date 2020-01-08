@@ -57,26 +57,6 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = true;
         }
 
-        public Dictionary<string, string> LocalizedStrings
-        {
-            get => localizedStrings;
-            set
-            {
-                localizedStrings = value;
-                OnPropertyChanged(nameof(LocalizedStrings));
-            }
-        }
-
-        private Dictionary<string, string> localizedStrings;
-        /* public object LocalizedStrings
-         {
-             get => localizedStrings;
-             set
-             {
-                 localizedStrings = value;
-                 OnPropertyChanged(nameof(LocalizedStrings));
-             } }
-         private object localizedStrings;*/
         public bool CanUserInteract { get; }
 
         public Person CurrentPerson
@@ -101,21 +81,9 @@ namespace ALD.LibFiscalCode.ViewModels
             }
         }
 
-        public List<FiscalCodeDecorator> Omocodes
-        {
-            get => omocodes;
-        }
+        public List<FiscalCodeDecorator> Omocodes => omocodes;
 
-        public ObservableCollection<Place> Places
-        {
-            get => places;
-            /*set
-            {
-                places = value;
-                OnPropertyChanged(nameof(Places));
-                OnPropertyChanged(nameof(PlacesLoaded));
-            }*/
-        }
+        public ObservableCollection<Place> Places => places;
 
         public Place SelectedPlace
         {
@@ -199,7 +167,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 Task.Run(
                     () =>
                     {
-                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson, LocalizationProvider);
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
