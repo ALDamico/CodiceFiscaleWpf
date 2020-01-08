@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # This file is used for cleaning up dirty data from the application's database
 
 import sqlite3
@@ -34,7 +35,7 @@ class Place(object):
 start_time = datetime.now()
 
 log_file = "cleanup.log"
-csv_file_name = "data_source_dump.csv"
+csv_file_name = "places.csv"
 logging.basicConfig(filename=log_file, level=logging.INFO, filemode='w')
 logging.info("Started cleanup at {}".format(start_time))
 
@@ -157,6 +158,8 @@ for el in languages_default_values:
     """
     logging.info(query)
     conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"]))
+    
+conn.commit()
 
 with open(csv_file_name, encoding='utf-8') as csv_file:
     dialect = csv.Sniffer().sniff(csv_file.read(1024))

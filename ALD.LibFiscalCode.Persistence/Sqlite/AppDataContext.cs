@@ -19,6 +19,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public DbSet<LanguageInfo> Languages { get; set; }
         public DbSet<LocalizedString> LocalizedStrings { get; set; }
         public DbSet<WindowModel> Windows { get; set; }
+        public DbSet<SettingModel> Settings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -81,6 +82,13 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             localizedStringEntity.HasOne(s => s.Language).WithMany().HasForeignKey("language_id");
             localizedStringEntity.Property<int>("window_id").HasColumnName("window_id").HasColumnType("int");
             localizedStringEntity.HasOne(s => s.Window).WithMany().HasForeignKey("window_id");
+
+            var appSettingsEntity = modelBuilder.Entity<SettingModel>();
+            appSettingsEntity.ToTable("Settings");
+            appSettingsEntity.Property(s => s.Id).HasColumnName("id");
+            appSettingsEntity.Property(s => s.Name).HasColumnName("name");
+            appSettingsEntity.Property(s => s.IntValue).HasColumnName("int_value");
+            appSettingsEntity.Property(s => s.StringValue).HasColumnName("string_value");
 
             base.OnModelCreating(modelBuilder);
         }

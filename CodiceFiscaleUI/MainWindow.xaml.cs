@@ -18,12 +18,13 @@ namespace CodiceFiscaleUI
     /// </summary>
     public partial class MainWindow
     {
-        private MainViewModel viewModel;
+        private readonly MainViewModel viewModel;
 
         public MainWindow()
         {
             viewModel = new MainViewModel();
             Resources = viewModel.LocalizationProvider.GetResourceDictionary();
+            var currentSettings = ((App)Application.Current).Settings;
 
             InitializeComponent();
         }
@@ -124,12 +125,11 @@ namespace CodiceFiscaleUI
             {
                 viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
 
-                var tmp = LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem) as ListBoxItem;
+                var tmp = (ListBoxItem)LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem);
 
                 foreach (var v in LstOmocode.Items)
                 {
-                    var lbi = LstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
-                    if (lbi != null)
+                    if (LstOmocode.ItemContainerGenerator.ContainerFromItem(v) is ListBoxItem lbi)
                     {
                         lbi.FontWeight = FontWeights.Normal;
                     }

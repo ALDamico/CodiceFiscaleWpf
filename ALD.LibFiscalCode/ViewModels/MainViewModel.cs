@@ -57,6 +57,10 @@ namespace ALD.LibFiscalCode.ViewModels
             CanUserInteract = true;
         }
 
+        /*public MainViewModel(AppSettings settings) : this()
+        {
+        }*/
+
         public bool CanUserInteract { get; }
 
         public Person CurrentPerson
@@ -160,7 +164,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public IValidator CalculateFiscalCode()
         {
-            Validator = new PersonValidator(CurrentPerson);
+            Validator = new PersonValidator(CurrentPerson, LocalizationProvider);
             if (Validator.IsValid)
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
