@@ -26,6 +26,7 @@ namespace ALD.LibFiscalCode.Validators
 
         public void Validate()
         {
+            //TODO Retrieve these messages from data source
             if (string.IsNullOrWhiteSpace(person.Name))
             {
                 ValidationMessages.Add("Nome mancante\n");
@@ -46,14 +47,7 @@ namespace ALD.LibFiscalCode.Validators
                 ValidationMessages.Add("Luogo di nascita non specificato\n");
             }
 
-            if (ValidationMessages.Count == 0)
-            {
-                IsValid = true;
-            }
-            else
-            {
-                IsValid = false;
-            }
+            IsValid = ValidationMessages.Count == 0;
         }
     }
 }

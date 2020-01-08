@@ -22,12 +22,10 @@ namespace CodiceFiscaleUI
 
         public MainWindow()
         {
-            InitializeComponent();
-
             viewModel = new MainViewModel();
             Resources = viewModel.LocalizationProvider.GetResourceDictionary();
 
-            //Task.Run(() => { viewModel = new MainViewModel(); });
+            InitializeComponent();
         }
 
         private void BtnCopyToClipboard_Click(object sender, RoutedEventArgs e)
@@ -49,8 +47,8 @@ namespace CodiceFiscaleUI
             var response = MessageBoxResult.None;
             if (viewModel.HasPendingChanges)
             {
-                response = MessageBox.Show("Hai delle modifiche in sospeso. Sei sicuro di voler reimpostare?",
-                    "Conferma",
+                response = MessageBox.Show(Resources["MsgBoxResetText"].ToString(),
+                    Resources["MsgBoxResetCaption"].ToString(),
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Question,
                     MessageBoxResult.Cancel);
