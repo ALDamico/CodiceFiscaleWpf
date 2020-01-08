@@ -1,0 +1,5 @@
+﻿CREATE TABLE Windows
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    window_name TEXT
+)

@@ -3,7 +3,7 @@
 import sqlite3
 import csv
 import logging
-import datetime
+from datetime import datetime
 from shutil import copy
 
 
@@ -31,7 +31,7 @@ class Place(object):
         return (self.name, self.province, self.province_abbreviation, self.region, self.code)
 
 
-start_time = datetime.datetime.now()
+start_time = datetime.now()
 
 log_file = "cleanup.log"
 csv_file_name = "data_source_dump.csv"
@@ -48,7 +48,8 @@ drop_queries = (
     "DROP TABLE People",
     "DROP TABLE Places",
     "DROP TABLE Languages",
-    "DROP TABLE LocalizedStrings"
+    "DROP TABLE LocalizedStrings",
+    "DROP TABLE Settings"
 )
 
 
@@ -121,6 +122,14 @@ ddl_queries = (
             FOREIGN KEY (language_id) REFERENCES Languages(id) ON DELETE SET NULL,
             FOREIGN KEY (window_id) REFERENCES Windows(id) ON DELETE SET NULL
         )
+    """,
+    """
+        CREATE TABLE Settings
+        (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            int_value INTEGER,
+            string_value TEXT
+        )
     """
 )
 
@@ -176,7 +185,9 @@ index_queries = (
     "CREATE INDEX idx_place_id ON People(place_of_birth_id)",
     "CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)",
     "CREATE INDEX idx_region ON Places(region_name)",
-    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)"
+    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)",
+    "CREATE INDEX idx_settings_int ON Settings(int_value)",
+    "CREATE INDEX idx_settings_string ON Settings(string_value)"
 )
 for query in index_queries:
     execute_query(conn, query)
@@ -193,6 +204,6 @@ try:
 except Exception as e:
     logging.exception(e)
 
-logging.info("Completed at {}".format(datetime.datetime.now()))
+logging.info("Completed at {}".format(datetime.now()))
 logging.shutdown()
 exit(0)
