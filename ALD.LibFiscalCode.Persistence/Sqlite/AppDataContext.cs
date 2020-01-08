@@ -14,7 +14,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
     {
         public DbSet<Place> Places { get; set; }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<Person> People { get; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
         public DbSet<LanguageInfo> Languages { get; set; }
         public DbSet<LocalizedString> LocalizedStrings { get; set; }
@@ -92,7 +92,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
                 return;
             }
 
-            People.AddAsync(person);
+            People.Add(person);
         }
 
         public Dictionary<string, string> GetLocalizedStrings(LanguageInfo languageInfo)

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using ALD.LibFiscalCode.Persistence.Enums;
+using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.Validators
@@ -8,12 +10,15 @@ namespace ALD.LibFiscalCode.Validators
     {
         private readonly Person person;
 
-        public PersonValidator(Person person)
+        public PersonValidator(Person person, LocalizationProvider localizationProvider)
         {
             this.person = person;
             ValidationMessages = new List<string>();
+            this.localizationProvider = localizationProvider;
             Validate();
         }
+
+        private readonly LocalizationProvider localizationProvider;
 
         public bool IsValid { get; private set; }
 
@@ -26,25 +31,26 @@ namespace ALD.LibFiscalCode.Validators
 
         public void Validate()
         {
+            var rd = localizationProvider.GetResourceDictionary();
             //TODO Retrieve these messages from data source
             if (string.IsNullOrWhiteSpace(person.Name))
             {
-                ValidationMessages.Add("Nome mancante\n");
+                ValidationMessages.Add(rd["ValidationMissingName"].ToString());
             }
 
             if (string.IsNullOrWhiteSpace(person.Surname))
             {
-                ValidationMessages.Add("Cognome mancante\n");
+                ValidationMessages.Add(rd["ValidationMissingSurname"].ToString());
             }
 
             if (person.Gender == Gender.Unspecified)
             {
-                ValidationMessages.Add("Sesso non specificato\n");
+                ValidationMessages.Add(rd["ValidationMissingGender"].ToString());
             }
 
             if (person.PlaceOfBirth == null)
             {
-                ValidationMessages.Add("Luogo di nascita non specificato\n");
+                ValidationMessages.Add(rd["ValidationMissingDateOfBirth"].ToString());
             }
 
             IsValid = ValidationMessages.Count == 0;
