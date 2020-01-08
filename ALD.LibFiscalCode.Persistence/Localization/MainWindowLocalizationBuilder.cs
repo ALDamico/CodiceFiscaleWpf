@@ -9,6 +9,7 @@ using System.Reflection;
 
 namespace ALD.LibFiscalCode.Persistence.Localization
 {
+    [Obsolete("This class doesn't work properly. Do not use.", false)]
     public class MainWindowLocalizationBuilder
     {
         public MainWindowLocalizationBuilder(IEnumerable<LocalizedString> localizedStrings, CultureInfo cultureInfo)
@@ -38,7 +39,7 @@ namespace ALD.LibFiscalCode.Persistence.Localization
                     $"set_{element.Name}", // Method name
                     MethodAttributes.Public | MethodAttributes.SpecialName,
                     typeof(string), // Return type
-                    new Type[1] {typeof(string)});
+                    new Type[1] { typeof(string) });
                 ILGenerator setGen = setter.GetILGenerator();
                 setGen.Emit(OpCodes.Ldarg_0); // Load "this" onto eval stack
                 setGen.Emit(OpCodes.Ldarg_1); // Load 2nd arg, i.e., value
@@ -55,7 +56,6 @@ namespace ALD.LibFiscalCode.Persistence.Localization
                 //t.SetValue(t.Name, null);
             }
 
-
             //   var assemblyName = new AssemblyName("ALD.Localization");
             // var assembly = AppDomain.CurrentDomain.GetAssemblies()[0];
             var c = type.CreateType();
@@ -64,7 +64,7 @@ namespace ALD.LibFiscalCode.Persistence.Localization
             {
                 var currentProp = c.GetProperty(element.Name);
                 currentProp?.SetValue(obj, element.Name,
-                    new object?[0] );
+                    new object?[0]);
             }
 
             return obj;
