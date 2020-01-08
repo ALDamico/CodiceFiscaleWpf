@@ -16,8 +16,8 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public PlacesListViewModel(ICollection<Place> places)
         {
-            places = new ObservableCollection<Place>(places);
-            ViewSource = new CollectionViewSource {Source = places};
+            this.places = new ObservableCollection<Place>(places);
+            ViewSource = new CollectionViewSource { Source = this.places };
         }
 
         public Place SelectedPlace

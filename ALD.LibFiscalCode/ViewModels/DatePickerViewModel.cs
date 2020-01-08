@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using ALD.LibFiscalCode.Persistence.Events;
+using ALD.LibFiscalCode.Persistence.Localization;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -10,7 +12,10 @@ namespace ALD.LibFiscalCode.ViewModels
         public DatePickerViewModel(DateTime startingDate = default)
         {
             SelectedDateTime = startingDate;
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "DatePickerWindow");
         }
+
+        public LocalizationProvider LocalizationProvider { get; }
 
         public DateTime SelectedDateTime
         {

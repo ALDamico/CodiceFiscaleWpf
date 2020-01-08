@@ -24,14 +24,10 @@ namespace CodiceFiscaleUI.DatePicker
 
         public DatePickerWindow(MainViewModel viewModel) : this()
         {
-            if (viewModel == null)
-            {
-                throw new ArgumentNullException(nameof(viewModel));
-            }
-
-            parentViewModel = viewModel;
+            parentViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             datePickerViewModel = new DatePickerViewModel(parentViewModel.CurrentPerson.DateOfBirth);
             DataContext = datePickerViewModel;
+            Resources = datePickerViewModel.LocalizationProvider.GetResourceDictionary();
         }
 
         private void calDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using ALD.LibFiscalCode.ViewModels;
@@ -19,18 +21,20 @@ namespace CodiceFiscaleUI.PlaceImport
             viewModel = new PlaceImportViewModel();
             DataContext = viewModel;
             ColSel.ItemsSource = viewModel.FieldMapping[0].AvailableProperties;
+            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
         }
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
             {
-                Title = "Scegli il file CSV di origine",
-                Filter = "Valori separati da virgola(*.csv)|*.csv",
-                DefaultExt = "csv"
+                Title = Resources["OpenFileDialogTitle"].ToString(),
+                Filter = Resources["OpenFileDialogFilter"].ToString(),
+                DefaultExt = Resources["OpenFileDialogDefaultExt"].ToString()
             };
 
             viewModel.InputFilename = dialog.FileName;
+            dialog.ShowDialog();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -46,21 +50,21 @@ namespace CodiceFiscaleUI.PlaceImport
 
         private void txtFilename_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //Force updte of viewModel
+            //Force update of viewModel
             //This is required otherwise the button IsEnabled doesn't update quickly enough
             viewModel.InputFilename = TxtFilename.Text;
         }
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var result = viewModel.Import().Result;
+
+            if (result != null)
             {
-                viewModel.Import();
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show($"Non è stato possibile aprire il file {viewModel.InputFilename}",
-                    "Errore durante l'apertura", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(string.Format(CultureInfo.InvariantCulture, Resources["ErrorDialogText"].ToString(), viewModel.InputFilename),
+                    Resources["ErrorDialogCaption"].ToString(),
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

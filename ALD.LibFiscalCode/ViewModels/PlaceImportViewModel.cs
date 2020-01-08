@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Importer;
+using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.ViewModels
@@ -19,12 +23,14 @@ namespace ALD.LibFiscalCode.ViewModels
         private readonly Type placeType = new Place().GetType();
 
         private bool usesCustomMapping;
+        public LocalizationProvider LocalizationProvider { get; }
 
         public PlaceImportViewModel()
         {
             InputFilename = null;
             Mode = ImportMode.Update;
             Configuration = new ImporterConfiguration();
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "PlacesImportView");
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.SelectedPropertyName));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.Position));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.CsvName));
@@ -71,9 +77,11 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public List<PropertyInfo> Fields => placeType.GetProperties().ToList();
 
-        public async void Import()
+        public async Task<Exception> Import()
         {
-            await PlacesImporter.Import(InputFilename, Configuration, Mode);
+            var t = PlacesImporter.Import(InputFilename, Configuration, Mode);
+
+            return t.Status == TaskStatus.Faulted ? new FileNotFoundException(t.Exception.Message) : null;
         }
     }
 }
