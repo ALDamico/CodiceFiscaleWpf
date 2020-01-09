@@ -15,6 +15,18 @@ namespace CodiceFiscaleUI.Settings
         public int MaxHistorySize { get; set; }
         public DateTime DefaultDate { get; set; }
 
+        private static AppSettings _instance;
+
+        public static AppSettings GetInstance(AppDataContext dataContext)
+        {
+            if (AppSettings._instance == null)
+            {
+                _instance = AppSettingsFactory(dataContext);
+            }
+
+            return _instance;
+        }
+
         public static AppSettings AppSettingsFactory(AppDataContext dataContext)
         {
             var instance = new AppSettings();
