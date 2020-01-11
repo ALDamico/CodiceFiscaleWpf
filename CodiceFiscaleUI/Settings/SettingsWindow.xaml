@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodiceFiscaleUI.Settings"
+        xmlns:vm="clr-namespace:ald"
         mc:Ignorable="d"
         Title="Impostazioni" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid Margin="10">
@@ -21,13 +22,13 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="28" HorizontalContentAlignment="Center">Opzioni</Label>
         <Label Grid.Row="1" Grid.Column="0" Content="Lingua" />
-        <ComboBox Grid.Row="1" Grid.Column="1">
+        <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding }">
             <!-- Dropdown for language selection -->
         </ComboBox>
         <Label Grid.Row="2" Grid.Column="0" Content="Dimensione massima cronologia" />
         <TextBox Grid.Row="2" Grid.Column="1" />
         <Label Grid.Row="3" Grid.Column="0" Content="Posizione database"></Label>
-        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" CanHorizontallyScroll="True">
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
             <TextBox MinWidth="200" />
             <Button Content="..." Width="30"></Button>
         </StackPanel>

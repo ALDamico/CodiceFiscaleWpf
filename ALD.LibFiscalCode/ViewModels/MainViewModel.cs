@@ -51,6 +51,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 throw new ArgumentNullException(nameof(settings));
             }
             LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
+            CurrentPerson.DateOfBirth = settings.DefaultDate;
         }
 
         public MainViewModel()

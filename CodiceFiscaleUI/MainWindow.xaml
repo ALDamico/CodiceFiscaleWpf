@@ -42,6 +42,8 @@
                 <MenuItem Header="Aggiorna database dei luoghi"
                           x:Name="MnuUpdatePlaces"
                           Click="MnuUpdatePlaces_Click" />
+                <Separator />
+                <MenuItem Header="Opzioni" x:Name="MnuOptions" Click="MnuOptions_OnClick" ></MenuItem>
             </MenuItem>
             <MenuItem x:Name="MnuHelp" Header="?">
                 <MenuItem Header="Informazioni su Codice Fiscale"

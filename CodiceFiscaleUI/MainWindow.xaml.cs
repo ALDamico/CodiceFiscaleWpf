@@ -185,5 +185,11 @@ namespace CodiceFiscaleUI
         {
             ShowPlacesWindow();
         }
+
+        private void MnuOptions_OnClick(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new Settings.SettingsWindow { Owner = this, DataContext = settings };
+            settingsWindow.ShowDialog();
+        }
     }
 }

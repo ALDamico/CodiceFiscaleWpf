@@ -18,7 +18,7 @@ namespace ALD.LibFiscalCode.Settings
 
         public static AppSettings GetInstance(AppDataContext dataContext)
         {
-            if (AppSettings._instance == null)
+            if (_instance == null)
             {
                 _instance = AppSettingsFactory(dataContext);
             }
