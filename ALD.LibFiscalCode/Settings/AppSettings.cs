@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
 using ALD.LibFiscalCode.Factories;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 
-namespace CodiceFiscaleUI.Settings
+namespace ALD.LibFiscalCode.Settings
 {
     public class AppSettings
     {

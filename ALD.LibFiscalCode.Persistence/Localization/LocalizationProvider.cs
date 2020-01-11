@@ -28,6 +28,19 @@ namespace ALD.LibFiscalCode.Persistence.Localization
             return rd;
         }
 
+        public ResourceDictionary GetResourceDictionary(LanguageInfo languageInfo)
+        {
+            var rd = new ResourceDictionary();
+            var localizedStrings = retrievalStrategy.GetLocalizedStrings(targetWindow);
+
+            foreach (var localizedString in localizedStrings)
+            {
+                rd.Add(localizedString.Name, localizedString.Value);
+            }
+
+            return rd;
+        }
+
         private readonly ILocalizationRetrievalStrategy retrievalStrategy;
 
         private readonly string targetWindow;

@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using CodiceFiscaleUI.Settings;
 
 namespace CodiceFiscaleUI

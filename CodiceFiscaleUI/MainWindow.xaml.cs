@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
@@ -22,9 +22,9 @@ namespace CodiceFiscaleUI
 
         public MainWindow()
         {
-            viewModel = new MainViewModel();
+            settings = ((App)Application.Current).Settings;
+            viewModel = new MainViewModel(settings);
             Resources = viewModel.LocalizationProvider.GetResourceDictionary();
-            var currentSettings = ((App)Application.Current).Settings;
 
             InitializeComponent();
         }
@@ -33,6 +33,8 @@ namespace CodiceFiscaleUI
         {
             Clipboard.SetText(TxtFiscalCode.Text);
         }
+
+        private AppSettings settings;
 
         private void TxtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {

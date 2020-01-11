@@ -13,25 +13,27 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Lingua" />
-        <ComboBox Grid.Row="0" Grid.Column="1">
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="28" HorizontalContentAlignment="Center">Opzioni</Label>
+        <Label Grid.Row="1" Grid.Column="0" Content="Lingua" />
+        <ComboBox Grid.Row="1" Grid.Column="1">
             <!-- Dropdown for language selection -->
         </ComboBox>
-        <Label Grid.Row="1" Grid.Column="0" Content="Dimensione massima cronologia" />
-        <TextBox Grid.Row="1" Grid.Column="1" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Posizione database"></Label>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" CanHorizontallyScroll="True">
+        <Label Grid.Row="2" Grid.Column="0" Content="Dimensione massima cronologia" />
+        <TextBox Grid.Row="2" Grid.Column="1" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Posizione database"></Label>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" CanHorizontallyScroll="True">
             <TextBox MinWidth="200" />
             <Button Content="..." Width="30"></Button>
         </StackPanel>
-        <Label Grid.Row="3" Grid.Column="0" Content="Data predefinita" />
-        <TextBox Grid.Row="3" Grid.Column="1"></TextBox>
-        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+        <Label Grid.Row="4" Grid.Column="0" Content="Data predefinita" />
+        <TextBox Grid.Row="4" Grid.Column="1"></TextBox>
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Conferma"></Button>
             <Separator Width="20" Visibility="Hidden"></Separator>
             <Button Content="Annulla"></Button>

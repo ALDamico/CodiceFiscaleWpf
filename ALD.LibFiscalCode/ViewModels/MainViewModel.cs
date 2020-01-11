@@ -10,6 +10,7 @@ using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
 
 namespace ALD.LibFiscalCode.ViewModels
@@ -42,11 +43,17 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private Place selectedPlace;
 
+        public MainViewModel(AppSettings settings) : this()
+        {
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
+        }
+
         public MainViewModel()
         {
             CanUserInteract = false;
             CurrentPerson = new Person();
             PopulatePlaceList();
+
             LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "MainWindow");
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
