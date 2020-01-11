@@ -41,6 +41,7 @@ namespace ALD.LibFiscalCode.Settings
         private static LanguageInfo SetLanguage(AppDataContext dataContext)
         {
             var languageId = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("AppLanguage")).IntValue;
+
             var actualLanguage = dataContext.Languages.FirstOrDefault(l => l.Id == languageId);
             return actualLanguage;
         }

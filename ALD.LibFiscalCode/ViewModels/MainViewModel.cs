@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -45,6 +46,10 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public MainViewModel(AppSettings settings) : this()
         {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
             LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
         }
 
@@ -63,10 +68,6 @@ namespace ALD.LibFiscalCode.ViewModels
             CancelEdit();
             CanUserInteract = true;
         }
-
-        /*public MainViewModel(AppSettings settings) : this()
-        {
-        }*/
 
         public bool CanUserInteract { get; }
 
