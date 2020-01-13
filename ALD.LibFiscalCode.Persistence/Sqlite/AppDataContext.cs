@@ -80,6 +80,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             languageInfoEntity.Property(l => l.Name).HasColumnName("name");
             languageInfoEntity.Property(l => l.Iso2Code).HasColumnName("iso_2_code");
             languageInfoEntity.Property(l => l.Iso3Code).HasColumnName("iso_3_code");
+            languageInfoEntity.Property(l => l.Icon).HasColumnName("icon").HasColumnType("blob");
+            languageInfoEntity.Property(l => l.ImagePath).HasColumnName("icon_name");
 
             var windowsEntity = modelBuilder.Entity<WindowModel>();
             windowsEntity.ToTable("Windows");

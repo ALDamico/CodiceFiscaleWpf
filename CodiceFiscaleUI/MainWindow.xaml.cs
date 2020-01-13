@@ -188,7 +188,7 @@ namespace CodiceFiscaleUI
 
         private void MnuOptions_OnClick(object sender, RoutedEventArgs e)
         {
-            var settingsWindow = new Settings.SettingsWindow { Owner = this, DataContext = settings };
+            var settingsWindow = new Settings.SettingsWindow { Owner = this};
             settingsWindow.ShowDialog();
         }
     }

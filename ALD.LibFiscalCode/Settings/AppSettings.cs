@@ -10,6 +10,14 @@ namespace ALD.LibFiscalCode.Settings
     public class AppSettings
     {
         public CultureInfo AppLanguage { get; set; }
+        public LanguageInfo InternalLanguage
+        {
+            get
+            {
+                using var db = new AppDataContext(DataSourceLocation);
+                return db.Languages.FirstOrDefault(l => l.Iso2Code.Equals(AppLanguage.Name));
+            }
+        }
         public string DataSourceLocation { get; set; }
         public int MaxHistorySize { get; set; }
         public DateTime DefaultDate { get; set; }

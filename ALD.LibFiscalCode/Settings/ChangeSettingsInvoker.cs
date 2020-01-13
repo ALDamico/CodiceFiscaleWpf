@@ -10,7 +10,10 @@ namespace ALD.LibFiscalCode.Settings
         {
             pendingActions = new Queue<IChangeSettingsCommand>();
             target = null;
+            PreviewChanges = new Dictionary<string, object>();
         }
+
+        public Dictionary<string, object> PreviewChanges { get; private set; }
 
         public ChangeSettingsInvoker(AppSettings targetSettings) : this()
         {
@@ -20,21 +23,25 @@ namespace ALD.LibFiscalCode.Settings
         public void ChangeDefaultDate(DateTime newDate)
         {
             pendingActions.Enqueue(new ChangeDefaultDate(target, newDate));
+            PreviewChanges["DefaultDate"] = newDate;
         }
 
         public void ChangeDataSourceLocation(string path)
         {
             pendingActions.Enqueue(new ChangeDataSourceLocation(target, path));
+            PreviewChanges["DataSourceLocation"] = path;
         }
 
         public void ChangeMaxHistorySize(int? newSize)
         {
             pendingActions.Enqueue(new ChangeMaxHistorySize(target, newSize));
+            PreviewChanges["MaxHistorySize"] = newSize;
         }
 
         public void ChangeAppLanguage(LanguageInfo languageInfo)
         {
             pendingActions.Enqueue(new ChangeAppLanguage(target, languageInfo));
+            PreviewChanges["AppLanguage"] = languageInfo;
         }
 
         public void ProcessPendingActions()
