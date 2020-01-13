@@ -10,7 +10,7 @@ using ALD.LibFiscalCode.Settings;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
-    public class SettingsViewModel:AbstractNotifyPropertyChanged
+    public class SettingsViewModel : AbstractNotifyPropertyChanged
     {
         public SettingsViewModel(AppSettings settings)
         {
@@ -60,20 +60,38 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public CultureInfoWithFlag CurrentLanguage
         {
-            get => currentLanguage;
+            get
+            {
+                
+                if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(Settings.AppLanguage)))
+                {
+                    return (CultureInfoWithFlag)ChangeSettingsInvoker.PreviewChanges[nameof(Settings.AppLanguage)];
+                }
+                
+                return currentLanguage;
+            }
             set
             {
                 currentLanguage = value;
                 OnPropertyChanged(nameof(CurrentLanguage));
             }
         }
+
         private CultureInfoWithFlag currentLanguage;
 
         public ObservableCollection<CultureInfoWithFlag> AvailableLanguages { get; }
 
         public int MaxHistorySize
         {
-            get => settings.MaxHistorySize;
+            get
+            {
+                if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(MaxHistorySize)))
+                {
+                    return (int)ChangeSettingsInvoker.PreviewChanges[nameof(MaxHistorySize)];
+                }
+
+                return settings.MaxHistorySize;
+            }
             set
             {
                 ChangeSettingsInvoker.ChangeMaxHistorySize(value);

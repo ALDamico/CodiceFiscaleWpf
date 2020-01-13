@@ -37,7 +37,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MaxHistorySize}"  />
         <Label Grid.Row="3" Grid.Column="0" Content="Posizione database"></Label>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-            <TextBox MinWidth="200" Text="{Binding DataSourceLocation}" />
+            <TextBox MinWidth="200" MaxWidth="200" Text="{Binding DataSourceLocation}" />
             <Button Content="..." Width="30"></Button>
         </StackPanel>
         <Label Grid.Row="4" Grid.Column="0" Content="Data predefinita" />
