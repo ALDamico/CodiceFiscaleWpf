@@ -4,7 +4,6 @@
 import sqlite3
 import csv
 import logging
-<<<<<<< HEAD
 from datetime import datetime
 from shutil import copy
 
@@ -13,10 +12,6 @@ def execute_query(conn, query):
     logging.info("Executing query")
     logging.info(query)
     conn.execute(query)
-=======
-from datetime import datetime
-from shutil import copy
->>>>>>> database-cleanup
 
 
 class Place(object):
@@ -134,7 +129,8 @@ ddl_queries = (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             iso_2_code TEXT CHECK(LENGTH(iso_2_code) == 2),
-            iso_3_code TEXT CHECK(LENGTH(iso_3_code) == 3)
+            iso_3_code TEXT CHECK(LENGTH(iso_3_code) == 3),
+            icon_name TEXT
         )
     """,
     """
@@ -170,27 +166,30 @@ ddl_queries = (
 for query in ddl_queries:
     execute_query(conn, query)
 
+
 languages_default_values = (
     {
         "name": "Italiano",
         "iso_2_code": "it",
-        "iso_3_code": "ita"
+        "iso_3_code": "ita",
+        "icon_name": "../Assets/it.png"
     },
     {
         "name": "English",
         "iso_2_code": "en",
-        "iso_3_code": "eng"
+        "iso_3_code": "eng",
+        "icon_name": "../Assets/en.png"
     }
 )
 
 for el in languages_default_values:
     logging.info("Executing query")
     query = """
-        INSERT INTO Languages(name, iso_2_code, iso_3_code)
-        VALUES (?, ?, ?)
+        INSERT INTO Languages(name, iso_2_code, iso_3_code, icon_name)
+        VALUES (?, ?, ?, ?)
     """
     logging.info(query)
-    conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"]))
+    conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"], el["icon_name"]))
     
 conn.commit()
 
@@ -223,9 +222,6 @@ with open(localized_strings_file_name, encoding='utf-8') as csv_file:
     csv_file.seek(0)
     next(place_reader, None)
     for row in place_reader:
-<<<<<<< HEAD
-        logging.info("Inserting place {}".format(row[0]))
-=======
         logging.log(logging.INFO, "Inserting place {}".format(row[0]))
         query = """
             INSERT INTO LocalizedStrings(name, value, language_id, window_id)
@@ -245,7 +241,6 @@ with open(csv_file_name, encoding='utf-8') as csv_file:
     for row in strings_reader:
         logging.log(
             logging.INFO, "Inserting localized string {}".format(row[0]))
->>>>>>> database-cleanup
         name = row[0]
         province = row[1]
         province_abbreviation = row[2]
@@ -275,7 +270,7 @@ for query in index_queries:
 
 conn.commit()
 conn.close()
-<<<<<<< HEAD
+
 logging.debug("Connection to {} closed".format(database_file))
 
 destination = "../ALD.LibFiscalCode.Persistence/DataSource"
@@ -286,8 +281,8 @@ try:
 except Exception as e:
     logging.exception(e)
 
-logging.info("Completed at {}".format(datetime.datetime.now()))
-=======
+logging.info("Completed at {}".format(datetime.now()))
+
 prompt = input("Move data source to its destination? Y/N")
 if prompt.lower() == 'y':
     logging.info(
@@ -295,6 +290,6 @@ if prompt.lower() == 'y':
     copy(database_file, "../ALD.LibFiscalCode.Persistence/DataSource/")
 
 logging.log(logging.INFO, "Completed at {}".format(datetime.now()))
->>>>>>> database-cleanup
+
 logging.shutdown()
 exit(0)

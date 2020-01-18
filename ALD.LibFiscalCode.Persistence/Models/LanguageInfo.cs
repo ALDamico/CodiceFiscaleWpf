@@ -16,11 +16,8 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public string Name { get; set; }
         public string Iso2Code { get; set; }
         public string Iso3Code { get; set; }
-        public byte[] Icon { get; set; }
 
-        [NotMapped]
-        public BitmapImage ActualIcon { get; set; }
-        public string ImagePath { get; set; }
+       public string ImagePath { get; set; }
         public override string ToString()
         {
             return Name;
