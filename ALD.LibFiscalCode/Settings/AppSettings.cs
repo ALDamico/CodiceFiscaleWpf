@@ -78,5 +78,34 @@ namespace ALD.LibFiscalCode.Settings
             var result = DateTime.TryParse(defaultDateString, out var defaultDate);
             return !result ? DateTime.Today : defaultDate;
         }
+
+        public void ApplyChanges(AppDataContext dataContext)
+        {
+            var settingsPersistance = dataContext.Settings;
+            foreach (var setting in settingsPersistance)
+            {
+                if (setting.Name.Equals("AppLanguage"))
+                {
+                    setting.StringValue = AppLanguage.Name;
+                }
+
+                if (setting.Name.Equals("DataSourceLocation"))
+                {
+                    setting.StringValue = DataSourceLocation;
+                }
+
+                if (setting.Name.Equals("MaxHistorySize"))
+                {
+                    setting.IntValue = MaxHistorySize;
+                }
+
+                if (setting.Name.Equals("DefaultDate"))
+                {
+                    setting.StringValue = DefaultDate.ToString("o");
+                }
+            }
+
+            dataContext.SaveChanges();
+        }
     }
 }

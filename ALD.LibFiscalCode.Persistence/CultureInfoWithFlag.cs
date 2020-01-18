@@ -7,9 +7,11 @@ namespace ALD.LibFiscalCode.Persistence
     {
         public static CultureInfoWithFlag FromLanguageInfo(LanguageInfo source)
         {
-            var instance = new CultureInfoWithFlag();
-            instance.Culture = new CultureInfo(source.Iso2Code);
-            instance.ImagePath = source.ImagePath;
+            var instance = new CultureInfoWithFlag
+            {
+                Culture = new CultureInfo(source.Iso2Code), 
+                ImagePath = source.ImagePath
+            };
             return instance;
         }
         public CultureInfo Culture { get; set; }

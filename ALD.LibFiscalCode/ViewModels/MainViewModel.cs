@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
@@ -57,6 +58,7 @@ namespace ALD.LibFiscalCode.ViewModels
         public MainViewModel()
         {
             CanUserInteract = false;
+            
             CurrentPerson = new Person();
             PopulatePlaceList();
 
@@ -137,7 +139,6 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             using var ctx = new AppDataContext();
             places = new ObservableCollection<Place>(ctx.Places);
-            // Task.Run(() => );
         }
 
         public void SetMainFiscalCode(FiscalCode code)

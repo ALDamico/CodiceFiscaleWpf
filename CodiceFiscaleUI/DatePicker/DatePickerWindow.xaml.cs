@@ -14,7 +14,8 @@ namespace CodiceFiscaleUI.DatePicker
     {
         private readonly DatePickerViewModel datePickerViewModel;
 
-        private readonly MainViewModel parentViewModel;
+        private readonly MainViewModel mainViewModel;
+        private readonly SettingsViewModel settingsViewModel;
 
         private DatePickerWindow()
         {
@@ -22,12 +23,23 @@ namespace CodiceFiscaleUI.DatePicker
             CalDatePicker.Focusable = false;
         }
 
+        public DatePickerWindow(DateTime startingDate):this()
+        {
+            datePickerViewModel = new DatePickerViewModel(startingDate);
+            DataContext = startingDate;
+        }
+
         public DatePickerWindow(MainViewModel viewModel) : this()
         {
-            parentViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            datePickerViewModel = new DatePickerViewModel(parentViewModel.CurrentPerson.DateOfBirth);
+            mainViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+            datePickerViewModel = new DatePickerViewModel(mainViewModel.CurrentPerson.DateOfBirth);
             DataContext = datePickerViewModel;
-            Resources = datePickerViewModel.LocalizationProvider.GetResourceDictionary();
+        }
+        public DatePickerWindow(SettingsViewModel viewModel) : this()
+        {
+            settingsViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+            datePickerViewModel = new DatePickerViewModel(settingsViewModel.DefaultDate);
+            DataContext = datePickerViewModel;
         }
 
         private void calDatePicker_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -37,7 +49,14 @@ namespace CodiceFiscaleUI.DatePicker
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            parentViewModel.CurrentPerson.DateOfBirth = datePickerViewModel.SelectedDateTime;
+            if (mainViewModel != null)
+            {
+                mainViewModel.CurrentPerson.DateOfBirth = datePickerViewModel.SelectedDateTime;
+            }
+            else if (settingsViewModel != null)
+            {
+                settingsViewModel.DefaultDate = datePickerViewModel.SelectedDateTime;
+            }
             Close();
         }
 

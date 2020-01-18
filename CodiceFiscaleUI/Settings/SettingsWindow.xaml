@@ -38,14 +38,14 @@
         <Label Grid.Row="3" Grid.Column="0" Content="Posizione database"></Label>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
             <TextBox MinWidth="200" MaxWidth="200" Text="{Binding DataSourceLocation}" />
-            <Button Content="..." Width="30"></Button>
+            <Button Content="..." Width="30" x:Name="BtnPickDbLocation" Click="BtnPickDbLocation_OnClick" ></Button>
         </StackPanel>
         <Label Grid.Row="4" Grid.Column="0" Content="Data predefinita" />
-        <TextBox Grid.Row="4" Grid.Column="1"></TextBox>
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="TxtDefaultDate" MouseDoubleClick="TxtDefaultDate_OnMouseDoubleClick" Text="{Binding DefaultDate, StringFormat=dd-MM-yyyy}" ></TextBox>
         <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Conferma"></Button>
+            <Button Content="Conferma" x:Name="BtnConfirm" Click="BtnConfirm_OnClick"></Button>
             <Separator Width="20" Visibility="Hidden"></Separator>
-            <Button Content="Annulla" x:Name="BtnCancel" Click="BtnCancel_OnClick"></Button>
+            <Button Content="Annulla" x:Name="BtnCancel" Click="BtnCancel_OnClick"  ></Button>
         </StackPanel>
     </Grid>
 </Window>

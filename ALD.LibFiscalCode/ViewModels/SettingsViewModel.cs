@@ -34,14 +34,25 @@ namespace ALD.LibFiscalCode.ViewModels
             base.OnPropertyChanged(nameof(CurrentLanguage));
         }
 
+        public bool ChangeSettings()
+        {
+            changeSettingsInvoker.ProcessPendingActions(settings);
+            if (changeSettingsInvoker.HasPendingActions)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public AppSettings Settings => settings;
-        private AppSettings settings;
+        private readonly AppSettings settings;
         private ChangeSettingsInvoker changeSettingsInvoker;
 
-        internal ChangeSettingsInvoker ChangeSettingsInvoker
+        public ChangeSettingsInvoker ChangeSettingsInvoker
         {
             get => changeSettingsInvoker;
-            set
+            internal set
             {
                 changeSettingsInvoker = value;
                 OnPropertyChanged(nameof(ChangeSettingsInvoker));
@@ -62,12 +73,11 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             get
             {
-                
                 if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(Settings.AppLanguage)))
                 {
                     return (CultureInfoWithFlag)ChangeSettingsInvoker.PreviewChanges[nameof(Settings.AppLanguage)];
                 }
-                
+
                 return currentLanguage;
             }
             set
@@ -78,6 +88,24 @@ namespace ALD.LibFiscalCode.ViewModels
         }
 
         private CultureInfoWithFlag currentLanguage;
+
+        public DateTime DefaultDate
+        {
+            get
+            {
+                if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(DefaultDate)))
+                {
+                    return (DateTime)ChangeSettingsInvoker.PreviewChanges[nameof(DefaultDate)];
+                }
+
+                return settings.DefaultDate;
+            }
+            set
+            {
+                ChangeSettingsInvoker.ChangeDefaultDate(value);
+                OnPropertyChanged(nameof(DefaultDate));
+            }
+        }
 
         public ObservableCollection<CultureInfoWithFlag> AvailableLanguages { get; }
 

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ALD.LibFiscalCode.ViewModels;
+using CodiceFiscaleUI.DatePicker;
+using Microsoft.Win32;
 
 namespace CodiceFiscaleUI.Settings
 {
@@ -27,30 +20,61 @@ namespace CodiceFiscaleUI.Settings
             InitializeComponent();
         }
 
-        /*private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            foreach (var lang in viewModel.AvailableLanguages)
-            {
-                if (lang.Icon == null || lang.Icon.Length == 0) continue;
-                var image = new BitmapImage();
-                using (var mem = new FileStream())
-                {
-                    mem.Position = 0;
-                    image.BeginInit();
-                    image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.UriSource = null;
-                    image.StreamSource = mem;
-                    
-                    image.EndInit();
-                    lang.ActualIcon = image;
-                }
-            }
-        }*/
+
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            //No validation of settings changed for now.
+            if (viewModel.ChangeSettingsInvoker.HasPendingActions)
+            {
+                var response = MessageBox.Show(this, "Hai delle modifiche in sospeso. Sei sicuro di voler uscire senza applicarle?",
+                    "Modifiche in sospeso", MessageBoxButton.OKCancel, MessageBoxImage.Information,
+                    MessageBoxResult.Cancel);
+                if (response != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
             Close();
+        }
+
+        private void BtnPickDbLocation_OnClick(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "Seleziona la posizione del file di dati";
+            dialog.Multiselect = false;
+            var result = dialog.ShowDialog(this);
+
+            if (result.GetValueOrDefault() == true)
+            {
+                if (dialog.FileName.Equals(viewModel.DataSourceLocation))
+                {
+                    return;
+                }
+                if (dialog.FileName.EndsWith(".db", true, CultureInfo.InvariantCulture))
+                {
+
+                    viewModel.DataSourceLocation = dialog.FileName;
+                }
+                else
+                {
+                    MessageBox.Show(this,
+                        "Il file non è un database di Codice Fiscale valido.\nLa posizione del database non è stata cambiata.", "File non valido", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                }
+            }
+        }
+
+        private void BtnConfirm_OnClick(object sender, RoutedEventArgs e)
+        {
+            viewModel.ChangeSettings();
+
+            Close();
+        }
+
+        private void TxtDefaultDate_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DatePickerWindow win = new DatePickerWindow(viewModel);
+
+
+            win.ShowDialog();
         }
     }
 }
