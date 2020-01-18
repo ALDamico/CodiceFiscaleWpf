@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 # This file is used for cleaning up dirty data from the application's database
 
 import sqlite3
 import csv
 import logging
 <<<<<<< HEAD
-import datetime
+from datetime import datetime
 from shutil import copy
 
 
@@ -190,6 +191,8 @@ for el in languages_default_values:
     """
     logging.info(query)
     conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"]))
+    
+conn.commit()
 
 window_queries = [
     "INSERT INTO Windows (id,window_name) VALUES (1,'MainWindow')",
@@ -263,7 +266,9 @@ index_queries = (
     "CREATE INDEX idx_place_id ON People(place_of_birth_id)",
     "CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)",
     "CREATE INDEX idx_region ON Places(region_name)",
-    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)"
+    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)",
+    "CREATE INDEX idx_settings_int ON Settings(int_value)",
+    "CREATE INDEX idx_settings_string ON Settings(string_value)"
 )
 for query in index_queries:
     execute_query(conn, query)

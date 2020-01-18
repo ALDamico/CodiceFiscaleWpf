@@ -1,17 +1,24 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
     public class AppDataContext : DbContext
     {
+        public AppDataContext()
+        {
+        }
+
+        public AppDataContext(string dbPath)
+        {
+            this.dbPath = dbPath;
+        }
+
         public DbSet<Place> Places { get; set; }
 
         public DbSet<Person> People { get; }
@@ -19,11 +26,18 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public DbSet<LanguageInfo> Languages { get; set; }
         public DbSet<LocalizedString> LocalizedStrings { get; set; }
         public DbSet<WindowModel> Windows { get; set; }
+        public DbSet<SettingModel> Settings { get; set; }
+
+        private string dbPath;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(
-                "Data source=C:/Users/aldam/Source/Repos/CodiceFiscaleWpf/ALD.LibFiscalCode.Persistence/DataSource/app.db");
+            if (string.IsNullOrEmpty(dbPath))
+            {
+                dbPath = AppDomain.CurrentDomain.BaseDirectory + "\\DataSource\\app.db";
+            }
+            string connectionString = $"Data source={dbPath}";
+            optionsBuilder.UseSqlite(connectionString);
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -66,6 +80,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             languageInfoEntity.Property(l => l.Name).HasColumnName("name");
             languageInfoEntity.Property(l => l.Iso2Code).HasColumnName("iso_2_code");
             languageInfoEntity.Property(l => l.Iso3Code).HasColumnName("iso_3_code");
+            languageInfoEntity.Property(l => l.Icon).HasColumnName("icon").HasColumnType("blob");
+            languageInfoEntity.Property(l => l.ImagePath).HasColumnName("icon_name");
 
             var windowsEntity = modelBuilder.Entity<WindowModel>();
             windowsEntity.ToTable("Windows");
@@ -81,6 +97,13 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             localizedStringEntity.HasOne(s => s.Language).WithMany().HasForeignKey("language_id");
             localizedStringEntity.Property<int>("window_id").HasColumnName("window_id").HasColumnType("int");
             localizedStringEntity.HasOne(s => s.Window).WithMany().HasForeignKey("window_id");
+
+            var appSettingsEntity = modelBuilder.Entity<SettingModel>();
+            appSettingsEntity.ToTable("Settings");
+            appSettingsEntity.Property(s => s.Id).HasColumnName("id");
+            appSettingsEntity.Property(s => s.Name).HasColumnName("name");
+            appSettingsEntity.Property(s => s.IntValue).HasColumnName("int_value");
+            appSettingsEntity.Property(s => s.StringValue).HasColumnName("string_value");
 
             base.OnModelCreating(modelBuilder);
         }

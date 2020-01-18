@@ -12,10 +12,9 @@ namespace ALD.LibFiscalCode.ViewModels
         public DatePickerViewModel(DateTime startingDate = default)
         {
             SelectedDateTime = startingDate;
-            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "DatePickerWindow");
         }
 
-        public LocalizationProvider LocalizationProvider { get; }
+        
 
         public DateTime SelectedDateTime
         {

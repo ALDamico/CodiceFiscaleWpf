@@ -15,10 +15,16 @@ namespace ALD.LibFiscalCode.Persistence.Models
 
         private Place placeOfBirth;
 
+        public Person(DateTime defaultDateOfBirth) : this()
+        {
+            DateOfBirth = defaultDateOfBirth;
+        }
+
         public Person()
         {
             Name = "";
             Surname = "";
+
             DateOfBirth = DateTime.Today;
             Gender = Gender.Unspecified;
             PlaceOfBirth = null;

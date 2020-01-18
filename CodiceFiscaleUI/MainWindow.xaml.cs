@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
@@ -18,11 +18,12 @@ namespace CodiceFiscaleUI
     /// </summary>
     public partial class MainWindow
     {
-        private MainViewModel viewModel;
+        private readonly MainViewModel viewModel;
 
         public MainWindow()
         {
-            viewModel = new MainViewModel();
+            settings = ((App)Application.Current).Settings;
+            viewModel = new MainViewModel(settings);
             Resources = viewModel.LocalizationProvider.GetResourceDictionary();
 
             InitializeComponent();
@@ -32,6 +33,8 @@ namespace CodiceFiscaleUI
         {
             Clipboard.SetText(TxtFiscalCode.Text);
         }
+
+        private readonly AppSettings settings;
 
         private void TxtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -62,7 +65,7 @@ namespace CodiceFiscaleUI
                 DrpGenderSelector.SelectedItem = null;
             }
 
-            viewModel.ResetPerson();
+            viewModel.ResetPerson(settings.DefaultDate);
         }
 
         private void DrpGenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -124,12 +127,11 @@ namespace CodiceFiscaleUI
             {
                 viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
 
-                var tmp = LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem) as ListBoxItem;
+                var tmp = (ListBoxItem)LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem);
 
                 foreach (var v in LstOmocode.Items)
                 {
-                    var lbi = LstOmocode.ItemContainerGenerator.ContainerFromItem(v) as ListBoxItem;
-                    if (lbi != null)
+                    if (LstOmocode.ItemContainerGenerator.ContainerFromItem(v) is ListBoxItem lbi)
                     {
                         lbi.FontWeight = FontWeights.Normal;
                     }
@@ -182,6 +184,12 @@ namespace CodiceFiscaleUI
         private void BtnOpenPlaceList_OnClick(object sender, RoutedEventArgs e)
         {
             ShowPlacesWindow();
+        }
+
+        private void MnuOptions_OnClick(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new Settings.SettingsWindow { Owner = this};
+            settingsWindow.ShowDialog();
         }
     }
 }

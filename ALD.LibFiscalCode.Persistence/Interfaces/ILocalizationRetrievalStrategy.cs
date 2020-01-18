@@ -10,5 +10,7 @@ namespace ALD.LibFiscalCode.Persistence.Interfaces
         CultureInfo Language { get; }
 
         IEnumerable<LocalizedString> GetLocalizedStrings(string windowName);
+
+        IEnumerable<LocalizedString> GetLocalizedStrings(string windowName, LanguageInfo targetLanguage);
     }
 }

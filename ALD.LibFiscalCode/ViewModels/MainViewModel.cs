@@ -1,16 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -42,11 +46,24 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private Place selectedPlace;
 
+        public MainViewModel(AppSettings settings) : this()
+        {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
+            CurrentPerson.DateOfBirth = settings.DefaultDate;
+            CanUserInteract = true;
+        }
+
         public MainViewModel()
         {
             CanUserInteract = false;
+            
             CurrentPerson = new Person();
             PopulatePlaceList();
+
             LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "MainWindow");
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
@@ -54,7 +71,7 @@ namespace ALD.LibFiscalCode.ViewModels
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             CancelEdit();
-            CanUserInteract = true;
+            
         }
 
         public bool CanUserInteract { get; }
@@ -107,11 +124,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public void CancelEdit()
         {
-            if (!CanUserInteract)
-            {
-                HasPendingChanges = false;
-                CurrentPerson = new Person();
-            }
+            HasPendingChanges = false;
         }
 
         public void EndEdit()
@@ -124,7 +137,6 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             using var ctx = new AppDataContext();
             places = new ObservableCollection<Place>(ctx.Places);
-            // Task.Run(() => );
         }
 
         public void SetMainFiscalCode(FiscalCode code)
@@ -150,17 +162,18 @@ namespace ALD.LibFiscalCode.ViewModels
                 "F" => Gender.Female,
                 _ => Gender.Unspecified
             };
+            OnPropertyChanged(nameof(CurrentPerson));
         }
 
-        public void ResetPerson()
+        public void ResetPerson(DateTime? defaultDate = null)
         {
-            CurrentPerson = new Person();
+            CurrentPerson = new Person(defaultDate.GetValueOrDefault());
             CancelEdit();
         }
 
         public IValidator CalculateFiscalCode()
         {
-            Validator = new PersonValidator(CurrentPerson);
+            Validator = new PersonValidator(CurrentPerson, LocalizationProvider);
             if (Validator.IsValid)
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
