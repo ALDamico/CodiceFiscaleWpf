@@ -72,7 +72,7 @@ namespace CodiceFiscaleUI.Settings
         private void TxtDefaultDate_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DatePickerWindow win = new DatePickerWindow(viewModel);
-
+            win.DataContext = viewModel.DefaultDate;
 
             win.ShowDialog();
         }

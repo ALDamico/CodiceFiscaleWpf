@@ -34,7 +34,7 @@ namespace CodiceFiscaleUI
             Clipboard.SetText(TxtFiscalCode.Text);
         }
 
-        private AppSettings settings;
+        private readonly AppSettings settings;
 
         private void TxtCalendar_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -65,7 +65,7 @@ namespace CodiceFiscaleUI
                 DrpGenderSelector.SelectedItem = null;
             }
 
-            viewModel.ResetPerson();
+            viewModel.ResetPerson(settings.DefaultDate);
         }
 
         private void DrpGenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)

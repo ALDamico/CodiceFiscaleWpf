@@ -14,6 +14,7 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -53,6 +54,7 @@ namespace ALD.LibFiscalCode.ViewModels
             }
             LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
             CurrentPerson.DateOfBirth = settings.DefaultDate;
+            CanUserInteract = true;
         }
 
         public MainViewModel()
@@ -69,7 +71,7 @@ namespace ALD.LibFiscalCode.ViewModels
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             CancelEdit();
-            CanUserInteract = true;
+            
         }
 
         public bool CanUserInteract { get; }
@@ -122,11 +124,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public void CancelEdit()
         {
-            if (!CanUserInteract)
-            {
-                HasPendingChanges = false;
-                CurrentPerson = new Person();
-            }
+            HasPendingChanges = false;
         }
 
         public void EndEdit()
@@ -164,11 +162,12 @@ namespace ALD.LibFiscalCode.ViewModels
                 "F" => Gender.Female,
                 _ => Gender.Unspecified
             };
+            OnPropertyChanged(nameof(CurrentPerson));
         }
 
-        public void ResetPerson()
+        public void ResetPerson(DateTime? defaultDate = null)
         {
-            CurrentPerson = new Person();
+            CurrentPerson = new Person(defaultDate.GetValueOrDefault());
             CancelEdit();
         }
 
