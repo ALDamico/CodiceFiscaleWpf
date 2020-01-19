@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using ALD.LibFiscalCode.Persistence.Interfaces;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.Sqlite;
 
 namespace ALD.LibFiscalCode.Persistence.Localization
 {

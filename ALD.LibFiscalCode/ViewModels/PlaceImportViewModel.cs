@@ -23,14 +23,13 @@ namespace ALD.LibFiscalCode.ViewModels
         private readonly Type placeType = new Place().GetType();
 
         private bool usesCustomMapping;
-        public LocalizationProvider LocalizationProvider { get; }
 
         public PlaceImportViewModel()
         {
             InputFilename = null;
             Mode = ImportMode.Update;
             Configuration = new ImporterConfiguration();
-            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "PlacesImportView");
+           
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.SelectedPropertyName));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.Position));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.CsvName));
