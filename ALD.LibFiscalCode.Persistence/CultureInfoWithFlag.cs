@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using ALD.LibFiscalCode.Persistence.Models;
 
 namespace ALD.LibFiscalCode.Persistence
@@ -7,6 +8,10 @@ namespace ALD.LibFiscalCode.Persistence
     {
         public static CultureInfoWithFlag FromLanguageInfo(LanguageInfo source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
             var instance = new CultureInfoWithFlag
             {
                 Culture = new CultureInfo(source.Iso2Code), 

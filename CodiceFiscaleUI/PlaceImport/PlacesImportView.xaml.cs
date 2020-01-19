@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using ALD.LibFiscalCode.ViewModels;
+using ALD.LibFiscalCode.Localization;
 using Microsoft.Win32;
+using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI.PlaceImport
 {
@@ -21,16 +22,15 @@ namespace CodiceFiscaleUI.PlaceImport
             viewModel = new PlaceImportViewModel();
             DataContext = viewModel;
             ColSel.ItemsSource = viewModel.FieldMapping[0].AvailableProperties;
-            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
         }
 
         private void btnOpenFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog
             {
-                Title = Resources["OpenFileDialogTitle"].ToString(),
-                Filter = Resources["OpenFileDialogFilter"].ToString(),
-                DefaultExt = Resources["OpenFileDialogDefaultExt"].ToString()
+                Title = Localization.OpenFileDialogTitle,
+                Filter = Localization.OpenFileDialogFilter,
+                DefaultExt =  Localization.OpenFileDialogDefaultExt
             };
 
             viewModel.InputFilename = dialog.FileName;
@@ -61,8 +61,9 @@ namespace CodiceFiscaleUI.PlaceImport
 
             if (result != null)
             {
-                MessageBox.Show(string.Format(CultureInfo.InvariantCulture, Resources["ErrorDialogText"].ToString(), viewModel.InputFilename),
-                    Resources["ErrorDialogCaption"].ToString(),
+                
+                MessageBox.Show(string.Format(Localization.ErrorDialogText,  viewModel.InputFilename),
+                    Localization.ErrorDialogCaption,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }

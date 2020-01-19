@@ -20,17 +20,7 @@ namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-        public LocalizationProvider LocalizationProvider
-        {
-            get => localizationProvider;
-            private set
-            {
-                localizationProvider = value;
-                OnPropertyChanged(nameof(LocalizationProvider));
-            }
-        }
 
-        private LocalizationProvider localizationProvider;
 
         private Person currentPerson;
 
@@ -52,7 +42,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 throw new ArgumentNullException(nameof(settings));
             }
-            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(settings.AppLanguage), "MainWindow");
+
             CurrentPerson.DateOfBirth = settings.DefaultDate;
             CanUserInteract = true;
         }
@@ -60,18 +50,15 @@ namespace ALD.LibFiscalCode.ViewModels
         public MainViewModel()
         {
             CanUserInteract = false;
-            
+
             CurrentPerson = new Person();
             PopulatePlaceList();
-
-            LocalizationProvider = new LocalizationProvider(new DatabaseLocalizationRetriever(CultureInfo.CurrentUICulture), "MainWindow");
 
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Name));
             PropertyChanged += OnPropertyChanged(nameof(CurrentPerson.Surname));
             PropertyChanged += OnPropertyChanged(nameof(Omocodes));
 
             CancelEdit();
-            
         }
 
         public bool CanUserInteract { get; }
@@ -173,14 +160,14 @@ namespace ALD.LibFiscalCode.ViewModels
 
         public IValidator CalculateFiscalCode()
         {
-            Validator = new PersonValidator(CurrentPerson, LocalizationProvider);
+            Validator = new PersonValidator(CurrentPerson);
             if (Validator.IsValid)
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
                 Task.Run(
                     () =>
                     {
-                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson, LocalizationProvider);
+                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;

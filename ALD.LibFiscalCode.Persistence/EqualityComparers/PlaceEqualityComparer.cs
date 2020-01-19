@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using ALD.LibFiscalCode.Persistence.Models;
 
@@ -18,22 +19,17 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
                 return false;
             }
 
-            if (x.Name.Equals(y.Name))
-            {
-                if (x.Province.Equals(y.Province))
-                {
-                    if (x.Region.Equals(y.Region))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            if (!x.Name.Equals(y.Name, StringComparison.InvariantCulture)) return false;
+            if (!x.Province.Equals(y.Province, StringComparison.InvariantCulture)) return false;
+            return x.Region.Equals(y.Region, StringComparison.InvariantCulture);
         }
 
         public int GetHashCode([DisallowNull] Place obj)
         {
+            if (obj == null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
             return obj.GetHashCode();
         }
     }

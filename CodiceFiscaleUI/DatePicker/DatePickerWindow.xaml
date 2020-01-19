@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         mc:Ignorable="d"
-        Title="{DynamicResource DatePickerWindowTitle}"
+        Title="{x:Static l10n:Localization.DatePickerWindowTitle}"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
         ShowInTaskbar="False">
@@ -13,7 +14,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Calendar Grid.Row="0" SelectedDate="{Binding CurrentPerson.DateOfBirth}"
+        <Calendar Grid.Row="0" 
+                  SelectedDate="{Binding CurrentPerson.DateOfBirth}"
                   SelectionMode="SingleDate"
                   x:Name="CalDatePicker"
                   SelectedDatesChanged="calDatePicker_SelectedDatesChanged" />
@@ -22,12 +24,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button x:Name="BtnOk"
-                    Content="{DynamicResource BtnOk}"
+                    Content="{x:Static l10n:Localization.BtnOk}"
                     Click="btnOk_Click"
                     Width="40" />
             <Separator Visibility="Hidden" Width="10" />
             <Button x:Name="BtnCancel"
-                    Content="{DynamicResource BtnCancel}"
+                    Content="{x:Static l10n:Localization.BtnCancel}"
                     Click="btnCancel_Click"
                     Width="40" />
         </StackPanel>

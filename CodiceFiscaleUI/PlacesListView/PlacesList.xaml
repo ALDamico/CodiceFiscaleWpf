@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm1="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
-        Title="{DynamicResource PlacesListTitle}"
+        Title="{x:Static l10n:Localization.PlacesListTitle}"
         Height="450"
         Width="800">
 
@@ -19,7 +20,8 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="{DynamicResource GrpBxPlaces}"
+        <GroupBox Header="{x:Static l10n:Localization.GrpBxPlaces}"
+                  x:Name="GrpBxPlaces"
                   Grid.Row="0"
                   Grid.Column="0"
                   Grid.RowSpan="2">
@@ -30,7 +32,7 @@
                 </Grid.RowDefinitions>
                 <!-- TODO Handle this update even in code-behind -->
                 <TextBox Grid.Row="0"
-                         Text="{DynamicResource TxtFilterResults}"
+                         Text="{x:Static l10n:Localization.TxtFilterResults}"
                          Foreground="Gainsboro"
                          x:Name="TxtFilter"
                          LostFocus="TxtFilter_OnLostFocus"
@@ -43,7 +45,7 @@
         </GroupBox>
         <GroupBox Grid.Row="0"
                   Grid.Column="1"
-                  Header="{DynamicResource GrpBxInformation}">
+                  Header="{x:Static l10n:Localization.GrpBxInformation}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -57,24 +59,31 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="{DynamicResource LblName}" />
+                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static l10n:Localization.LblPlaceName}" />
                 <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedPlace.Name}" />
-                <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource LblProvince}" />
+                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static l10n:Localization.LblProvince}" />
                 <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedPlace.Province}" />
-                <Label Grid.Row="1" Grid.Column="2" Content="{DynamicResource LblAbbreviation}" />
+                <Label Grid.Row="1" Grid.Column="2" Content="{x:Static l10n:Localization.LblAbbreviation}" />
                 <Label Grid.Row="1" Grid.Column="3" Content="{Binding SelectedPlace.ProvinceAbbreviation}" />
-                <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource LblRegion}" />
+                <Label Grid.Row="2" Grid.Column="0" Content="{x:Static l10n:Localization.LblRegion}" />
                 <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}" />
-                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{DynamicResource LblCode}" />
+                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{x:Static l10n:Localization.LblCode}" />
                 <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}" />
             </Grid>
         </GroupBox>
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnSelectPlace" Click="BtnSelectPlace_OnClick">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+        <StackPanel Grid.Row="1" 
+                    Grid.Column="1" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="5">
+            <Button x:Name="BtnSelectPlace" 
+                    Click="BtnSelectPlace_OnClick">
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Stretch">
                     <Canvas Name="Svg3745">
                         <Canvas.RenderTransform>
-                            <TranslateTransform X="0" Y="4" />
+                            <TranslateTransform X="4" 
+                                                Y="4" />
                         </Canvas.RenderTransform>
                         <Canvas.Resources />
                         <!--Unknown tag: metadata-->
@@ -82,15 +91,23 @@
                         <Path Name="Path3743"
                               Fill="Green"
                               Data="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
-                              Height="16" Stretch="UniformToFill" Width="16" />
+                              Height="16" 
+                              Stretch="UniformToFill" 
+                              Width="16" />
                     </Canvas>
-                    <Separator Width="20" Visibility="Hidden" />
-                    <Label x:Name="LblSelect" Content="{DynamicResource LblSelect}" />
+                    <Separator Width="20" 
+                               Visibility="Hidden" />
+                    <Label x:Name="LblSelect" 
+                           Content="{x:Static l10n:Localization.BtnSelectPlace}" />
+                    
                 </StackPanel>
             </Button>
-            <Separator Visibility="Hidden" Width="20" />
-            <Button x:Name="BtnClose" Content="{DynamicResource BtnClose}" Click="BtnClose_OnClick"
-                    ToolTip="{DynamicResource BtnCloseToolTip}" />
+            <Separator Visibility="Hidden" 
+                       Width="20" />
+            <Button x:Name="BtnClose" 
+                    Content="{x:Static l10n:Localization.BtnClose}" 
+                    Click="BtnClose_OnClick"
+                    ToolTip="{x:Static l10n:Localization.BtnCloseTooltip}" />
         </StackPanel>
     </Grid>
 </Window>

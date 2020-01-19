@@ -9,7 +9,6 @@ namespace ALD.LibFiscalCode.Persistence.Importer
 {
     public class ImporterConfiguration
     {
-        private Type typeInfo = new Place().GetType();
 
         public ImporterConfiguration(string delimiter, char escape, Encoding encoding)
         {
