@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using ALD.LibFiscalCode.Persistence.Enums;
-using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Localization;
 
 namespace ALD.LibFiscalCode.Validators
 {
