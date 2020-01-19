@@ -19,8 +19,8 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
                 return false;
             }
 
-            if (!x.Name.Equals(y.Name, StringComparison.InvariantCulture)) return false;
-            if (!x.Surname.Equals(y.Surname, StringComparison.InvariantCulture)) return false;
+            if (!x.Name.Equals(y.Name)) return false;
+            if (!x.Surname.Equals(y.Surname)) return false;
             if (!x.DateOfBirth.Date.Equals(y.DateOfBirth.Date)) return false;
             return x.Gender == y.Gender && x.PlaceOfBirth.Equals(y.PlaceOfBirth);
         }

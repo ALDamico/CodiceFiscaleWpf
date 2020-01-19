@@ -47,7 +47,7 @@ namespace CodiceFiscaleUI.Settings
 
             if (result.GetValueOrDefault() == true)
             {
-                if (dialog.FileName.Equals(viewModel.DataSourceLocation, StringComparison.InvariantCulture))
+                if (dialog.FileName.Equals(viewModel.DataSourceLocation))
                 {
                     return;
                 }

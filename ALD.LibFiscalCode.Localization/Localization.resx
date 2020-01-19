@@ -186,6 +186,12 @@
   <data name="ErrorDialogText" xml:space="preserve">
     <value>Non è stato possibile aprire il file {0}</value>
   </data>
+  <data name="ExportDialogJsonFilter" xml:space="preserve">
+    <value>File JSON | (*.json)</value>
+  </data>
+  <data name="ExportDialogTitle" xml:space="preserve">
+    <value>Esporta in formato JSON</value>
+  </data>
   <data name="FileDialogDatabaseFile" xml:space="preserve">
     <value>Seleziona la posizione del file di dati</value>
   </data>
@@ -273,6 +279,12 @@
   <data name="MnuAdvanced" xml:space="preserve">
     <value>Avanzate</value>
   </data>
+  <data name="MnuExport" xml:space="preserve">
+    <value>Esporta</value>
+  </data>
+  <data name="MnuExportToJson" xml:space="preserve">
+    <value>In formato JSON</value>
+  </data>
   <data name="MnuFile" xml:space="preserve">
     <value>File</value>
   </data>
@@ -293,6 +305,15 @@
   </data>
   <data name="MnuUpdatePlaces" xml:space="preserve">
     <value>Aggiorna database dei luoghi</value>
+  </data>
+  <data name="MonthOfDateRangeError" xml:space="preserve">
+    <value>Valid parameter range 1-12</value>
+  </data>
+  <data name="MsgBoxExportUnavailableCaption" xml:space="preserve">
+    <value>Impossibile esportare</value>
+  </data>
+  <data name="MsgBoxExportUnavailableText" xml:space="preserve">
+    <value>Non è possibile esportare perché non hai ancora calcolato un codice fiscale.</value>
   </data>
   <data name="MsgBoxInvalidDatabaseCaption" xml:space="preserve">
     <value>File non valido</value>

@@ -268,7 +268,24 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
-<<<<<<< HEAD
+        ///   Looks up a localized string similar to File JSON | (*.json).
+        /// </summary>
+        public static string ExportDialogJsonFilter {
+            get {
+                return ResourceManager.GetString("ExportDialogJsonFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Esporta in formato JSON.
+        /// </summary>
+        public static string ExportDialogTitle {
+            get {
+                return ResourceManager.GetString("ExportDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleziona la posizione del file di dati.
         /// </summary>
         public static string FileDialogDatabaseFile {
@@ -278,8 +295,6 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
-=======
->>>>>>> 6d60d90... Resource file working for UI
         ///   Looks up a localized string similar to Mapping personalizzato.
         /// </summary>
         public static string GrpBxCustomMapping {
@@ -532,6 +547,24 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Esporta.
+        /// </summary>
+        public static string MnuExport {
+            get {
+                return ResourceManager.GetString("MnuExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In formato JSON.
+        /// </summary>
+        public static string MnuExportToJson {
+            get {
+                return ResourceManager.GetString("MnuExportToJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File.
         /// </summary>
         public static string MnuFile {
@@ -595,7 +628,33 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
-<<<<<<< HEAD
+        ///   Looks up a localized string similar to Valid parameter range 1-12.
+        /// </summary>
+        public static string MonthOfDateRangeError {
+            get {
+                return ResourceManager.GetString("MonthOfDateRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossibile esportare.
+        /// </summary>
+        public static string MsgBoxExportUnavailableCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxExportUnavailableCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non è possibile esportare perché non hai ancora calcolato un codice fiscale..
+        /// </summary>
+        public static string MsgBoxExportUnavailableText {
+            get {
+                return ResourceManager.GetString("MsgBoxExportUnavailableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File non valido.
         /// </summary>
         public static string MsgBoxInvalidDatabaseCaption {
@@ -632,8 +691,6 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
-=======
->>>>>>> 6d60d90... Resource file working for UI
         ///   Looks up a localized string similar to Conferma.
         /// </summary>
         public static string MsgBoxResetCaption {
@@ -731,7 +788,6 @@ namespace ALD.LibFiscalCode.Localization {
                 return ResourceManager.GetString("ValidationDialogCaption", resourceCulture);
             }
         }
-<<<<<<< HEAD
         
         /// <summary>
         ///   Looks up a localized string similar to Data di nascita non specificata.
@@ -768,7 +824,5 @@ namespace ALD.LibFiscalCode.Localization {
                 return ResourceManager.GetString("ValidationMissingSurname", resourceCulture);
             }
         }
-=======
->>>>>>> 6d60d90... Resource file working for UI
     }
 }

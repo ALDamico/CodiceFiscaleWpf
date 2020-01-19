@@ -10,7 +10,7 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
-using ALD.LibFiscalCode.Localization;
+using Microsoft.Win32;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI
@@ -191,6 +191,30 @@ namespace CodiceFiscaleUI
         {
             var settingsWindow = new Settings.SettingsWindow { Owner = this};
             settingsWindow.ShowDialog();
+        }
+
+        private void MnuExportToJson_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (viewModel.FiscalCode != null)
+            {
+                var dialog = new SaveFileDialog();
+                dialog.CheckFileExists = false;
+                dialog.AddExtension = true;
+                dialog.Title = Localization.ExportDialogTitle;
+                dialog.DefaultExt = ".json";
+                dialog.Filter = Localization.ExportDialogJsonFilter;
+
+                var response = dialog.ShowDialog(this);
+                if (response.GetValueOrDefault() == true)
+                {
+                    viewModel.ExportJson(dialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, Localization.MsgBoxExportUnavailableText,
+                    Localization.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

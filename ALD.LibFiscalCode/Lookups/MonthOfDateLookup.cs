@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using ALD.LibFiscalCode.Localization;
 
 namespace ALD.LibFiscalCode.Lookups
 {
     public static class MonthOfDateLookup
     {
-        private static readonly Dictionary<int, string> lookup = new Dictionary<int, string>
+        private static readonly Dictionary<int, string> Lookup = new Dictionary<int, string>
         {
             {1, "A"},
             {2, "B"},
@@ -26,10 +27,10 @@ namespace ALD.LibFiscalCode.Lookups
         {
             if (input < 1 || input > 12)
             {
-                throw new ArgumentException("Valid parameter range 1-12");
+                throw new ArgumentException(Localization.Localization.MonthOfDateRangeError);
             }
 
-            return lookup[input];
+            return Lookup[input];
         }
     }
 }
