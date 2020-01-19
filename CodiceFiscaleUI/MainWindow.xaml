@@ -3,11 +3,16 @@
          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:local="clr-namespace:CodiceFiscaleUI.PlacesListView"
+         xmlns:local="clr-namespace:CodiceFiscaleUI"
          xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
          d:DataContext="{d:DesignInstance vm:MainViewModel}"
          mc:Ignorable="d"
+<<<<<<< HEAD
          Title="{DynamicResource l10n:MainWindowTitle}"
+=======
+         Title="{x:Static l10n:Localization.MainWindowTitle}"
+>>>>>>> 6d60d90... Resource file working for UI
          Height="450"
          Width="800"
          Closing="Window_Closing"
@@ -28,31 +33,37 @@
         <Menu Grid.Row="0"
               Grid.Column="0">
             <MenuItem Header="File" x:Name="MnuFile">
-                <MenuItem Header="Nuovo"
+                <MenuItem Header="{x:Static l10n:Localization.MnuNew}"
                           x:Name="MnuNew"
                           Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="Esci"
+                <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
                           x:Name="MnuQuit"
                           Click="MnuQuit_Click" />
             </MenuItem>
-            <MenuItem Header="Avanzate" x:Name="MnuAdvanced">
-                <MenuItem Header="Elenco dei luoghi"
+            <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}" 
+                      x:Name="MnuAdvanced">
+                <MenuItem Header="{x:Static l10n:Localization.MnuPlaces}"
                           x:Name="MnuPlaces"
                           Click="MnuPlaces_Click" />
-                <MenuItem Header="Aggiorna database dei luoghi"
+                <MenuItem Header="{x:Static l10n:Localization.MnuUpdatePlaces}"
                           x:Name="MnuUpdatePlaces"
                           Click="MnuUpdatePlaces_Click" />
                 <Separator />
-                <MenuItem Header="Opzioni" x:Name="MnuOptions" Click="MnuOptions_OnClick" ></MenuItem>
+                <MenuItem Header="{x:Static l10n:Localization.MnuOptions}" 
+                          x:Name="MnuOptions" 
+                          Click="MnuOptions_OnClick" />
             </MenuItem>
-            <MenuItem x:Name="MnuHelp" Header="?">
-                <MenuItem Header="Informazioni su Codice Fiscale"
+            <MenuItem x:Name="MnuHelp" 
+                      Header="{x:Static l10n:Localization.MnuHelp}">
+                <MenuItem Header="{x:Static l10n:Localization.MnuAbout}"
                           x:Name="MnuAbout"
                           Click="MnuAbout_OnClick" />
             </MenuItem>
         </Menu>
-        <GroupBox x:Name="GrpBxFiscalCodes" Header="Codici fiscali" Grid.Row="1">
+        <GroupBox x:Name="GrpBxFiscalCodes" 
+                  Header="{x:Static l10n:Localization.GrpBxFiscalCodes}" 
+                  Grid.Row="1">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
@@ -65,15 +76,16 @@
                              Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                     <Button x:Name="BtnCopyToClipboard"
                             HorizontalAlignment="Center"
-                            Content="Copia"
+                            Content="{x:Static l10n:Localization.BtnCopyToClipboard}"
                             Click="BtnCopyToClipboard_Click" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
-
                     <ListBox Height="288"
                              MinWidth="200"
-                             MaxWidth="600" x:Name="LstOmocode" ItemsSource="{Binding Omocodes}">
+                             MaxWidth="600" 
+                             x:Name="LstOmocode" 
+                             ItemsSource="{Binding Omocodes}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Style.Triggers>
@@ -86,10 +98,11 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem x:Name="CtxMnuCopy" Header="Copia"
+                                <MenuItem x:Name="CtxMnuCopy" 
+                                          Header="{x:Static l10n:Localization.CtxMnuCopy}"
                                           Click="BtnCopyToClipboard_Click" />
                                 <Separator />
-                                <MenuItem Header="Imposta come principale"
+                                <MenuItem Header="{x:Static l10n:Localization.CtxMnuLstOmocode}"
                                           x:Name="CtxMnuLstOmocode"
                                           Click="MnuLstOmocode_Click" />
                             </ContextMenu>
@@ -98,7 +111,8 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox x:Name="GrpBxPersonalInfo" Header="Informazioni personali"
+        <GroupBox x:Name="GrpBxPersonalInfo" 
+                  Header="{x:Static l10n:Localization.GrpBxPersonalInfo}"
                   Grid.Row="2">
             <StackPanel Orientation="Vertical"
                         HorizontalAlignment="Center"
@@ -110,7 +124,8 @@
                              MinWidth="200"
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Name}" />
-                    <Label x:Name="LblSurname" Content="Cognome" />
+                    <Label x:Name="LblSurname" 
+                           Content="{x:Static l10n:Localization.LblSurname}" />
                     <TextBox x:Name="TxtSurname"
                              MinWidth="200"
                              VerticalContentAlignment="Center"
@@ -127,7 +142,7 @@
                             HorizontalAlignment="Center"
                             Margin="3">
                     <Label x:Name="LblDateOfBirth"
-                           Content="Data di nascita" />
+                           Content="{x:Static l10n:Localization.LblDateOfBirth}" />
                     <TextBox IsReadOnly="False"
                              IsReadOnlyCaretVisible="False"
                              x:Name="TxtCalendar"
@@ -136,8 +151,9 @@
                              HorizontalContentAlignment="Center"
                              MouseDown="TxtCalendar_MouseDown"
                              MouseDoubleClick="TxtCalendar_MouseDown"
-                             Text="{Binding CurrentPerson.PrettyDate, Mode=OneWay}" />
-                    <Label x:Name="LblPlaceOfBirth" Content="Luogo di nascita" />
+                             Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}" />
+                    <Label x:Name="LblPlaceOfBirth" 
+                           Content="{x:Static l10n:Localization.LblPlaceOfBirth}" />
                     <ComboBox x:Name="DrpPlaceOfBirth"
                               MinWidth="200"
                               IsEditable="True"
@@ -151,9 +167,12 @@
                             </ItemsPanelTemplate>
                         </ComboBox.ItemsPanel>
                     </ComboBox>
-                    <Button x:Name="BtnOpenPlaceList" Click="BtnOpenPlaceList_OnClick" Height="25"
+                    <Button x:Name="BtnOpenPlaceList" 
+                            Click="BtnOpenPlaceList_OnClick" 
+                            Height="25"
                             IsEnabled="{Binding PlacesLoaded}">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center">
                             <Canvas Name="Svg3745">
                                 <Canvas.RenderTransform>
                                     <TranslateTransform X="0" Y="8" />
@@ -167,10 +186,9 @@
                                       Height="16" Stretch="UniformToFill" Width="16" />
                             </Canvas>
                             <Separator Width="55" />
-                            <Label x:Name="LblSearch" HorizontalContentAlignment="Right"
-                                   VerticalContentAlignment="Center">
-                                Cerca
-                            </Label>
+                            <Label x:Name="LblSearch" 
+                                   HorizontalContentAlignment="Right"
+                                   VerticalContentAlignment="Center" Content="{x:Static l10n:Localization.LblSearch}"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
@@ -184,9 +202,10 @@
                     Click="BtnReset_Click">
                 Reset
             </Button>
-            <Button Margin="10" x:Name="BtnCalculate" Click="BtnCalculate_Click">
-                Calcola
-            </Button>
+            <Button Margin="10" 
+                    x:Name="BtnCalculate" 
+                    Click="BtnCalculate_Click" 
+                    Content="{x:Static l10n:Localization.BtnCalculate}"/>
         </StackPanel>
     </Grid>
 </Window>

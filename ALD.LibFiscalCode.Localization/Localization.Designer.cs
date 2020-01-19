@@ -268,6 +268,7 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+<<<<<<< HEAD
         ///   Looks up a localized string similar to Seleziona la posizione del file di dati.
         /// </summary>
         public static string FileDialogDatabaseFile {
@@ -277,6 +278,8 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+=======
+>>>>>>> 6d60d90... Resource file working for UI
         ///   Looks up a localized string similar to Mapping personalizzato.
         /// </summary>
         public static string GrpBxCustomMapping {
@@ -592,6 +595,7 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+<<<<<<< HEAD
         ///   Looks up a localized string similar to File non valido.
         /// </summary>
         public static string MsgBoxInvalidDatabaseCaption {
@@ -628,6 +632,8 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+=======
+>>>>>>> 6d60d90... Resource file working for UI
         ///   Looks up a localized string similar to Conferma.
         /// </summary>
         public static string MsgBoxResetCaption {
@@ -725,6 +731,7 @@ namespace ALD.LibFiscalCode.Localization {
                 return ResourceManager.GetString("ValidationDialogCaption", resourceCulture);
             }
         }
+<<<<<<< HEAD
         
         /// <summary>
         ///   Looks up a localized string similar to Data di nascita non specificata.
@@ -761,5 +768,7 @@ namespace ALD.LibFiscalCode.Localization {
                 return ResourceManager.GetString("ValidationMissingSurname", resourceCulture);
             }
         }
+=======
+>>>>>>> 6d60d90... Resource file working for UI
     }
 }
