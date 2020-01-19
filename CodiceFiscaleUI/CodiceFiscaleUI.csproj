@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ALD.LibFiscalCode.Localization\ALD.LibFiscalCode.Localization.csproj" />
     <ProjectReference Include="..\ALD.LibFiscalCode\ALD.LibFiscalCode.csproj" />
   </ItemGroup>
 

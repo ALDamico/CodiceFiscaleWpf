@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodiceFiscaleUI.Settings"
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
         mc:Ignorable="d"
-        Title="Impostazioni" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="{x:Static l10n:Localization.SettingsWindowTitle}" 
+        ResizeMode="NoResize" 
+        SizeToContent="WidthAndHeight">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -25,10 +28,12 @@
                Grid.Column="0"
                Grid.ColumnSpan="2" 
                FontSize="28" 
-               HorizontalContentAlignment="Center">Opzioni</Label>
+               HorizontalContentAlignment="Center"
+               Content="{x:Static l10n:Localization.SettingsWindowBanner}"
+               />
         <Label Grid.Row="1" 
                Grid.Column="0" 
-               Content="Lingua" />
+               Content="{x:Static l10n:Localization.LblLanguage}" />
         <ComboBox Grid.Row="1" 
                   Grid.Column="1" 
                   ItemsSource="{Binding AvailableLanguages}" 
@@ -47,13 +52,13 @@
         </ComboBox>
         <Label Grid.Row="2" 
                Grid.Column="0" 
-               Content="Dimensione massima cronologia" />
+               Content="{x:Static l10n:Localization.LblMaxHistorySize}" />
         <TextBox Grid.Row="2" 
                  Grid.Column="1" 
                  Text="{Binding MaxHistorySize}" />
         <Label Grid.Row="3" 
                Grid.Column="0" 
-               Content="Posizione database"/>
+               Content="{x:Static l10n:Localization.LblDatabasePath}"/>
         <StackPanel Grid.Row="3" 
                     Grid.Column="1" 
                     Orientation="Horizontal">
@@ -67,7 +72,7 @@
         </StackPanel>
         <Label Grid.Row="4" 
                Grid.Column="0" 
-               Content="Data predefinita" />
+               Content="{x:Static l10n:Localization.LblDefaultDate}" />
         <TextBox Grid.Row="4" 
                  Grid.Column="1" 
                  x:Name="TxtDefaultDate" 
@@ -79,12 +84,12 @@
                     Grid.ColumnSpan="2" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center">
-            <Button Content="Conferma" 
+            <Button Content="{x:Static l10n:Localization.BtnConfirm}" 
                     x:Name="BtnConfirm" 
                     Click="BtnConfirm_OnClick"></Button>
             <Separator Width="20"
                        Visibility="Hidden"/>
-            <Button Content="Annulla" 
+            <Button Content="{x:Static l10n:Localization.BtnCancel}" 
                     x:Name="BtnCancel" 
                     Click="BtnCancel_OnClick" />
         </StackPanel>

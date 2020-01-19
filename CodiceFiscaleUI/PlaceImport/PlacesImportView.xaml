@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm:PlaceImportViewModel}"
         mc:Ignorable="d"
-        Title="{DynamicResource PlacesImportViewTitle}"
+        Title="{x:Static l10n:Localization.PlacesImportViewTitle}"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
@@ -14,13 +15,15 @@
                 HorizontalAlignment="Center"
                 Margin="20">
         <StackPanel Orientation="Horizontal">
-            <Label Content="{DynamicResource LblSourceFile}" />
+            <Label Content="{x:Static l10n:Localization.LblSourceFile}" />
             <TextBox x:Name="TxtFilename"
                      Width="200"
                      Text="{Binding InputFilename, Mode=TwoWay}"
-                     LostFocus="txtFilename_LostFocus" TextChanged="txtFilename_TextChanged" />
+                     LostFocus="txtFilename_LostFocus" 
+                     TextChanged="txtFilename_TextChanged" />
             <Button x:Name="BtnOpenFile"
-                    Width="30" Content="..."
+                    Width="30" 
+                    Content="..."
                     Click="btnOpenFile_Click" />
         </StackPanel>
         <Grid>
@@ -32,15 +35,18 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Margin="5">
-                <GroupBox Header="{DynamicResource GrpBxMode}">
+                <GroupBox Header="{x:Static l10n:Localization.GrpBxMode}">
                     <ItemsControl>
-                        <RadioButton Content="{DynamicResource BtnOverwrite}" />
-                        <RadioButton Content="{DynamicResource BtnUpdate}" />
+                        <RadioButton Content="{x:Static l10n:Localization.BtnOverwrite}" />
+                        <RadioButton Content="{x:Static l10n:Localization.BtnUpdate}" />
                     </ItemsControl>
                 </GroupBox>
             </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <GroupBox Header="{DynamicResource GrpBxCustomMapping}">
+            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Center" 
+                        Margin="5">
+                <GroupBox Header="{x:Static l10n:Localization.GrpBxCustomMapping}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -56,7 +62,7 @@
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="{DynamicResource ChkEnableCustMapping}"
+                                  Content="{x:Static l10n:Localization.ChkEnableCustMapping}"
                                   IsChecked="{Binding UsesCustomMapping}" />
                         <DataGrid Grid.Row="1"
                                   Grid.ColumnSpan="2"
@@ -68,10 +74,12 @@
                                   ItemsSource="{Binding FieldMapping}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="{DynamicResource HdrFieldName}" Binding="{Binding CsvName}" />
-                                <DataGridTextColumn Header="{DynamicResource HdrFieldPosition}" Binding="{Binding Position}" />
+                                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrFieldName}" 
+                                                    Binding="{Binding CsvName}" />
+                                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrFieldPosition}" 
+                                                    Binding="{Binding Position}" />
                                 <DataGridComboBoxColumn x:Name="ColSel"
-                                                        Header="{DynamicResource HdrFieldMapsTo}"
+                                                        Header="{x:Static l10n:Localization.HdrFieldMapsTo}"
                                                         ItemsSource="{Binding AvailableProperties, UpdateSourceTrigger=PropertyChanged}"
                                                         SelectedItemBinding="{Binding SelectedPropertyName, UpdateSourceTrigger=PropertyChanged}" />
                             </DataGrid.Columns>
@@ -81,10 +89,19 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="BtnImport" Content="{DynamicResource BtnStartImport}" IsEnabled="{Binding CanStartImport}" Click="btnImport_Click" />
-            <Separator Width="10" Visibility="Hidden" />
-            <Button x:Name="BtnCancel" Content="{DynamicResource BtnCancel}" Click="btnCancel_Click" IsCancel="True" />
+        <StackPanel Margin="10" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center">
+            <Button x:Name="BtnImport" 
+                    Content="{x:Static l10n:Localization.BtnStartImport}" 
+                    IsEnabled="{Binding CanStartImport}" 
+                    Click="btnImport_Click" />
+            <Separator Width="10" 
+                       Visibility="Hidden" />
+            <Button x:Name="BtnCancel" 
+                    Content="{x:Static l10n:Localization.BtnCancel}" 
+                    Click="btnCancel_Click" 
+                    IsCancel="True" />
         </StackPanel>
     </StackPanel>
 </Window>
