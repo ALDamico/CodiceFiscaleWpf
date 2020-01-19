@@ -19,9 +19,9 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
                 return false;
             }
 
-            if (!x.Name.Equals(y.Name, StringComparison.InvariantCulture)) return false;
-            if (!x.Province.Equals(y.Province, StringComparison.InvariantCulture)) return false;
-            return x.Region.Equals(y.Region, StringComparison.InvariantCulture);
+            if (!x.Name.Equals(y.Name)) return false;
+            if (!x.Province.Equals(y.Province)) return false;
+            return x.Region.Equals(y.Region);
         }
 
         public int GetHashCode([DisallowNull] Place obj)

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace ALD.LibFiscalCode.StringManipulation
 {
@@ -17,6 +18,12 @@ namespace ALD.LibFiscalCode.StringManipulation
             }
 
             return s;
+        }
+
+        public static string ToString(this DateTime d, DateFormat format)
+        {
+            return d.ToString(format.ToString(), CultureInfo.InvariantCulture);
+            //throw new FormatException("Not valid");
         }
     }
 }

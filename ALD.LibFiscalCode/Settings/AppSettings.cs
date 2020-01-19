@@ -36,8 +36,12 @@ namespace ALD.LibFiscalCode.Settings
 
         public static AppSettings AppSettingsFactory(AppDataContext dataContext)
         {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
             var instance = new AppSettings();
-            var actualLanguage = AppSettings.SetLanguage(dataContext);
+            var actualLanguage = SetLanguage(dataContext);
 
             instance.AppLanguage = CultureInfoFactory.GetCultureInfoFromLanguageInfo(actualLanguage);
             instance.DataSourceLocation = SetDataSourceLocation(dataContext);
@@ -48,6 +52,10 @@ namespace ALD.LibFiscalCode.Settings
 
         private static LanguageInfo SetLanguage(AppDataContext dataContext)
         {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
             var languageId = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("AppLanguage")).IntValue;
 
             var actualLanguage = dataContext.Languages.FirstOrDefault(l => l.Id == languageId);
@@ -56,6 +64,11 @@ namespace ALD.LibFiscalCode.Settings
 
         private static string SetDataSourceLocation(AppDataContext dataContext)
         {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
+
             var dataSourceLocation = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("DataSourceLocation"))
                 .StringValue;
             if (string.IsNullOrWhiteSpace(dataSourceLocation))
@@ -67,6 +80,10 @@ namespace ALD.LibFiscalCode.Settings
 
         private static int SetMaxHistorySize(AppDataContext dataContext)
         {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
             var maxHistorySize = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("MaxHistorySize"))
                 .IntValue;
             return maxHistorySize.GetValueOrDefault();
@@ -74,6 +91,10 @@ namespace ALD.LibFiscalCode.Settings
 
         private static DateTime SetDefaultDate(AppDataContext dataContext)
         {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
             var defaultDateString = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("DefaultDate")).StringValue;
             var result = DateTime.TryParse(defaultDateString, out var defaultDate);
             return !result ? DateTime.Today : defaultDate;
@@ -81,8 +102,12 @@ namespace ALD.LibFiscalCode.Settings
 
         public void ApplyChanges(AppDataContext dataContext)
         {
-            var settingsPersistance = dataContext.Settings;
-            foreach (var setting in settingsPersistance)
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
+            var settingsPersistence = dataContext.Settings;
+            foreach (var setting in settingsPersistence)
             {
                 if (setting.Name.Equals("AppLanguage"))
                 {

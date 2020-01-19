@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
@@ -11,6 +12,7 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Newtonsoft.Json;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -161,14 +163,14 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
                 Task.Run(
-                    () =>
+                    async () =>
                     {
                         fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
-                        using var context = new AppDataContext();
-                        context.SavePerson(CurrentPerson);
+                        await using var context = new AppDataContext();
+                        await context.SavePerson(CurrentPerson);
                         SaveFiscalCode(context, Omocodes, CurrentPerson);
                         context.SaveChangesAsync();
                     }
@@ -193,6 +195,17 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             SelectedPlace = newPlace;
             CurrentPerson.PlaceOfBirth = newPlace;
+        }
+
+        public void ExportJson(string targetPath)
+        {
+            if (string.IsNullOrWhiteSpace(targetPath))
+            {
+                throw new ArgumentNullException(nameof(targetPath));
+            }
+            var exportedObject = new PersonJson(CurrentPerson, FiscalCode);
+            var outputJson = JsonConvert.SerializeObject(exportedObject, Formatting.Indented);
+            File.WriteAllLines(targetPath, new[] { outputJson });
         }
     }
 }

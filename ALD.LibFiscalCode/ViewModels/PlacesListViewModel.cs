@@ -46,7 +46,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             if (e.Item is Place item)
             {
-                e.Accepted = item.Name.Contains(filterText, StringComparison.InvariantCultureIgnoreCase);
+                e.Accepted = item.Name.Contains(filterText, StringComparison.InvariantCulture);
             }
         }
 

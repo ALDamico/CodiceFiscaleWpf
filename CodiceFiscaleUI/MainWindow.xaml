@@ -8,11 +8,8 @@
          xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
          d:DataContext="{d:DesignInstance vm:MainViewModel}"
          mc:Ignorable="d"
-<<<<<<< HEAD
-         Title="{DynamicResource l10n:MainWindowTitle}"
-=======
          Title="{x:Static l10n:Localization.MainWindowTitle}"
->>>>>>> 6d60d90... Resource file working for UI
+
          Height="450"
          Width="800"
          Closing="Window_Closing"
@@ -32,10 +29,16 @@
 
         <Menu Grid.Row="0"
               Grid.Column="0">
-            <MenuItem Header="File" x:Name="MnuFile">
+            <MenuItem Header="{x:Static l10n:Localization.MnuFile}" x:Name="MnuFile">
                 <MenuItem Header="{x:Static l10n:Localization.MnuNew}"
                           x:Name="MnuNew"
                           Click="BtnReset_Click" />
+                <Separator />
+                <MenuItem Header="{x:Static l10n:Localization.MnuExport}" x:Name="MnuExport">
+                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}" x:Name="MnuExportToJson" Click="MnuExportToJson_OnClick">
+
+                    </MenuItem>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
                           x:Name="MnuQuit"
@@ -130,7 +133,7 @@
                              MinWidth="200"
                              VerticalContentAlignment="Center"
                              Text="{Binding CurrentPerson.Surname}" />
-                    <Label x:Name="LblGender" Content="Sesso" />
+                    <Label x:Name="LblGender" Content="{x:Static l10n:Localization.LblGender}" />
                     <ComboBox x:Name="DrpGenderSelector"
                               SelectionChanged="DrpGenderSelector_SelectionChanged"
                               Width="65">
