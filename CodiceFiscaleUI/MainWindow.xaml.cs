@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Settings;
+using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
@@ -203,6 +204,8 @@ namespace CodiceFiscaleUI
                 dialog.Title = Localization.ExportDialogTitle;
                 dialog.DefaultExt = ".json";
                 dialog.Filter = Localization.ExportDialogJsonFilter;
+                dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
+                                      DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
 
                 var response = dialog.ShowDialog(this);
                 if (response.GetValueOrDefault() == true)

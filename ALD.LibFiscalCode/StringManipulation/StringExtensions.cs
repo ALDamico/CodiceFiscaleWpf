@@ -22,8 +22,17 @@ namespace ALD.LibFiscalCode.StringManipulation
 
         public static string ToString(this DateTime d, DateFormat format)
         {
-            return d.ToString(format.ToString(), CultureInfo.InvariantCulture);
-            //throw new FormatException("Not valid");
+            var param = ((char)format).ToString();
+
+            if (format == DateFormat.FilenameSortable)
+            {
+                var temp = d.ToString(DateFormat.UniversalSortable);
+                temp = temp.Replace("/", "").Replace(":", "").Replace("-", "");
+                return temp;
+
+            }
+            
+            return d.ToString(param, CultureInfo.InvariantCulture);
         }
     }
 }
