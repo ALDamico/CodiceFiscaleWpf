@@ -10,6 +10,7 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
+using ALD.LibFiscalCode.Localization;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI
