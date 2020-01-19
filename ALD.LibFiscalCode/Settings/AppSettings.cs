@@ -4,6 +4,7 @@ using System.Linq;
 using ALD.LibFiscalCode.Factories;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.StringManipulation;
 
 namespace ALD.LibFiscalCode.Settings
 {
@@ -126,7 +127,7 @@ namespace ALD.LibFiscalCode.Settings
 
                 if (setting.Name.Equals("DefaultDate"))
                 {
-                    setting.StringValue = DefaultDate.ToString("o");
+                    setting.StringValue = DefaultDate.ToString(DateFormat.RoundTripSchema);
                 }
             }
 
