@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
+using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
@@ -27,7 +29,6 @@ namespace CodiceFiscaleUI.PlacesListView
                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
-            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
             loading = true;
             InitializeComponent();
         }
@@ -40,7 +41,6 @@ namespace CodiceFiscaleUI.PlacesListView
                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
-            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
             loading = true;
             this.parentViewModel = parentViewModel;
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace CodiceFiscaleUI.PlacesListView
             }
 
             var filterText = (sender as TextBox)?.Text;
-            if (string.IsNullOrEmpty(filterText) || filterText.Equals(Resources["TxtFilterResults"]))
+            if (string.IsNullOrEmpty(filterText) ||  filterText.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 viewModel.ResetFilter();
             }
@@ -82,9 +82,9 @@ namespace CodiceFiscaleUI.PlacesListView
             if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
                 TxtFilter.Foreground = Brushes.Gainsboro;
-                TxtFilter.Text = Resources["TxtFilterResults"].ToString();
+                TxtFilter.Text = Localization.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Resources["TxtFilterResults"]))
+            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;
@@ -102,9 +102,9 @@ namespace CodiceFiscaleUI.PlacesListView
             if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
                 TxtFilter.Foreground = Brushes.Gainsboro;
-                TxtFilter.Text = Resources["TxtFilterResults"].ToString();
+                TxtFilter.Text = Localization.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Resources["TxtFilterResults"]))
+            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;

@@ -6,12 +6,13 @@ using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.StringManipulation;
+using ALD.LibFiscalCode.Localization;
 
 namespace ALD.LibFiscalCode.Builders
 {
     public class FiscalCodeBuilder : AbstractNotifyPropertyChanged
     {
-        public FiscalCodeBuilder(Person person, LocalizationProvider localizationProvider)
+        public FiscalCodeBuilder(Person person)
         {
             if (person == null)
             {
@@ -27,10 +28,7 @@ namespace ALD.LibFiscalCode.Builders
             var partial = fiscalCode.Surname + fiscalCode.Name + fiscalCode.DateOfBirthAndGender + fiscalCode.PlaceCode;
             fiscalCode.CheckDigit = CalculateCheckDigit(partial);
             ComputedFiscalCode = fiscalCode;
-            this.localizationProvider = localizationProvider;
         }
-
-        private readonly LocalizationProvider localizationProvider;
 
         public FiscalCodeBuilder(string partial)
         {
@@ -41,7 +39,7 @@ namespace ALD.LibFiscalCode.Builders
 
             if (partial.Length != 15)
             {
-                string argumentMessage = localizationProvider != null ? localizationProvider.GetResourceDictionary()["BuilderPartialFcLengthException"].ToString() : "";
+                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
                 throw new ArgumentException(argumentMessage);
             }
 
@@ -60,16 +58,8 @@ namespace ALD.LibFiscalCode.Builders
         {
             if (input.Length != 15)
             {
-                string argumentMessage = null;
+                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
 
-                if (localizationProvider != null)
-                {
-                    argumentMessage = localizationProvider.GetResourceDictionary()["BuilderPartialFcLengthException"].ToString();
-                }
-                else
-                {
-                    argumentMessage = "";
-                }
                 throw new ArgumentException(argumentMessage);
             }
 

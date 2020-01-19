@@ -10,6 +10,8 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
+using ALD.LibFiscalCode.Localization;
+using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI
 {
@@ -24,7 +26,6 @@ namespace CodiceFiscaleUI
         {
             settings = ((App)Application.Current).Settings;
             viewModel = new MainViewModel(settings);
-            Resources = viewModel.LocalizationProvider.GetResourceDictionary();
 
             InitializeComponent();
         }
@@ -50,8 +51,8 @@ namespace CodiceFiscaleUI
             var response = MessageBoxResult.None;
             if (viewModel.HasPendingChanges)
             {
-                response = MessageBox.Show(Resources["MsgBoxResetText"].ToString(),
-                    Resources["MsgBoxResetCaption"].ToString(),
+                response = MessageBox.Show(Localization.MsgBoxResetText,
+                    Localization.MsgBoxResetCaption,
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Question,
                     MessageBoxResult.Cancel);
@@ -109,7 +110,7 @@ namespace CodiceFiscaleUI
             var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
-                MessageBox.Show(check.GetValidationMessagesAsString(), Resources["ValidationDialogCaption"].ToString(), MessageBoxButton.OK,
+                MessageBox.Show(check.GetValidationMessagesAsString(), Localization.ValidationDialogCaption, MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -154,8 +155,8 @@ namespace CodiceFiscaleUI
             if (viewModel.HasPendingChanges)
             {
                 var result =
-                    MessageBox.Show(Resources["DialogConfirmExitText"].ToString(),
-                        Resources["DialogConfirmExitCaption"].ToString(),
+                    MessageBox.Show(Localization.DialogConfirmExitText,
+                        Localization.DialogConfirmExitCaption,
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Asterisk,
                         MessageBoxResult.Cancel);

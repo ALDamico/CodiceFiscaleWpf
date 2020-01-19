@@ -268,6 +268,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seleziona la posizione del file di dati.
+        /// </summary>
+        public static string FileDialogDatabaseFile {
+            get {
+                return ResourceManager.GetString("FileDialogDatabaseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mapping personalizzato.
         /// </summary>
         public static string GrpBxCustomMapping {
@@ -583,6 +592,42 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File non valido.
+        /// </summary>
+        public static string MsgBoxInvalidDatabaseCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxInvalidDatabaseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Il file non è un database di Codice Fiscale valido.\nLa posizione del database non è stata cambiata..
+        /// </summary>
+        public static string MsgBoxInvalidDatabaseText {
+            get {
+                return ResourceManager.GetString("MsgBoxInvalidDatabaseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modifiche in sospeso.
+        /// </summary>
+        public static string MsgBoxPendingChangesCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxPendingChangesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hai delle modifiche in sospeso. Sei sicuro di voler uscire senza applicarle?.
+        /// </summary>
+        public static string MsgBoxPendingChangesText {
+            get {
+                return ResourceManager.GetString("MsgBoxPendingChangesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conferma.
         /// </summary>
         public static string MsgBoxResetCaption {
@@ -678,6 +723,42 @@ namespace ALD.LibFiscalCode.Localization {
         public static string ValidationDialogCaption {
             get {
                 return ResourceManager.GetString("ValidationDialogCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data di nascita non specificata.
+        /// </summary>
+        public static string ValidationMissingDateOfBirth {
+            get {
+                return ResourceManager.GetString("ValidationMissingDateOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sesso non compilato..
+        /// </summary>
+        public static string ValidationMissingGender {
+            get {
+                return ResourceManager.GetString("ValidationMissingGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nome non compilato..
+        /// </summary>
+        public static string ValidationMissingName {
+            get {
+                return ResourceManager.GetString("ValidationMissingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cognome non compilato..
+        /// </summary>
+        public static string ValidationMissingSurname {
+            get {
+                return ResourceManager.GetString("ValidationMissingSurname", resourceCulture);
             }
         }
     }

@@ -1,9 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.DatePicker;
 using Microsoft.Win32;
+using Localization = ALD.LibFiscalCode.Localization.Localization;
 
 namespace CodiceFiscaleUI.Settings
 {
@@ -25,8 +27,8 @@ namespace CodiceFiscaleUI.Settings
         {
             if (viewModel.ChangeSettingsInvoker.HasPendingActions)
             {
-                var response = MessageBox.Show(this, "Hai delle modifiche in sospeso. Sei sicuro di voler uscire senza applicarle?",
-                    "Modifiche in sospeso", MessageBoxButton.OKCancel, MessageBoxImage.Information,
+                var response = MessageBox.Show(this, Localization.MsgBoxPendingChangesText,
+                    Localization.MsgBoxPendingChangesCaption, MessageBoxButton.OKCancel, MessageBoxImage.Information,
                     MessageBoxResult.Cancel);
                 if (response != MessageBoxResult.OK)
                 {
@@ -39,13 +41,13 @@ namespace CodiceFiscaleUI.Settings
         private void BtnPickDbLocation_OnClick(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Title = "Seleziona la posizione del file di dati";
+            dialog.Title = Localization.FileDialogDatabaseFile;
             dialog.Multiselect = false;
             var result = dialog.ShowDialog(this);
 
             if (result.GetValueOrDefault() == true)
             {
-                if (dialog.FileName.Equals(viewModel.DataSourceLocation))
+                if (dialog.FileName.Equals(viewModel.DataSourceLocation, StringComparison.InvariantCulture))
                 {
                     return;
                 }
@@ -57,7 +59,11 @@ namespace CodiceFiscaleUI.Settings
                 else
                 {
                     MessageBox.Show(this,
-                        "Il file non è un database di Codice Fiscale valido.\nLa posizione del database non è stata cambiata.", "File non valido", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                        Localization.MsgBoxInvalidDatabaseText,
+                        Localization.MsgBoxInvalidDatabaseCaption,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation,
+                        MessageBoxResult.OK);
                 }
             }
         }

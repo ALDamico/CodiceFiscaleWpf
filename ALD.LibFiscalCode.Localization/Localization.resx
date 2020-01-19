@@ -186,6 +186,9 @@
   <data name="ErrorDialogText" xml:space="preserve">
     <value>Non è stato possibile aprire il file {0}</value>
   </data>
+  <data name="FileDialogDatabaseFile" xml:space="preserve">
+    <value>Seleziona la posizione del file di dati</value>
+  </data>
   <data name="GrpBxCustomMapping" xml:space="preserve">
     <value>Mapping personalizzato</value>
   </data>
@@ -291,6 +294,18 @@
   <data name="MnuUpdatePlaces" xml:space="preserve">
     <value>Aggiorna database dei luoghi</value>
   </data>
+  <data name="MsgBoxInvalidDatabaseCaption" xml:space="preserve">
+    <value>File non valido</value>
+  </data>
+  <data name="MsgBoxInvalidDatabaseText" xml:space="preserve">
+    <value>Il file non è un database di Codice Fiscale valido.\nLa posizione del database non è stata cambiata.</value>
+  </data>
+  <data name="MsgBoxPendingChangesCaption" xml:space="preserve">
+    <value>Modifiche in sospeso</value>
+  </data>
+  <data name="MsgBoxPendingChangesText" xml:space="preserve">
+    <value>Hai delle modifiche in sospeso. Sei sicuro di voler uscire senza applicarle?</value>
+  </data>
   <data name="MsgBoxResetCaption" xml:space="preserve">
     <value>Conferma</value>
   </data>
@@ -323,5 +338,17 @@
   </data>
   <data name="ValidationDialogCaption" xml:space="preserve">
     <value>Errore di convalida</value>
+  </data>
+  <data name="ValidationMissingDateOfBirth" xml:space="preserve">
+    <value>Data di nascita non specificata</value>
+  </data>
+  <data name="ValidationMissingGender" xml:space="preserve">
+    <value>Sesso non compilato.</value>
+  </data>
+  <data name="ValidationMissingName" xml:space="preserve">
+    <value>Nome non compilato.</value>
+  </data>
+  <data name="ValidationMissingSurname" xml:space="preserve">
+    <value>Cognome non compilato.</value>
   </data>
 </root>

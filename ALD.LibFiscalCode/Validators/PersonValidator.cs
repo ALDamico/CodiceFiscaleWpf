@@ -3,6 +3,7 @@ using System.Windows;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Localization;
 using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Localization;
 
 namespace ALD.LibFiscalCode.Validators
 {
@@ -10,15 +11,12 @@ namespace ALD.LibFiscalCode.Validators
     {
         private readonly Person person;
 
-        public PersonValidator(Person person, LocalizationProvider localizationProvider)
+        public PersonValidator(Person person)
         {
             this.person = person;
             ValidationMessages = new List<string>();
-            this.localizationProvider = localizationProvider;
             Validate();
         }
-
-        private readonly LocalizationProvider localizationProvider;
 
         public bool IsValid { get; private set; }
 
@@ -31,26 +29,25 @@ namespace ALD.LibFiscalCode.Validators
 
         public void Validate()
         {
-            var rd = localizationProvider.GetResourceDictionary();
-            //TODO Retrieve these messages from data source
+           
             if (string.IsNullOrWhiteSpace(person.Name))
             {
-                ValidationMessages.Add(rd["ValidationMissingName"].ToString());
+                ValidationMessages.Add(Localization.Localization.ValidationMissingName);
             }
 
             if (string.IsNullOrWhiteSpace(person.Surname))
             {
-                ValidationMessages.Add(rd["ValidationMissingSurname"].ToString());
+                ValidationMessages.Add(Localization.Localization.ValidationMissingSurname);
             }
 
             if (person.Gender == Gender.Unspecified)
             {
-                ValidationMessages.Add(rd["ValidationMissingGender"].ToString());
+                ValidationMessages.Add(Localization.Localization.ValidationMissingGender);
             }
 
             if (person.PlaceOfBirth == null)
             {
-                ValidationMessages.Add(rd["ValidationMissingDateOfBirth"].ToString());
+                ValidationMessages.Add(Localization.Localization.ValidationMissingDateOfBirth);
             }
 
             IsValid = ValidationMessages.Count == 0;
