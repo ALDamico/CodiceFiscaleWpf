@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Interfaces;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
-using Newtonsoft.Json;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-
+      
 
         private Person currentPerson;
 
@@ -177,6 +176,9 @@ namespace ALD.LibFiscalCode.ViewModels
                 );
             }
 
+            EndEdit();
+            HasPendingChanges = false;
+
             return Validator;
         }
 
@@ -197,15 +199,13 @@ namespace ALD.LibFiscalCode.ViewModels
             CurrentPerson.PlaceOfBirth = newPlace;
         }
 
-        public void ExportJson(string targetPath)
+        public void Export(string targetPath,  IExportStrategy exportStrategy)
         {
-            if (string.IsNullOrWhiteSpace(targetPath))
+            if (exportStrategy == null)
             {
-                throw new ArgumentNullException(nameof(targetPath));
+                throw new ArgumentNullException(nameof(exportStrategy));
             }
-            var exportedObject = new PersonJson(CurrentPerson, FiscalCode);
-            var outputJson = JsonConvert.SerializeObject(exportedObject, Formatting.Indented);
-            File.WriteAllLines(targetPath, new[] { outputJson });
+            exportStrategy.Export(this, targetPath);
         }
     }
 }

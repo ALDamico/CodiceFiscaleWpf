@@ -35,9 +35,8 @@
                           Click="BtnReset_Click" />
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuExport}" x:Name="MnuExport">
-                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}" x:Name="MnuExportToJson" Click="MnuExportToJson_OnClick">
-
-                    </MenuItem>
+                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}" x:Name="MnuExportToJson" Click="MnuExportToJson_OnClick"/>
+                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToXml}" x:Name="MnuExportToXml" Click="MnuExportToXml_OnClick"></MenuItem>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"

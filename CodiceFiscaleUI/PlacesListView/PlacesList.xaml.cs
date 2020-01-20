@@ -13,7 +13,7 @@ namespace CodiceFiscaleUI.PlacesListView
     /// <summary>
     ///     Interaction logic for PlacesList.xaml
     /// </summary>
-    public partial class PlacesList
+    public partial class PlacesList:Window
     {
         private readonly MainViewModel parentViewModel;
 
@@ -25,7 +25,7 @@ namespace CodiceFiscaleUI.PlacesListView
         {
             viewModel = new PlacesListViewModel(places as ICollection<Place>);
 
-            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
+           viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
@@ -38,7 +38,7 @@ namespace CodiceFiscaleUI.PlacesListView
             viewModel = new PlacesListViewModel(places);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
-                ListSortDirection.Ascending));
+            ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;

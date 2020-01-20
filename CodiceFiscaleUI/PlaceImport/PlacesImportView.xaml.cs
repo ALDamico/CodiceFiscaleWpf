@@ -9,7 +9,7 @@ namespace CodiceFiscaleUI.PlaceImport
     /// <summary>
     ///     Logica di interazione per PlacesImportView.xaml
     /// </summary>
-    public partial class PlacesImportView
+    public partial class PlacesImportView:Window
     {
         private readonly PlaceImportViewModel viewModel;
 

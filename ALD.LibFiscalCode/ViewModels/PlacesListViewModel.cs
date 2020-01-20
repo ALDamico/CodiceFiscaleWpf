@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
+
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -19,8 +21,8 @@ namespace ALD.LibFiscalCode.ViewModels
         public PlacesListViewModel(ICollection<Place> places)
         {
             this.places = new ObservableCollection<Place>(places);
-            ViewSource = new CollectionViewSource { Source = this.places };
-            
+            ViewSource = new CollectionViewSource();
+            ViewSource.Source = places;
         }
 
         public Place SelectedPlace

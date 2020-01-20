@@ -6,6 +6,7 @@ namespace ALD.LibFiscalCode.Persistence.Localization
 {
     public class LocalizationProvider
     {
+        /*
         public LocalizationProvider(ILocalizationRetrievalStrategy retrievalStrat, string windowName)
         {
             retrievalStrategy = retrievalStrat;
@@ -41,5 +42,6 @@ namespace ALD.LibFiscalCode.Persistence.Localization
         private readonly ILocalizationRetrievalStrategy retrievalStrategy;
 
         private readonly string targetWindow;
+        */
     }
 }

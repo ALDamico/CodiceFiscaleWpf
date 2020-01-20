@@ -9,11 +9,22 @@
     <Copyright>2019</Copyright>
     <PackageProjectUrl>www.lucianodamico.info</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ALDamico/CodiceFiscaleWpf</RepositoryUrl>
+    <StartupObject>CodiceFiscaleUI.App</StartupObject>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\it.png" />
     <None Remove="Assets\us.png" />
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +49,15 @@
   <ItemGroup>
     <ProjectReference Include="..\ALD.LibFiscalCode.Localization\ALD.LibFiscalCode.Localization.csproj" />
     <ProjectReference Include="..\ALD.LibFiscalCode\ALD.LibFiscalCode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DatePicker\DatePickerWindow.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
+    <Page Update="Settings\SettingsWindow.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

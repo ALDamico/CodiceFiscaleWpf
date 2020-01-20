@@ -2,9 +2,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using ALD.LibFiscalCode.Persistence.Factories;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 

@@ -10,7 +10,7 @@ namespace CodiceFiscaleUI.DatePicker
     /// <summary>
     ///     Interaction logic for DatePicker.xaml
     /// </summary>
-    public partial class DatePickerWindow
+    public partial class DatePickerWindow:Window
     {
         private readonly DatePickerViewModel datePickerViewModel;
 

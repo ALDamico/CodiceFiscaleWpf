@@ -286,6 +286,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File XML | (*.xml).
+        /// </summary>
+        public static string ExportDialogXmlFilter {
+            get {
+                return ResourceManager.GetString("ExportDialogXmlFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleziona la posizione del file di dati.
         /// </summary>
         public static string FileDialogDatabaseFile {
@@ -561,6 +570,15 @@ namespace ALD.LibFiscalCode.Localization {
         public static string MnuExportToJson {
             get {
                 return ResourceManager.GetString("MnuExportToJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In formato XML.
+        /// </summary>
+        public static string MnuExportToXml {
+            get {
+                return ResourceManager.GetString("MnuExportToXml", resourceCulture);
             }
         }
         
