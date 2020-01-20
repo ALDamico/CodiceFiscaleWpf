@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ALD.LibFiscalCode.Exporters;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.StringManipulation;
@@ -210,7 +211,33 @@ namespace CodiceFiscaleUI
                 var response = dialog.ShowDialog(this);
                 if (response.GetValueOrDefault() == true)
                 {
-                    viewModel.ExportJson(dialog.FileName);
+                    viewModel.Export(dialog.FileName, new JsonExporter());
+                }
+            }
+            else
+            {
+                MessageBox.Show(this, Localization.MsgBoxExportUnavailableText,
+                    Localization.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void MnuExportToXml_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (viewModel.FiscalCode != null)
+            {
+                var dialog = new SaveFileDialog();
+                dialog.CheckFileExists = false;
+                dialog.AddExtension = true;
+                dialog.Title = Localization.ExportDialogTitle;
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = Localization.ExportDialogXmlFilter;
+                dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
+                                  DateTime.Now.ToString(DateFormat.FilenameSortable) + ".xml";
+
+                var response = dialog.ShowDialog(this);
+                if (response.GetValueOrDefault() == true)
+                {
+                    viewModel.Export(dialog.FileName, new XmlExporter());
                 }
             }
             else
