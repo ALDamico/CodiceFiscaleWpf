@@ -192,6 +192,9 @@
   <data name="ExportDialogTitle" xml:space="preserve">
     <value>Esporta in formato JSON</value>
   </data>
+  <data name="ExportDialogXmlFilter" xml:space="preserve">
+    <value>File XML | (*.xml)</value>
+  </data>
   <data name="FileDialogDatabaseFile" xml:space="preserve">
     <value>Seleziona la posizione del file di dati</value>
   </data>
@@ -284,6 +287,9 @@
   </data>
   <data name="MnuExportToJson" xml:space="preserve">
     <value>In formato JSON</value>
+  </data>
+  <data name="MnuExportToXml" xml:space="preserve">
+    <value>In formato XML</value>
   </data>
   <data name="MnuFile" xml:space="preserve">
     <value>File</value>
