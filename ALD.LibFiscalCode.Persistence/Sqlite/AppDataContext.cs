@@ -21,7 +21,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         public DbSet<Place> Places { get; set; }
 
-        public DbSet<Person> People { get; }
+        public DbSet<Person> People { get; set; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
         public DbSet<LanguageInfo> Languages { get; set; }
         public DbSet<LocalizedString> LocalizedStrings { get; set; }
@@ -63,7 +63,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             peopleEntity.Property(p => p.DateOfBirth).HasColumnName("date_of_birth");
             peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text")
                 .HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
-            peopleEntity.HasOne(p => p.PlaceOfBirth);
+            peopleEntity.HasOne(p => p.PlaceOfBirth).WithMany().HasForeignKey("place_of_birth_id");
 
             var fiscalCodeEntity = modelBuilder.Entity<FiscalCodeEntity>();
             fiscalCodeEntity.ToTable("FiscalCodes");

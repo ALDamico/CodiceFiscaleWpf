@@ -123,29 +123,29 @@ namespace CodiceFiscaleUI
             updateWin.ShowDialog();
         }
 
-        private void MnuLstOmocode_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedCode = LstOmocode.SelectedItem;
-            if (selectedCode != null)
-            {
-                viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
+        //private void MnuLstOmocode_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var selectedCode = LstOmocode.SelectedItem;
+        //    if (selectedCode != null)
+        //    {
+        //        viewModel.SetMainFiscalCode(selectedCode as FiscalCode);
 
-                var tmp = (ListBoxItem)LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem);
+        //        var tmp = (ListBoxItem)LstOmocode.ItemContainerGenerator.ContainerFromItem(LstOmocode.SelectedItem);
 
-                foreach (var v in LstOmocode.Items)
-                {
-                    if (LstOmocode.ItemContainerGenerator.ContainerFromItem(v) is ListBoxItem lbi)
-                    {
-                        lbi.FontWeight = FontWeights.Normal;
-                    }
-                }
+        //        foreach (var v in LstOmocode.Items)
+        //        {
+        //            if (LstOmocode.ItemContainerGenerator.ContainerFromItem(v) is ListBoxItem lbi)
+        //            {
+        //                lbi.FontWeight = FontWeights.Normal;
+        //            }
+        //        }
 
-                if (tmp != null)
-                {
-                    tmp.FontWeight = FontWeights.Bold;
-                }
-            }
-        }
+        //        if (tmp != null)
+        //        {
+        //            tmp.FontWeight = FontWeights.Bold;
+        //        }
+        //    }
+        //}
 
         private void MnuQuit_Click(object sender, RoutedEventArgs e)
         {
