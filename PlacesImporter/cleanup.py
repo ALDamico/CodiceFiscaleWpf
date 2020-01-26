@@ -109,6 +109,8 @@ ddl_queries = (
             date_of_birth TEXT,
             place_of_birth_id INTEGER,
             gender TEXT,
+            fiscal_code_id INTEGER,
+            FOREIGN KEY(fiscal_code_id) REFERENCES FiscalCodes("id"),
             FOREIGN KEY(place_of_birth_id) REFERENCES Places(id)
         )
     """,
