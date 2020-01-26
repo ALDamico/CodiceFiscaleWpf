@@ -247,7 +247,7 @@
     <value>Lingua</value>
   </data>
   <data name="LblMaxHistorySize" xml:space="preserve">
-    <value>Dimensione massima cronologia</value>
+    <value>Dimensione cronologia</value>
   </data>
   <data name="LblName" xml:space="preserve">
     <value>Nome</value>
@@ -269,6 +269,9 @@
   </data>
   <data name="LblSourceFile" xml:space="preserve">
     <value>File di origine</value>
+  </data>
+  <data name="LblSplittingStrategy" xml:space="preserve">
+    <value>Metodo di splitting</value>
   </data>
   <data name="LblSurname" xml:space="preserve">
     <value>Cognome</value>
@@ -359,6 +362,18 @@
   </data>
   <data name="SettingsWindowTitle" xml:space="preserve">
     <value>Impostazioni</value>
+  </data>
+  <data name="SplittingMethodFast" xml:space="preserve">
+    <value>Veloce</value>
+  </data>
+  <data name="SplittingMethodFastTooltip" xml:space="preserve">
+    <value>Utilizza il metodo rapido di processamento dei caratteri. Migliora le performance ma non è in grado di eseguire la translitterazione automatica da altri alfabeti.</value>
+  </data>
+  <data name="SplittingMethodUnidecode" xml:space="preserve">
+    <value>Unidecode</value>
+  </data>
+  <data name="SplittingMethodUnidecodeTooltip" xml:space="preserve">
+    <value>Utilizza il metodo Unidecode per il processamento dei caratteri. È più lento e utilizza più memoria, ma è in grado di eseguire la traslitterazione automatica da altri alfabeti.</value>
   </data>
   <data name="TxtFilterResults" xml:space="preserve">
     <value>Filtra i risultati...</value>

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" MinWidth="100" />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" 
                Grid.Column="0"
@@ -58,6 +58,13 @@
                  Text="{Binding MaxHistorySize}" />
         <Label Grid.Row="3" 
                Grid.Column="0" 
+               Content="{x:Static l10n:Localization.LblSplittingStrategy}"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="DrpChangeSplittingMethod" SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged">
+            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodFast}" ToolTip="{x:Static l10n:Localization.SplittingMethodFastTooltip}"/>
+            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:Localization.SplittingMethodUnidecodeTooltip}"/>
+        </ComboBox>
+        <!--<Label Grid.Row="3" 
+               Grid.Column="0" 
                Content="{x:Static l10n:Localization.LblDatabasePath}"/>
         <StackPanel Grid.Row="3" 
                     Grid.Column="1" 
@@ -69,7 +76,7 @@
                     Width="30" 
                     x:Name="BtnPickDbLocation" 
                     Click="BtnPickDbLocation_OnClick" />
-        </StackPanel>
+        </StackPanel>-->
         <Label Grid.Row="4" 
                Grid.Column="0" 
                Content="{x:Static l10n:Localization.LblDefaultDate}" />
