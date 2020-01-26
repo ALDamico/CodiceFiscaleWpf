@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+ALD.LibFiscalCode.Persistence/DataSource/app.db
