@@ -6,16 +6,26 @@
         xmlns:vm ="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:ArchiveViewModel}"
         xmlns:local="clr-namespace:CodiceFiscaleUI.ArchiveWindow"
+        xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         mc:Ignorable="d"
         Title="ArchiveWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding People, IsAsync=True}" x:Name="GrdPeople">
-            
-           
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding People, IsAsync=True}"
+                  x:Name="GrdPeople"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrName}" Binding="{Binding Path=Name}" />
+                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrSurname}" Binding="{Binding Path=Surname}" />
+                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrGender}" Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrPlaceOfBirth}" Binding="{Binding DateOfBirth}" />
+                <DataGridTextColumn Header="{x:Static l10n:Localization.HdrFiscalCode}" Binding="{Binding FiscalCode}"></DataGridTextColumn>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Window>

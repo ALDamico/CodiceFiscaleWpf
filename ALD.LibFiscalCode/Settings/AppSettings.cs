@@ -11,6 +11,7 @@ namespace ALD.LibFiscalCode.Settings
     public class AppSettings
     {
         public CultureInfo AppLanguage { get; set; }
+
         public LanguageInfo InternalLanguage
         {
             get
@@ -19,6 +20,7 @@ namespace ALD.LibFiscalCode.Settings
                 return db.Languages.FirstOrDefault(l => l.Iso2Code.Equals(AppLanguage.Name));
             }
         }
+
         public string DataSourceLocation { get; set; }
         public int MaxHistorySize { get; set; }
         public DateTime DefaultDate { get; set; }
@@ -65,6 +67,9 @@ namespace ALD.LibFiscalCode.Settings
 
         private static string SetDataSourceLocation(AppDataContext dataContext)
         {
+            return AppDomain.CurrentDomain.BaseDirectory + "\\DataSource\\app.db";
+            /*
+             This code is deprecated
             if (dataContext == null)
             {
                 throw new ArgumentNullException(nameof(dataContext));
@@ -76,7 +81,7 @@ namespace ALD.LibFiscalCode.Settings
             {
                 dataSourceLocation = AppDomain.CurrentDomain.BaseDirectory + "\\DataSource\\app.db";
             }
-            return dataSourceLocation;
+            return dataSourceLocation;*/
         }
 
         private static int SetMaxHistorySize(AppDataContext dataContext)

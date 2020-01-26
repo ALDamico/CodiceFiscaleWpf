@@ -18,13 +18,13 @@ namespace CodiceFiscaleUI.ArchiveWindow
     /// </summary>
     public partial class ArchiveWindow : Window
     {
-        private ArchiveViewModel viewModel;
+        private readonly ArchiveViewModel viewModel;
+
         public ArchiveWindow()
         {
             viewModel = new ArchiveViewModel();
             DataContext = viewModel;
             InitializeComponent();
-            
         }
     }
 }

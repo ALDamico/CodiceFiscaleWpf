@@ -15,39 +15,43 @@
          Loaded="MainWindow_OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Menu Grid.Row="0"
-              Grid.Column="0" 
+              Grid.Column="0"
               Grid.ColumnSpan="2">
-            <MenuItem Header="{x:Static l10n:Localization.MnuFile}" 
+            <MenuItem Header="{x:Static l10n:Localization.MnuFile}"
                       x:Name="MnuFile">
                 <MenuItem Header="{x:Static l10n:Localization.MnuNew}"
                           x:Name="MnuNew"
                           Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuExport}" 
+                <MenuItem Header="{x:Static l10n:Localization.MnuArchive}"
+                          x:Name="MnuArchive"
+                          Click="MnuArchive_OnClick"></MenuItem>
+                <Separator />
+                <MenuItem Header="{x:Static l10n:Localization.MnuExport}"
                           x:Name="MnuExport">
-                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}" 
-                              x:Name="MnuExportToJson" 
-                              Click="MnuExportToJson_OnClick"/>
-                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToXml}" 
-                              x:Name="MnuExportToXml" 
-                              Click="MnuExportToXml_OnClick"/>
+                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}"
+                              x:Name="MnuExportToJson"
+                              Click="MnuExportToJson_OnClick" />
+                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToXml}"
+                              x:Name="MnuExportToXml"
+                              Click="MnuExportToXml_OnClick" />
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
                           x:Name="MnuQuit"
                           Click="MnuQuit_Click" />
             </MenuItem>
-            <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}" 
+            <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}"
                       x:Name="MnuAdvanced">
                 <MenuItem Header="{x:Static l10n:Localization.MnuPlaces}"
                           x:Name="MnuPlaces"
@@ -56,11 +60,11 @@
                           x:Name="MnuUpdatePlaces"
                           Click="MnuUpdatePlaces_Click" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuOptions}" 
-                          x:Name="MnuOptions" 
+                <MenuItem Header="{x:Static l10n:Localization.MnuOptions}"
+                          x:Name="MnuOptions"
                           Click="MnuOptions_OnClick" />
             </MenuItem>
-            <MenuItem x:Name="MnuHelp" 
+            <MenuItem x:Name="MnuHelp"
                       Header="{x:Static l10n:Localization.MnuHelp}">
                 <MenuItem Header="{x:Static l10n:Localization.MnuAbout}"
                           x:Name="MnuAbout"
@@ -68,59 +72,59 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Row="1" 
+        <Grid Grid.Row="1"
               Grid.Column="0"
               Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" 
-                   Grid.Column="0" 
-                   x:Name="LblName" 
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   x:Name="LblName"
                    Content="Nome" />
-            <TextBox Grid.Row="0" 
-                     Grid.Column="1" 
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
                      x:Name="TxtName"
                      VerticalContentAlignment="Center"
-                     Text="{Binding CurrentPerson.Name}" 
-                     Height="20"/>
-            <Label Grid.Row="1" 
-                   Grid.Column="0"  
-                   x:Name="LblSurname" 
+                     Text="{Binding CurrentPerson.Name}"
+                     Height="20" />
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   x:Name="LblSurname"
                    Content="{x:Static l10n:Localization.LblSurname}" />
-            <TextBox Grid.Row="1" 
-                     Grid.Column="1" 
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
                      x:Name="TxtSurname"
                      VerticalContentAlignment="Center"
-                     Text="{Binding CurrentPerson.Surname}" 
-                     Height="20"/>
-            <Label Grid.Row="2" 
-                   Grid.Column="0"  
-                   x:Name="LblGender" 
+                     Text="{Binding CurrentPerson.Surname}"
+                     Height="20" />
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   x:Name="LblGender"
                    Content="{x:Static l10n:Localization.LblGender}" />
-            <ComboBox Grid.Row="2" 
-                      Grid.Column="1" 
+            <ComboBox Grid.Row="2"
+                      Grid.Column="1"
                       x:Name="DrpGenderSelector"
                       SelectionChanged="DrpGenderSelector_SelectionChanged"
                       Height="20">
                 <ComboBoxItem>M</ComboBoxItem>
                 <ComboBoxItem>F</ComboBoxItem>
             </ComboBox>
-            <Label Grid.Row="3" 
-                   Grid.Column="0"  
+            <Label Grid.Row="3"
+                   Grid.Column="0"
                    x:Name="LblDateOfBirth"
                    Content="{x:Static l10n:Localization.LblDateOfBirth}" />
-            <TextBox Grid.Row="3" 
-                     Grid.Column="1" 
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
                      IsReadOnly="False"
                      IsReadOnlyCaretVisible="False"
                      x:Name="TxtCalendar"
@@ -128,22 +132,22 @@
                      HorizontalContentAlignment="Center"
                      MouseDown="TxtCalendar_MouseDown"
                      MouseDoubleClick="TxtCalendar_MouseDown"
-                     Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}" 
-                     Height="20"/>
-            <Label Grid.Row="4" 
-                   Grid.Column="0" 
-                   x:Name="LblPlaceOfBirth" 
+                     Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}"
+                     Height="20" />
+            <Label Grid.Row="4"
+                   Grid.Column="0"
+                   x:Name="LblPlaceOfBirth"
                    Content="{x:Static l10n:Localization.LblPlaceOfBirth}" />
             <VirtualizingStackPanel Grid.Row="4"
-                        Grid.Column="1" 
+                        Grid.Column="1"
                         Orientation="Horizontal">
-                <ComboBox 
+                <ComboBox
                       x:Name="DrpPlaceOfBirth"
                       IsEditable="True"
                       ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                       SelectionChanged="DrpPlaceOfBirth_SelectionChanged"
-                      SelectedItem="{Binding SelectedPlace}" 
-                      Height="20" Width="124" >
+                      SelectedItem="{Binding SelectedPlace}"
+                      Height="20" Width="124">
                     <ComboBox.ItemsPanel>
                         <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->
                         <ItemsPanelTemplate>
@@ -151,11 +155,11 @@
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
                 </ComboBox>
-                <Button x:Name="BtnOpenPlaceList" 
-                            Click="BtnOpenPlaceList_OnClick" 
+                <Button x:Name="BtnOpenPlaceList"
+                            Click="BtnOpenPlaceList_OnClick"
                             Height="20"
                             IsEnabled="{Binding PlacesLoaded}">
-                    <StackPanel HorizontalAlignment="Center" 
+                    <StackPanel HorizontalAlignment="Center"
                                     VerticalAlignment="Center">
                         <Canvas Name="Svg3745">
                             <Canvas.RenderTransform>
@@ -168,29 +172,29 @@
                                       Height="16" Stretch="UniformToFill" Width="16" />
                         </Canvas>
                         <Separator Visibility="Hidden" Width="55" />
-                        <Label x:Name="LblSearch" 
+                        <Label x:Name="LblSearch"
                                    HorizontalContentAlignment="Right"
-                                   VerticalContentAlignment="Center" 
-                                   Content="{x:Static l10n:Localization.LblSearch}"/>
+                                   VerticalContentAlignment="Center"
+                                   Content="{x:Static l10n:Localization.LblSearch}" />
                     </StackPanel>
                 </Button>
             </VirtualizingStackPanel>
         </Grid>
-        <StackPanel Orientation="Horizontal" 
-                    HorizontalAlignment="Right" 
-                    Grid.Row="2" 
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Row="2"
                     Grid.Column="0">
             <Button Margin="10"
                     x:Name="BtnReset"
                     Click="BtnReset_Click">
                 Reset
             </Button>
-            <Button Margin="10" 
-                    x:Name="BtnCalculate" 
-                    Click="BtnCalculate_Click" 
-                    Content="{x:Static l10n:Localization.BtnCalculate}"/>
+            <Button Margin="10"
+                    x:Name="BtnCalculate"
+                    Click="BtnCalculate_Click"
+                    Content="{x:Static l10n:Localization.BtnCalculate}" />
         </StackPanel>
-        <StackPanel Grid.Row="1" 
+        <StackPanel Grid.Row="1"
                     Grid.Column="1"
                     Orientation="Vertical"
                     Margin="10">
@@ -212,8 +216,8 @@
                             HorizontalAlignment="Center">
                 <!--<ListBox Height="288"
                              MinWidth="200"
-                             MaxWidth="600" 
-                             x:Name="LstOmocode" 
+                             MaxWidth="600"
+                             x:Name="LstOmocode"
                              ItemsSource="{Binding Omocodes}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -227,7 +231,7 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="CtxMnuCopy" 
+                            <MenuItem x:Name="CtxMnuCopy"
                                           Header="{x:Static l10n:Localization.CtxMnuCopy}"
                                           Click="BtnCopyToClipboard_Click" />
                             <Separator />
@@ -240,5 +244,4 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-
 </Window>

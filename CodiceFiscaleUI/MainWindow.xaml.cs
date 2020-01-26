@@ -12,6 +12,7 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
+using CodiceFiscaleUI.ArchiveWindow;
 using Microsoft.Win32;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 
@@ -171,6 +172,10 @@ namespace CodiceFiscaleUI
                     e.Cancel = true;
                 }
             }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
 
         private void MnuAbout_OnClick(object sender, RoutedEventArgs e)
@@ -191,7 +196,7 @@ namespace CodiceFiscaleUI
 
         private void MnuOptions_OnClick(object sender, RoutedEventArgs e)
         {
-            var settingsWindow = new Settings.SettingsWindow { Owner = this};
+            var settingsWindow = new Settings.SettingsWindow { Owner = this };
             settingsWindow.ShowDialog();
         }
 
@@ -245,6 +250,12 @@ namespace CodiceFiscaleUI
                 MessageBox.Show(this, Localization.MsgBoxExportUnavailableText,
                     Localization.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void MnuArchive_OnClick(object sender, RoutedEventArgs e)
+        {
+            var archiveWin = new ArchiveWindow.ArchiveWindow();
+            archiveWin.Show();
         }
     }
 }

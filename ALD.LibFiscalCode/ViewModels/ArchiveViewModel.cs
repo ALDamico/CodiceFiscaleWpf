@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
@@ -18,6 +19,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(people));
             }
         }
+
         private ObservableCollection<Person> people;
 
         public ArchiveViewModel()
@@ -30,10 +32,8 @@ namespace ALD.LibFiscalCode.ViewModels
             await Task.Run(() =>
             {
                 using var dataContext = new AppDataContext();
-                People = new ObservableCollection<Person>(dataContext.People.Include(p => p.PlaceOfBirth));
+                People = new ObservableCollection<Person>(dataContext.People.Include(p => p.PlaceOfBirth).Include(p => p.FiscalCode));
             });
         }
-
-
     }
 }

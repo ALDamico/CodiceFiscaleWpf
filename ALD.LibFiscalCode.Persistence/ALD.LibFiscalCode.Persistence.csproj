@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Content Include="DataSource\app.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

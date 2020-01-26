@@ -358,6 +358,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data di nascita.
+        /// </summary>
+        public static string HdrDateOfBirth {
+            get {
+                return ResourceManager.GetString("HdrDateOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Corrisponde a.
         /// </summary>
         public static string HdrFieldMapsTo {
@@ -381,6 +390,51 @@ namespace ALD.LibFiscalCode.Localization {
         public static string HdrFieldPosition {
             get {
                 return ResourceManager.GetString("HdrFieldPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codice fiscale.
+        /// </summary>
+        public static string HdrFiscalCode {
+            get {
+                return ResourceManager.GetString("HdrFiscalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sesso.
+        /// </summary>
+        public static string HdrGender {
+            get {
+                return ResourceManager.GetString("HdrGender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nome.
+        /// </summary>
+        public static string HdrName {
+            get {
+                return ResourceManager.GetString("HdrName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Luogo di nascita.
+        /// </summary>
+        public static string HdrPlaceOfBirth {
+            get {
+                return ResourceManager.GetString("HdrPlaceOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cognome.
+        /// </summary>
+        public static string HdrSurname {
+            get {
+                return ResourceManager.GetString("HdrSurname", resourceCulture);
             }
         }
         
@@ -552,6 +606,15 @@ namespace ALD.LibFiscalCode.Localization {
         public static string MnuAdvanced {
             get {
                 return ResourceManager.GetString("MnuAdvanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Archivio.
+        /// </summary>
+        public static string MnuArchive {
+            get {
+                return ResourceManager.GetString("MnuArchive", resourceCulture);
             }
         }
         
