@@ -4,5 +4,10 @@
     {
         public string FiscalCode { get; set; }
         public Person Person { get; set; }
+
+        public override string ToString()
+        {
+            return FiscalCode;
+        }
     }
 }

@@ -216,6 +216,9 @@
   <data name="GrpBxPlaces" xml:space="preserve">
     <value>Luoghi</value>
   </data>
+  <data name="HdrDateOfBirth" xml:space="preserve">
+    <value>Data di nascita</value>
+  </data>
   <data name="HdrFieldMapsTo" xml:space="preserve">
     <value>Corrisponde a</value>
   </data>
@@ -224,6 +227,21 @@
   </data>
   <data name="HdrFieldPosition" xml:space="preserve">
     <value>Posizione</value>
+  </data>
+  <data name="HdrFiscalCode" xml:space="preserve">
+    <value>Codice fiscale</value>
+  </data>
+  <data name="HdrGender" xml:space="preserve">
+    <value>Sesso</value>
+  </data>
+  <data name="HdrName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="HdrPlaceOfBirth" xml:space="preserve">
+    <value>Luogo di nascita</value>
+  </data>
+  <data name="HdrSurname" xml:space="preserve">
+    <value>Cognome</value>
   </data>
   <data name="LblAbbreviation" xml:space="preserve">
     <value>Abbreviazione:</value>
@@ -281,6 +299,9 @@
   </data>
   <data name="MnuAdvanced" xml:space="preserve">
     <value>Avanzate</value>
+  </data>
+  <data name="MnuArchive" xml:space="preserve">
+    <value>Archivio</value>
   </data>
   <data name="MnuExport" xml:space="preserve">
     <value>Esporta</value>

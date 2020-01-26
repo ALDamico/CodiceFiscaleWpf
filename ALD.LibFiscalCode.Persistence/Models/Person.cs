@@ -31,6 +31,8 @@ namespace ALD.LibFiscalCode.Persistence.Models
             equalityComparer = new PersonEqualityComparer();
         }
 
+        public FiscalCodeEntity FiscalCode { get; set; }
+
         public int Id { get; set; }
 
         public string Name
