@@ -15,10 +15,20 @@ namespace ALD.LibFiscalCode.StringManipulation
             'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
         };
 
-
         public ConsonantVowelSplitter(string word)
         {
-            word= word.ToUpperInvariant().Unidecode();
+            word = word.ToUpperInvariant().Unidecode();
+            ExecuteSplit(word);
+        }
+
+        public ConsonantVowelSplitter(string word, ISplittingStrategy strategy)
+        {
+            word = strategy.Result;
+            ExecuteSplit(word);
+        }
+
+        private void ExecuteSplit(string word)
+        {
             Vowels = new List<char>();
             Consonants = new List<char>();
             foreach (var letter in word)
@@ -34,7 +44,7 @@ namespace ALD.LibFiscalCode.StringManipulation
             }
         }
 
-        public List<char> Vowels { get; }
-        public List<char> Consonants { get; }
+        public List<char> Vowels { get; private set; }
+        public List<char> Consonants { get; private set; }
     }
 }

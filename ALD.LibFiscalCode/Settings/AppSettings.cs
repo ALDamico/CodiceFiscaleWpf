@@ -11,6 +11,7 @@ namespace ALD.LibFiscalCode.Settings
     public class AppSettings
     {
         public CultureInfo AppLanguage { get; set; }
+
         public LanguageInfo InternalLanguage
         {
             get
@@ -19,6 +20,7 @@ namespace ALD.LibFiscalCode.Settings
                 return db.Languages.FirstOrDefault(l => l.Iso2Code.Equals(AppLanguage.Name));
             }
         }
+
         public string DataSourceLocation { get; set; }
         public int MaxHistorySize { get; set; }
         public DateTime DefaultDate { get; set; }
@@ -132,6 +134,21 @@ namespace ALD.LibFiscalCode.Settings
             }
 
             dataContext.SaveChanges();
+        }
+
+        public ISplittingStrategy GetSplittingStrategy(string output)
+        {
+            using var db = new AppDataContext();
+            var result = db.Settings.FirstOrDefault(s => s.Name.Equals("SplittingStrategy"));
+            if (result == null)
+            {
+                return new UnidecodeSplittingStrategy(output);
+            }
+            if (result.Name.ToUpperInvariant().Equals("FAST"))
+            {
+                return new FastSplittingStrategy(output);
+            }
+            return new UnidecodeSplittingStrategy(output);
         }
     }
 }
