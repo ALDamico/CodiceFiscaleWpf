@@ -71,13 +71,13 @@ logging.info(
 conn = sqlite3.connect(database_file)
 
 drop_queries = (
-    "DROP TABLE FiscalCodes",
-    "DROP TABLE People",
-    "DROP TABLE Places",
-    "DROP TABLE Languages",
-    "DROP TABLE LocalizedStrings",
-    "DROP TABLE Windows",
-    "DROP TABLE Settings"
+    "DROP TABLE FiscalCodes IF EXISTS",
+    "DROP TABLE People IF EXISTS",
+    "DROP TABLE Places IF EXISTS",
+    "DROP TABLE Languages IF EXISTS",
+    "DROP TABLE LocalizedStrings IF EXISTS",
+    "DROP TABLE Windows IF EXISTS",
+    "DROP TABLE Settings IF EXISTS"
 )
 
 
@@ -97,6 +97,7 @@ ddl_queries = (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             fiscal_code TEXT,
             person_id INTEGER,
+            is_main BOOLEAN,
             FOREIGN KEY (person_id) REFERENCES People(id)
         )
     """,
@@ -109,6 +110,8 @@ ddl_queries = (
             date_of_birth TEXT,
             place_of_birth_id INTEGER,
             gender TEXT,
+            fiscal_code_id INTEGER,
+            FOREIGN KEY(fiscal_code_id) REFERENCES FiscalCodes("id"),
             FOREIGN KEY(place_of_birth_id) REFERENCES Places(id)
         )
     """,
@@ -131,25 +134,6 @@ ddl_queries = (
             iso_2_code TEXT CHECK(LENGTH(iso_2_code) == 2),
             iso_3_code TEXT CHECK(LENGTH(iso_3_code) == 3),
             icon_name TEXT
-        )
-    """,
-    """
-        CREATE TABLE Windows
-        (
-            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            window_name TEXT
-        )
-    """,
-    """
-        CREATE TABLE LocalizedStrings
-        (
-            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            value TEXT,
-            language_id INTEGER,
-            window_id INTEGER,
-            FOREIGN KEY (language_id) REFERENCES Languages(id) ON DELETE SET NULL,
-            FOREIGN KEY (window_id) REFERENCES Windows(id) ON DELETE SET NULL
         )
     """,
     """
@@ -189,10 +173,13 @@ for el in languages_default_values:
         VALUES (?, ?, ?, ?)
     """
     logging.info(query)
-    conn.execute(query, (el["name"], el["iso_2_code"], el["iso_3_code"], el["icon_name"]))
-    
+    conn.execute(query, (el["name"], el["iso_2_code"],
+                         el["iso_3_code"], el["icon_name"]))
+
 conn.commit()
 
+# We're not using this table anymore
+"""
 window_queries = [
     "INSERT INTO Windows (id,window_name) VALUES (1,'MainWindow')",
     "INSERT INTO Windows (id,window_name) VALUES (2,'AboutWindow')",
@@ -204,10 +191,11 @@ window_queries = [
 
 for query in window_queries:
     conn.execute(query)
+"""
 
 settings_queries = [
     "INSERT INTO Settings (name,int_value,string_value) VALUES ('AppLanguage',1,NULL)",
-    "INSERT INTO Settings (name,int_value,string_value) VALUES ('DataSourceLocation',NULL,NULL)",
+    #  "INSERT INTO Settings (name,int_value,string_value) VALUES ('DataSourceLocation',NULL,NULL)",  # Saving the datasource somewhere other than app location causes quite a few problems
     "INSERT INTO Settings (name,int_value,string_value) VALUES ('MaxHistorySize',0,NULL)",
     "INSERT INTO Settings (name,int_value,string_value) VALUES ('DefaultDate',NULL,NULL)"
 ]
@@ -215,6 +203,8 @@ settings_queries = [
 for query in settings_queries:
     conn.execute(query)
 
+# Localized strings are now in resx file
+"""
 with open(localized_strings_file_name, encoding='utf-8') as csv_file:
     dialect = csv.Sniffer().sniff(csv_file.read(1024))
     place_reader = csv.reader(csv_file, dialect)
@@ -222,15 +212,16 @@ with open(localized_strings_file_name, encoding='utf-8') as csv_file:
     csv_file.seek(0)
     next(place_reader, None)
     for row in place_reader:
-        logging.log(logging.INFO, "Inserting place {}".format(row[0]))
+        logging.log(logging.INFO, "Inserting localized string {}".format(row[0]))
         query = """
-            INSERT INTO LocalizedStrings(name, value, language_id, window_id)
-            VALUES(?, ?, ?, ?)
-        """
-        values = tuple(row[1:5])
-        conn.execute(query, values)
+#  INSERT INTO LocalizedStrings(name, value, language_id, window_id)
+#  VALUES(?, ?, ?, ?)
+"""
+    values = tuple(row[1:5])
+    conn.execute(query, values)
 
-    conn.commit()
+conn.commit()
+"""
 
 with open(csv_file_name, encoding='utf-8') as csv_file:
     dialect = csv.Sniffer().sniff(csv_file.read(1024))
@@ -240,7 +231,7 @@ with open(csv_file_name, encoding='utf-8') as csv_file:
     next(strings_reader, None)
     for row in strings_reader:
         logging.log(
-            logging.INFO, "Inserting localized string {}".format(row[0]))
+            logging.INFO, "Inserting place {}".format(row[0]))
         name = row[0]
         province = row[1]
         province_abbreviation = row[2]
@@ -257,11 +248,11 @@ with open(csv_file_name, encoding='utf-8') as csv_file:
 
 # Indices
 index_queries = (
-    "CREATE INDEX idx_fk_loc_strings ON LocalizedStrings(language_id)",
+    # "CREATE INDEX idx_fk_loc_strings ON LocalizedStrings(language_id)", # Not used anymore
     "CREATE INDEX idx_place_id ON People(place_of_birth_id)",
     "CREATE INDEX idx_prov_abbreviation ON Places(province_abbreviation)",
     "CREATE INDEX idx_region ON Places(region_name)",
-    "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)",
+    # "CREATE INDEX idx_win_id ON LocalizedStrings(window_id)", # Not used anymore
     "CREATE INDEX idx_settings_int ON Settings(int_value)",
     "CREATE INDEX idx_settings_string ON Settings(string_value)"
 )
@@ -273,6 +264,8 @@ conn.close()
 
 logging.debug("Connection to {} closed".format(database_file))
 
+# Not copying database file anymore
+"""
 destination = "../ALD.LibFiscalCode.Persistence/DataSource"
 logging.debug("Copying {} to {}".format(database_file, destination))
 try:
@@ -281,13 +274,12 @@ try:
 except Exception as e:
     logging.exception(e)
 
-logging.info("Completed at {}".format(datetime.now()))
 
 prompt = input("Move data source to its destination? Y/N")
 if prompt.lower() == 'y':
     logging.info(
         "Copying {} to ../ALD.LibFiscalCode.Persistence/DataSource/".format(database_file))
-    copy(database_file, "../ALD.LibFiscalCode.Persistence/DataSource/")
+    copy(database_file, "../ALD.LibFiscalCode.Persistence/DataSource/")"""
 
 logging.log(logging.INFO, "Completed at {}".format(datetime.now()))
 
