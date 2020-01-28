@@ -59,7 +59,7 @@
         <Label Grid.Row="3" 
                Grid.Column="0" 
                Content="{x:Static l10n:Localization.LblSplittingStrategy}"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="DrpChangeSplittingMethod" SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged">
+        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="DrpChangeSplittingMethod" SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged" SelectedIndex="{Binding SelectedSplittingStrategy, Mode=OneWay}">
             <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodFast}" ToolTip="{x:Static l10n:Localization.SplittingMethodFastTooltip}"/>
             <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:Localization.SplittingMethodUnidecodeTooltip}"/>
         </ComboBox>

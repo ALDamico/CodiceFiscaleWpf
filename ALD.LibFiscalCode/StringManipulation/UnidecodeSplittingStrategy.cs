@@ -9,12 +9,12 @@ namespace ALD.LibFiscalCode.StringManipulation
         public UnidecodeSplittingStrategy(string targetString)
         {
             TargetString = targetString;
-            Split();
+            Convert();
         }
 
         public string TargetString { get; }
 
-        public void Split()
+        public void Convert()
         {
             Result = TargetString.ToUpperInvariant().Unidecode();
         }

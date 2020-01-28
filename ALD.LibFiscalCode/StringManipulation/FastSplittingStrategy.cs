@@ -8,14 +8,14 @@ namespace ALD.LibFiscalCode.StringManipulation
         public FastSplittingStrategy(string targetString)
         {
             TargetString = targetString;
-            Split();
+            Convert();
         }
 
         public string Result { get; private set; }
         public string TargetString { get; }
 
         //Based on https://stackoverflow.com/questions/249087/how-do-i-remove-diacritics-accents-from-a-string-in-net
-        public void Split()
+        public void Convert()
         {
             var normalizedString = TargetString.Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
@@ -29,7 +29,7 @@ namespace ALD.LibFiscalCode.StringManipulation
                 }
             }
 
-            Result = stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+            Result = stringBuilder.ToString().Normalize(NormalizationForm.FormC).ToUpper();
         }
     }
 }

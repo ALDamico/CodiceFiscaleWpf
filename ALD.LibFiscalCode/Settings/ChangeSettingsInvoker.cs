@@ -28,16 +28,23 @@ namespace ALD.LibFiscalCode.Settings
             pendingActions.Add(new ChangeDefaultDate(target, newDate));
         }
 
-        public void ChangeDataSourceLocation(string path)
-        {
-            pendingActions.Add(new ChangeDataSourceLocation(target, path));
-            PreviewChanges["DataSourceLocation"] = path;
-        }
-
         public void ChangeMaxHistorySize(int? newSize)
         {
             pendingActions.Add(new ChangeMaxHistorySize(target, newSize));
             PreviewChanges["MaxHistorySize"] = newSize;
+        }
+
+        public void ChangeSplittingStrategy(string newStrategy)
+        {
+            if (newStrategy != "FAST" && newStrategy != "UNIDECODE")
+            {
+                throw new ArgumentException("Invalid strategy");
+            }
+
+            if (newStrategy == target.SplittingStrategy) return;
+
+            pendingActions.Add(new ChangeSplittingStrategy(target, newStrategy));
+            PreviewChanges["SplittingStrategy"] = newStrategy;
         }
 
         public void ChangeAppLanguage(LanguageInfo languageInfo)
@@ -57,10 +64,9 @@ namespace ALD.LibFiscalCode.Settings
             foreach (var action in pendingActions)
             {
                 action.ChangeSetting();
-
-
+                action.IsCompleted = true;
             }
-            using var dataContext = new AppDataContext(settings.DataSourceLocation);
+            using var dataContext = new AppDataContext();
             settings.ApplyChanges(dataContext);
         }
 

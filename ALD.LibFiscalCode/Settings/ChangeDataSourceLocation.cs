@@ -3,6 +3,7 @@ using System.IO;
 
 namespace ALD.LibFiscalCode.Settings
 {
+    /*
     public class ChangeDataSourceLocation : ChangeSettingsBase, IChangeSettingsCommand
     {
         private string targetPath;
@@ -29,4 +30,5 @@ namespace ALD.LibFiscalCode.Settings
             }
         }
     }
+    */
 }

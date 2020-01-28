@@ -16,12 +16,12 @@ namespace ALD.LibFiscalCode.Settings
         {
             get
             {
-                using var db = new AppDataContext(DataSourceLocation);
+                using var db = new AppDataContext();
                 return db.Languages.FirstOrDefault(l => l.Iso2Code.Equals(AppLanguage.Name));
             }
         }
 
-        public string DataSourceLocation { get; set; }
+        //public string DataSourceLocation { get; set; }
         public int MaxHistorySize { get; set; }
         public DateTime DefaultDate { get; set; }
 
@@ -47,10 +47,20 @@ namespace ALD.LibFiscalCode.Settings
             var actualLanguage = SetLanguage(dataContext);
 
             instance.AppLanguage = CultureInfoFactory.GetCultureInfoFromLanguageInfo(actualLanguage);
-            instance.DataSourceLocation = SetDataSourceLocation(dataContext);
+            //instance.DataSourceLocation = SetDataSourceLocation(dataContext);
             instance.MaxHistorySize = SetMaxHistorySize(dataContext);
             instance.DefaultDate = SetDefaultDate(dataContext);
+            instance.SplittingStrategy = SetSplittingStrategy(dataContext);
             return instance;
+        }
+
+        private static string SetSplittingStrategy(AppDataContext dataContext)
+        {
+            if (dataContext == null)
+            {
+                throw new ArgumentNullException(nameof(dataContext));
+            }
+            return dataContext.Settings.FirstOrDefault(s => s.Name.Equals("SplittingStrategy"))?.StringValue;
         }
 
         private static LanguageInfo SetLanguage(AppDataContext dataContext)
@@ -110,27 +120,30 @@ namespace ALD.LibFiscalCode.Settings
                 throw new ArgumentNullException(nameof(dataContext));
             }
             var settingsPersistence = dataContext.Settings;
-            foreach (var setting in settingsPersistence)
+
+            var maxHistorySizeSetting = settingsPersistence.FirstOrDefault(s => s.Name.Equals("MaxHistorySize"));
+            if (maxHistorySizeSetting != null)
             {
-                if (setting.Name.Equals("AppLanguage"))
-                {
-                    setting.StringValue = AppLanguage.Name;
-                }
+                maxHistorySizeSetting.IntValue = MaxHistorySize;
+            }
+            
 
-                if (setting.Name.Equals("DataSourceLocation"))
-                {
-                    setting.StringValue = DataSourceLocation;
-                }
+            var appLanguageSetting = settingsPersistence.FirstOrDefault(s => s.Name.Equals("AppLanguage"));
+            if (appLanguageSetting != null)
+            {
+                appLanguageSetting.StringValue = AppLanguage.Name;
+            }
 
-                if (setting.Name.Equals("MaxHistorySize"))
-                {
-                    setting.IntValue = MaxHistorySize;
-                }
+            var defaultDateSetting = settingsPersistence.FirstOrDefault(s => s.Name.Equals("DefaultDate"));
+            if (defaultDateSetting != null)
+            {
+                defaultDateSetting.StringValue = DefaultDate.ToString(DateFormat.RoundTripSchema);
+            }
 
-                if (setting.Name.Equals("DefaultDate"))
-                {
-                    setting.StringValue = DefaultDate.ToString(DateFormat.RoundTripSchema);
-                }
+            var splittingStrategy = settingsPersistence.FirstOrDefault(s => s.Name.Equals("SplittingStrategy"));
+            if (splittingStrategy != null)
+            {
+                splittingStrategy.StringValue = SplittingStrategy;
             }
 
             dataContext.SaveChanges();
@@ -144,11 +157,13 @@ namespace ALD.LibFiscalCode.Settings
             {
                 return new UnidecodeSplittingStrategy(output);
             }
-            if (result.Name.ToUpperInvariant().Equals("FAST"))
+            if (result.StringValue.ToUpper(CultureInfo.InvariantCulture).Equals("FAST", StringComparison.InvariantCulture))
             {
                 return new FastSplittingStrategy(output);
             }
             return new UnidecodeSplittingStrategy(output);
         }
+
+        public string SplittingStrategy { get; set; }
     }
 }

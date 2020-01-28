@@ -5,6 +5,6 @@
         string TargetString { get; }
         string Result { get; }
 
-        void Split();
+        void Convert();
     }
 }

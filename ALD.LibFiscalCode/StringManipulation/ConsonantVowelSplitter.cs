@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using Unidecode.NET;
 
 namespace ALD.LibFiscalCode.StringManipulation
@@ -17,14 +20,20 @@ namespace ALD.LibFiscalCode.StringManipulation
 
         public ConsonantVowelSplitter(string word)
         {
-            word = word.ToUpperInvariant().Unidecode();
-            ExecuteSplit(word);
+            using var database = new AppDataContext();
+            var split = AppSettings.GetInstance(database).GetSplittingStrategy(word).Result;
+            if (split.Equals(word, StringComparison.InvariantCultureIgnoreCase))
+            {
+                //Uses unidecode method as a fallback if the previous attempt failed.
+                split = new UnidecodeSplittingStrategy(word).Result;
+            }
+            ExecuteSplit(split.ToUpper());
         }
 
         public ConsonantVowelSplitter(string word, ISplittingStrategy strategy)
         {
             word = strategy.Result;
-            ExecuteSplit(word);
+            ExecuteSplit(word.ToUpper());
         }
 
         private void ExecuteSplit(string word)

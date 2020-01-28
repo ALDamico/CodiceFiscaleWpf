@@ -2,7 +2,7 @@
 
 namespace ALD.LibFiscalCode.Settings
 {
-    public class ChangeDefaultDate : ChangeSettingsBase, IChangeSettingsCommand
+    internal class ChangeDefaultDate : ChangeSettingsBase, IChangeSettingsCommand
     {
         private DateTime defaultDate;
 

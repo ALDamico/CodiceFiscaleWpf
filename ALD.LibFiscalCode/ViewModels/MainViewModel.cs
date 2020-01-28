@@ -162,14 +162,14 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
                 Task.Run(
-                    async () =>
+                    () =>
                     {
                         fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
                         FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
-                        await using var context = new AppDataContext();
-                        await context.SavePerson(CurrentPerson);
+                        using var context = new AppDataContext();
+                        context.SavePerson(CurrentPerson);
                         SaveFiscalCode(context, Omocodes, CurrentPerson);
                         context.SaveChangesAsync();
                     }
