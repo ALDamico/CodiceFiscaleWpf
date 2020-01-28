@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using Unidecode.NET;
 
 namespace ALD.LibFiscalCode.StringManipulation
@@ -15,10 +18,26 @@ namespace ALD.LibFiscalCode.StringManipulation
             'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'
         };
 
-
         public ConsonantVowelSplitter(string word)
         {
-            word= word.ToUpperInvariant().Unidecode();
+            using var database = new AppDataContext();
+            var split = AppSettings.GetInstance(database).GetSplittingStrategy(word).Result;
+            if (split.Equals(word, StringComparison.InvariantCultureIgnoreCase))
+            {
+                //Uses unidecode method as a fallback if the previous attempt failed.
+                split = new UnidecodeSplittingStrategy(word).Result;
+            }
+            ExecuteSplit(split.ToUpper());
+        }
+
+        public ConsonantVowelSplitter(string word, ISplittingStrategy strategy)
+        {
+            word = strategy.Result;
+            ExecuteSplit(word.ToUpper());
+        }
+
+        private void ExecuteSplit(string word)
+        {
             Vowels = new List<char>();
             Consonants = new List<char>();
             foreach (var letter in word)
@@ -34,7 +53,7 @@ namespace ALD.LibFiscalCode.StringManipulation
             }
         }
 
-        public List<char> Vowels { get; }
-        public List<char> Consonants { get; }
+        public List<char> Vowels { get; private set; }
+        public List<char> Consonants { get; private set; }
     }
 }

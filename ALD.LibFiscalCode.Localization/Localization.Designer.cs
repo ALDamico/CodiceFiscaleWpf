@@ -502,7 +502,7 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dimensione massima cronologia.
+        ///   Looks up a localized string similar to Dimensione cronologia.
         /// </summary>
         public static string LblMaxHistorySize {
             get {
@@ -570,6 +570,15 @@ namespace ALD.LibFiscalCode.Localization {
         public static string LblSourceFile {
             get {
                 return ResourceManager.GetString("LblSourceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metodo di splitting.
+        /// </summary>
+        public static string LblSplittingStrategy {
+            get {
+                return ResourceManager.GetString("LblSplittingStrategy", resourceCulture);
             }
         }
         
@@ -849,6 +858,42 @@ namespace ALD.LibFiscalCode.Localization {
         public static string SettingsWindowTitle {
             get {
                 return ResourceManager.GetString("SettingsWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Veloce.
+        /// </summary>
+        public static string SplittingMethodFast {
+            get {
+                return ResourceManager.GetString("SplittingMethodFast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Utilizza il metodo rapido di processamento dei caratteri. Migliora le performance ma non è in grado di eseguire la translitterazione automatica da altri alfabeti..
+        /// </summary>
+        public static string SplittingMethodFastTooltip {
+            get {
+                return ResourceManager.GetString("SplittingMethodFastTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unidecode.
+        /// </summary>
+        public static string SplittingMethodUnidecode {
+            get {
+                return ResourceManager.GetString("SplittingMethodUnidecode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Utilizza il metodo Unidecode per il processamento dei caratteri. È più lento e utilizza più memoria, ma è in grado di eseguire la traslitterazione automatica da altri alfabeti..
+        /// </summary>
+        public static string SplittingMethodUnidecodeTooltip {
+            get {
+                return ResourceManager.GetString("SplittingMethodUnidecodeTooltip", resourceCulture);
             }
         }
         

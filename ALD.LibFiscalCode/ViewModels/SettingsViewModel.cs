@@ -32,6 +32,7 @@ namespace ALD.LibFiscalCode.ViewModels
             base.OnPropertyChanged(nameof(AvailableLanguages));
             base.OnPropertyChanged(nameof(Settings));
             base.OnPropertyChanged(nameof(CurrentLanguage));
+            startDetectingChanges = true;
         }
 
         public bool ChangeSettings()
@@ -45,9 +46,49 @@ namespace ALD.LibFiscalCode.ViewModels
             return true;
         }
 
+        private bool startDetectingChanges;
+
         public AppSettings Settings => settings;
         private readonly AppSettings settings;
         private ChangeSettingsInvoker changeSettingsInvoker;
+        private string splittingStrategy;
+
+        public string SplittingStrategy
+        {
+            get
+            {
+                if (changeSettingsInvoker.PreviewChanges.ContainsKey("SplittingStrategy"))
+                {
+                    return (string) ChangeSettingsInvoker.PreviewChanges[nameof(Settings.SplittingStrategy)];
+                }
+
+                return splittingStrategy;
+            }
+            set 
+            {
+                splittingStrategy = value;
+                ChangeSettingsInvoker.ChangeSplittingStrategy(value);
+
+                if (startDetectingChanges)
+                {
+                    OnPropertyChanged(nameof(SplittingStrategy));
+                }
+                
+            }
+        }
+
+        public int SelectedSplittingStrategy
+        {
+            get
+            {
+                if (splittingStrategy != null)
+                {
+                    return splittingStrategy == "FAST" ? 0 : 1;
+                }
+
+                return settings.SplittingStrategy == "FAST" ? 0 : 1;
+            }
+        }
 
         public ChangeSettingsInvoker ChangeSettingsInvoker
         {
@@ -58,7 +99,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 OnPropertyChanged(nameof(ChangeSettingsInvoker));
             }
         }
-
+        /*
         public string DataSourceLocation
         {
             get => settings.DataSourceLocation;
@@ -67,7 +108,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 ChangeSettingsInvoker.ChangeDataSourceLocation(value);
                 OnPropertyChanged(nameof(DataSourceLocation));
             }
-        }
+        }*/
 
         public CultureInfoWithFlag CurrentLanguage
         {

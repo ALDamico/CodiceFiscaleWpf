@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.DatePicker;
 using Microsoft.Win32;
@@ -17,7 +20,8 @@ namespace CodiceFiscaleUI.Settings
         private SettingsViewModel viewModel;
         public SettingsWindow()
         {
-            viewModel = new SettingsViewModel(((App)Application.Current).Settings);
+            using var db = new AppDataContext();
+            viewModel = new SettingsViewModel(AppSettings.GetInstance(db));
             DataContext = viewModel;
             InitializeComponent();
         }
@@ -38,6 +42,8 @@ namespace CodiceFiscaleUI.Settings
             Close();
         }
 
+        //We're not changing the database location anymore
+        /*
         private void BtnPickDbLocation_OnClick(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
@@ -67,7 +73,7 @@ namespace CodiceFiscaleUI.Settings
                 }
             }
         }
-
+        */
         private void BtnConfirm_OnClick(object sender, RoutedEventArgs e)
         {
             viewModel.ChangeSettings();
@@ -81,6 +87,19 @@ namespace CodiceFiscaleUI.Settings
             win.DataContext = viewModel.DefaultDate;
 
             win.ShowDialog();
+        }
+
+        private void DrpChangeSplittingMethod_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DrpChangeSplittingMethod.SelectedIndex == 0)
+            {
+                viewModel.SplittingStrategy = "FAST";
+            }
+            else
+            {
+                viewModel.SplittingStrategy = "UNIDECODE";
+            }
+            viewModel.ChangeSettingsInvoker.ChangeSplittingStrategy(viewModel.SplittingStrategy);
         }
     }
 }
