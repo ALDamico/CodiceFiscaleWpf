@@ -12,13 +12,12 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-      
-
         private Person currentPerson;
 
         private FiscalCode fiscalCode;
@@ -169,9 +168,10 @@ namespace ALD.LibFiscalCode.ViewModels
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
                         using var context = new AppDataContext();
+
                         context.SavePerson(CurrentPerson);
                         SaveFiscalCode(context, Omocodes, CurrentPerson);
-                        context.SaveChangesAsync();
+                        context.SaveChanges();
                     }
                 );
             }
@@ -199,7 +199,7 @@ namespace ALD.LibFiscalCode.ViewModels
             CurrentPerson.PlaceOfBirth = newPlace;
         }
 
-        public void Export(string targetPath,  IExportStrategy exportStrategy)
+        public void Export(string targetPath, IExportStrategy exportStrategy)
         {
             if (exportStrategy == null)
             {

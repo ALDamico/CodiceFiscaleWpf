@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace ALD.LibFiscalCode.Persistence.Sqlite
 {
@@ -63,7 +64,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             peopleEntity.Property(p => p.DateOfBirth).HasColumnName("date_of_birth");
             peopleEntity.Property(p => p.Gender).HasColumnName("gender").HasColumnType("text")
                 .HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
-            peopleEntity.HasOne(p => p.PlaceOfBirth).WithMany().HasForeignKey("place_of_birth_id");
+            peopleEntity.Property<int>("PlaceOfBirthId").HasColumnName("place_of_birth_id");
+            peopleEntity.HasOne<Place>(p => p.PlaceOfBirth).WithMany().HasForeignKey("PlaceOfBirthId");
 
             var fiscalCodeEntity = modelBuilder.Entity<FiscalCodeEntity>();
             fiscalCodeEntity.ToTable("FiscalCodes");
@@ -109,11 +111,12 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         public async Task SavePerson(Person person)
         {
-            if (await People.Include(p => p.PlaceOfBirth).ContainsAsync(person))
+            if (await People.ContainsAsync(person))
             {
                 return;
             }
 
+            Entry(typeof(Place)).State = EntityState.Unchanged;
             People.Add(person);
         }
 
