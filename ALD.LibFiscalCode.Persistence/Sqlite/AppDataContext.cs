@@ -113,11 +113,30 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         {
             if (await People.ContainsAsync(person))
             {
+                Entry(People).State = EntityState.Unchanged;
                 return;
             }
 
             Entry(typeof(Place)).State = EntityState.Unchanged;
             People.Add(person);
+        }
+
+        public async Task SaveFiscalCode(IEnumerable<FiscalCodeDecorator> codes, Person person)
+        {
+            var newFc = new FiscalCodeEntity
+            {
+                FiscalCode = codes.FirstOrDefault(fc => fc.IsMain)?.FiscalCode.FullFiscalCode,
+                Person = person
+            };
+
+            if (await FiscalCodes.ContainsAsync(newFc))
+            {
+                return;
+            }
+            Entry<Place>(person.PlaceOfBirth).State = EntityState.Unchanged;
+            Entry<Person>(person).State = EntityState.Unchanged;
+            FiscalCodes.Add(newFc);
+            await SaveChangesAsync();
         }
 
         public Dictionary<string, string> GetLocalizedStrings(LanguageInfo languageInfo)

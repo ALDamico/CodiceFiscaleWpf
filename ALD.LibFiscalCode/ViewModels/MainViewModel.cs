@@ -168,9 +168,9 @@ namespace ALD.LibFiscalCode.ViewModels
                         omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
                         omocodes = omocodeBuilder.Omocodes;
                         using var context = new AppDataContext();
-
                         context.SavePerson(CurrentPerson);
-                        SaveFiscalCode(context, Omocodes, CurrentPerson);
+                        context.SaveFiscalCode(Omocodes, CurrentPerson);
+
                         context.SaveChanges();
                     }
                 );
@@ -184,13 +184,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private void SaveFiscalCode(AppDataContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {
-            var newFc = new FiscalCodeEntity
-            {
-                FiscalCode = codes.FirstOrDefault(fc => fc.IsMain)?.FiscalCode.FullFiscalCode,
-                Person = person
-            };
-            context.FiscalCodes.Add(newFc);
-            context.SaveChangesAsync();
+            context?.SaveFiscalCode(codes, person);
         }
 
         public void ChangePlace(Place newPlace)
