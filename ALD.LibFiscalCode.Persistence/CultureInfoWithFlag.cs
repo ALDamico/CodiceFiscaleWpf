@@ -14,11 +14,12 @@ namespace ALD.LibFiscalCode.Persistence
             }
             var instance = new CultureInfoWithFlag
             {
-                Culture = new CultureInfo(source.Iso2Code), 
-                ImagePath = source.ImagePath
+                Culture = new CultureInfo(source.Iso2Code),
+                ImagePath = AppDomain.CurrentDomain.BaseDirectory + source.ImagePath
             };
             return instance;
         }
+
         public CultureInfo Culture { get; set; }
         public string ImagePath { get; set; }
     }

@@ -12,6 +12,7 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.ViewModels
@@ -23,6 +24,8 @@ namespace ALD.LibFiscalCode.ViewModels
         private FiscalCode fiscalCode;
 
         private FiscalCodeBuilder fiscalCodeBuilder;
+
+        public bool FiscalCodeCalculated => currentPerson.FiscalCode != null;
 
         private OmocodeBuilder omocodeBuilder;
 
@@ -169,7 +172,20 @@ namespace ALD.LibFiscalCode.ViewModels
                 context.People.Add(CurrentPerson);
                 context.Entry(CurrentPerson.PlaceOfBirth).State = EntityState.Unchanged;
 
-                context.SaveChanges();
+                OnPropertyChanged(nameof(FiscalCode));
+                OnPropertyChanged(nameof(CurrentPerson));
+                OnPropertyChanged(nameof(CurrentPerson.FiscalCode));
+                OnPropertyChanged(nameof(FiscalCodeCalculated));
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (SqliteException)
+                {
+                }
+                catch (DbUpdateException)
+                {
+                }
             }
 
             EndEdit();

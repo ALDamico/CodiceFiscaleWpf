@@ -12,9 +12,10 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
-using CodiceFiscaleUI.ArchiveWindow;
+using ArchiveWindow = CodiceFiscaleUI.ArchiveWindow.ArchiveWindow;
 using Microsoft.Win32;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
+using System.Diagnostics;
 
 namespace CodiceFiscaleUI
 {
@@ -187,6 +188,14 @@ namespace CodiceFiscaleUI
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             DataContext = viewModel;
+            var configWindow = Application.Current.Windows;
+            foreach (var win in configWindow)
+            {
+                if (win != this)
+                {
+                    ((Window)win).Close();
+                }
+            }
         }
 
         private void BtnOpenPlaceList_OnClick(object sender, RoutedEventArgs e)
@@ -256,6 +265,21 @@ namespace CodiceFiscaleUI
         {
             var archiveWin = new ArchiveWindow.ArchiveWindow();
             archiveWin.Show();
+        }
+
+        private void MnuShowOmocodes_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void MnuViewOmocodes_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void MnuOpenWebsite_Click(object sender, RoutedEventArgs e)
+        {
+            //Broken in dotnet core, has to use this trick from here: https://brockallen.com/2016/09/24/process-start-for-urls-on-net-core/
+            var url = "https://www.lucianodamico.info";
+            Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
         }
     }
 }

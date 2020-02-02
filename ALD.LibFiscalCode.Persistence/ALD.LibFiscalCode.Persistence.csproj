@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\AppDataContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="DataSource\app.db" />
+    <None Remove="DataSource\Places_201912281810.csv" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +34,22 @@
   <ItemGroup>
     <Content Include="DataSource\app.db">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Content Include="Migrations\Places_201912281810.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Content Include="Migrations\AppDataContextModelSnapshot.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

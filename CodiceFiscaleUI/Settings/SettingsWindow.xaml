@@ -8,8 +8,8 @@
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
         mc:Ignorable="d"
-        Title="{x:Static l10n:Localization.SettingsWindowTitle}" 
-        ResizeMode="NoResize" 
+        Title="{x:Static l10n:Localization.SettingsWindowTitle}"
+        ResizeMode="NoResize"
         SizeToContent="WidthAndHeight">
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -24,80 +24,83 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" MinWidth="100" />
         </Grid.ColumnDefinitions>
-        <Label Grid.Row="0" 
+        <Label Grid.Row="0"
                Grid.Column="0"
-               Grid.ColumnSpan="2" 
-               FontSize="28" 
+               Grid.ColumnSpan="2"
+               FontSize="28"
                HorizontalContentAlignment="Center"
-               Content="{x:Static l10n:Localization.SettingsWindowBanner}"
-               />
-        <Label Grid.Row="1" 
-               Grid.Column="0" 
+               Content="{x:Static l10n:Localization.SettingsWindowBanner}" />
+        <Label Grid.Row="1"
+               Grid.Column="0"
                Content="{x:Static l10n:Localization.LblLanguage}" />
-        <ComboBox Grid.Row="1" 
-                  Grid.Column="1" 
-                  ItemsSource="{Binding AvailableLanguages}" 
-                  SelectedItem="{Binding CurrentLanguage}" 
+        <ComboBox Grid.Row="1"
+                  Grid.Column="1"
+                  ItemsSource="{Binding AvailableLanguages}"
+                  SelectedItem="{Binding CurrentLanguage}"
                   x:Name="DrpLanguage">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding ImagePath}" 
-                               MaxHeight="16"/>
-                        <Label Content="{Binding Culture.DisplayName}"/>
+                        <Image Source="{Binding ImagePath}"
+                               MaxHeight="16" />
+                        <Label Content="{Binding Culture.DisplayName}" />
                     </StackPanel>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
             <!-- Dropdown for language selection -->
         </ComboBox>
-        <Label Grid.Row="2" 
-               Grid.Column="0" 
+        <Label Grid.Row="2"
+               Grid.Column="0"
                Content="{x:Static l10n:Localization.LblMaxHistorySize}" />
-        <TextBox Grid.Row="2" 
-                 Grid.Column="1" 
+        <TextBox Grid.Row="2"
+                 Grid.Column="1"
                  Text="{Binding MaxHistorySize}" />
-        <Label Grid.Row="3" 
-               Grid.Column="0" 
-               Content="{x:Static l10n:Localization.LblSplittingStrategy}"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="DrpChangeSplittingMethod" SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged" SelectedIndex="{Binding SelectedSplittingStrategy, Mode=OneWay}">
-            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodFast}" ToolTip="{x:Static l10n:Localization.SplittingMethodFastTooltip}"/>
-            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:Localization.SplittingMethodUnidecodeTooltip}"/>
+        <Label Grid.Row="3"
+               Grid.Column="0"
+               Content="{x:Static l10n:Localization.LblSplittingStrategy}" />
+        <ComboBox Grid.Row="3"
+                  Grid.Column="1"
+                  x:Name="DrpChangeSplittingMethod"
+                  SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged"
+                  SelectedIndex="{Binding SelectedSplittingStrategy, Mode=OneWay}">
+            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodFast}" ToolTip="{x:Static l10n:Localization.SplittingMethodFastTooltip}" />
+            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:Localization.SplittingMethodUnidecodeTooltip}" />
         </ComboBox>
-        <!--<Label Grid.Row="3" 
-               Grid.Column="0" 
-               Content="{x:Static l10n:Localization.LblDatabasePath}"/>
-        <StackPanel Grid.Row="3" 
-                    Grid.Column="1" 
+        <!--<Label Grid.Row="3"
+               Grid.Column="0"
+               Content="{x:Static l10n:Localization.LblDatabasePath}" />
+        <StackPanel Grid.Row="3"
+                    Grid.Column="1"
                     Orientation="Horizontal">
-            <TextBox MinWidth="200" 
-                     MaxWidth="200" 
+            <TextBox MinWidth="200"
+                     MaxWidth="200"
                      Text="{Binding DataSourceLocation}" />
-            <Button Content="..." 
-                    Width="30" 
-                    x:Name="BtnPickDbLocation" 
+            <Button Content="..."
+                    Width="30"
+                    x:Name="BtnPickDbLocation"
                     Click="BtnPickDbLocation_OnClick" />
         </StackPanel>-->
-        <Label Grid.Row="4" 
-               Grid.Column="0" 
+        <Label Grid.Row="4"
+               Grid.Column="0"
                Content="{x:Static l10n:Localization.LblDefaultDate}" />
-        <TextBox Grid.Row="4" 
-                 Grid.Column="1" 
-                 x:Name="TxtDefaultDate" 
-                 MouseDoubleClick="TxtDefaultDate_OnMouseDoubleClick" 
-                 Text="{Binding DefaultDate, StringFormat=dd/MM/yyyy}" 
-                 HorizontalContentAlignment="Center"/>
-        <StackPanel Grid.Row="5" 
-                    Grid.Column="0" 
-                    Grid.ColumnSpan="2" 
-                    Orientation="Horizontal" 
+        <TextBox Grid.Row="4"
+                 Grid.Column="1"
+                 x:Name="TxtDefaultDate"
+                 MouseDoubleClick="TxtDefaultDate_OnMouseDoubleClick"
+                 Text="{Binding DefaultDate, StringFormat=dd/MM/yyyy}"
+                 HorizontalContentAlignment="Center" />
+        <StackPanel Grid.Row="5"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Center">
-            <Button Content="{x:Static l10n:Localization.BtnConfirm}" 
-                    x:Name="BtnConfirm" 
+            <Button Content="{x:Static l10n:Localization.BtnConfirm}"
+                    x:Name="BtnConfirm"
                     Click="BtnConfirm_OnClick"></Button>
             <Separator Width="20"
-                       Visibility="Hidden"/>
-            <Button Content="{x:Static l10n:Localization.BtnCancel}" 
-                    x:Name="BtnCancel" 
+                       Visibility="Hidden" />
+            <Button Content="{x:Static l10n:Localization.BtnCancel}"
+                    x:Name="BtnCancel"
                     Click="BtnCancel_OnClick" />
         </StackPanel>
     </Grid>

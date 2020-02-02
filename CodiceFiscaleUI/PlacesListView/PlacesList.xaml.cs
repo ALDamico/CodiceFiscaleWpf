@@ -13,7 +13,7 @@ namespace CodiceFiscaleUI.PlacesListView
     /// <summary>
     ///     Interaction logic for PlacesList.xaml
     /// </summary>
-    public partial class PlacesList:Window
+    public partial class PlacesList : Window
     {
         private readonly MainViewModel parentViewModel;
 
@@ -25,8 +25,8 @@ namespace CodiceFiscaleUI.PlacesListView
         {
             viewModel = new PlacesListViewModel(places as ICollection<Place>);
 
-           viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
-                ListSortDirection.Ascending));
+            viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
+                 ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
@@ -65,7 +65,7 @@ namespace CodiceFiscaleUI.PlacesListView
             }
 
             var filterText = (sender as TextBox)?.Text;
-            if (string.IsNullOrEmpty(filterText) ||  filterText.Equals(Localization.TxtFilterResults))
+            if (string.IsNullOrEmpty(filterText) || filterText.Equals(Localization.TxtFilterResults))
             {
                 viewModel.ResetFilter();
             }
@@ -114,6 +114,16 @@ namespace CodiceFiscaleUI.PlacesListView
         private void BtnClose_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void ListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+
+        private void LstPlace_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var elemnt = (sender as ListBoxItem).DataContext as Place;
+            BtnSelectPlace_OnClick(this, e);
         }
     }
 }

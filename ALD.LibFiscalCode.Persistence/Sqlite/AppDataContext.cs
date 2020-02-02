@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Enums;
@@ -15,9 +16,9 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         {
         }
 
-        public AppDataContext(string dbPath)
+        public async Task MigrateAsync()
         {
-            this.dbPath = dbPath;
+            Database.Migrate();
         }
 
         public DbSet<Place> Places { get; set; }
@@ -33,10 +34,16 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         {
             if (string.IsNullOrEmpty(dbPath))
             {
-                dbPath = AppDomain.CurrentDomain.BaseDirectory + "\\DataSource\\app.db";
+                dbPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CodiceFiscale\\DataSource\\app.db";
+            }
+
+            if (!File.Exists(dbPath))
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CodiceFiscale\\DataSource");
             }
             string connectionString = $"Data source={dbPath}";
             optionsBuilder.UseSqlite(connectionString);
+
             base.OnConfiguring(optionsBuilder);
         }
 
