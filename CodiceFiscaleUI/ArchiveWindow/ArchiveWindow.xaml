@@ -21,7 +21,9 @@
                   ItemsSource="{Binding People, IsAsync=True}"
                   x:Name="GrdPeople"
                   AutoGenerateColumns="False"
-                  CanUserAddRows="False">
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  PreviewKeyDown="GrdPeople_PreviewKeyDown">
 
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -36,7 +38,7 @@
                               Click="MnuExportToJson_Click" />
                         <MenuItem Header="{x:Static l10n:Localization.MnuExportToXml}"
                               x:Name="MnuExportToXml"
-                              Click="MnuExportToJson_Click" />
+                              Click="MnuExportToXml_Click" />
                     </MenuItem>
                     <Separator />
                     <MenuItem Header="Elimina" Name="MnuDelete" Click="MnuDelete_Click">

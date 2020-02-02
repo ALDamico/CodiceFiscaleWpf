@@ -358,6 +358,12 @@
   <data name="MsgBoxExportUnavailableText" xml:space="preserve">
     <value>Non è possibile esportare perché non hai ancora calcolato un codice fiscale.</value>
   </data>
+  <data name="MsgBoxFeatureUnavailableCaption" xml:space="preserve">
+    <value>Funzionalità non disponibile!</value>
+  </data>
+  <data name="MsgBoxFeatureUnavailableText" xml:space="preserve">
+    <value>La funzionalità richiesta non è ancora disponibile.</value>
+  </data>
   <data name="MsgBoxInvalidDatabaseCaption" xml:space="preserve">
     <value>File non valido</value>
   </data>

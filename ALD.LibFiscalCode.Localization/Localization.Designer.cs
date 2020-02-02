@@ -782,6 +782,24 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funzionalità non disponibile!.
+        /// </summary>
+        public static string MsgBoxFeatureUnavailableCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxFeatureUnavailableCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La funzionalità richiesta non è ancora disponibile..
+        /// </summary>
+        public static string MsgBoxFeatureUnavailableText {
+            get {
+                return ResourceManager.GetString("MsgBoxFeatureUnavailableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File non valido.
         /// </summary>
         public static string MsgBoxInvalidDatabaseCaption {

@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.ViewModels;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 using Microsoft.Win32;
 using ALD.LibFiscalCode.Exporters;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CodiceFiscaleUI.ArchiveWindow
 {
@@ -53,31 +47,58 @@ namespace CodiceFiscaleUI.ArchiveWindow
             return GrdPeople.SelectedItems as IEnumerable<Person>;
         }
 
+        private void MnuExportToXml_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Localization.MsgBoxFeatureUnavailableText, Localization.MsgBoxFeatureUnavailableCaption);
+        }
+
         private void MnuExportToJson_Click(object sender, RoutedEventArgs e)
         {
             var selectedElements = GrdPeople.SelectedItems;
-            var dialog = new SaveFileDialog();
-            dialog.CheckFileExists = false;
-            dialog.AddExtension = true;
-            dialog.DefaultExt = ".json";
-            dialog.Title = Localization.ExportDialogTitle;
+            var dialog = new SaveFileDialog
+            {
+                CheckFileExists = false,
+                AddExtension = true,
+                DefaultExt = ".json",
+                Title = Localization.ExportDialogTitle,
+                Filter = Localization.ExportDialogJsonFilter,
+            };
 
             var elementsToExport = new List<PersonJson>();
-            dialog.Filter = Localization.ExportDialogJsonFilter;
-            dialog.FileName = "Export_" + DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
+
+            if (selectedElements.Count == 1)
+            {
+                dialog.FileName = (selectedElements[0] as Person).Name + "_" + (selectedElements[0] as Person).Surname + "_" +
+                                      DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
+                var currentFiscalCode = (selectedElements[0] as Person).FiscalCode;
+            }
+            else
+            {
+                dialog.FileName = "Export_" + DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
+                foreach (var person in selectedElements)
+                {
+                    var currentFiscalCode = (person as Person).FiscalCode;
+                    var currentJsonObject = new PersonJson(person as Person, currentFiscalCode);
+                    elementsToExport.Add(currentJsonObject);
+                }
+            }
             var response = dialog.ShowDialog(this);
 
-            foreach (var person in selectedElements)
+            if (selectedElements.Count == 1)
             {
-                var currentFiscalCode = (person as Person).FiscalCode;
-                var currentJsonObject = new PersonJson(person as Person, currentFiscalCode);
-                elementsToExport.Add(currentJsonObject);
+                if (response.GetValueOrDefault() == true)
+                {
+                    var exporter = new JsonExporter();
+                    exporter.Export(selectedElements[0] as Person, dialog.FileName);
+                }
             }
-
-            if (response.GetValueOrDefault() == true)
+            else
             {
-                var exporter = new JsonExporter();
-                exporter.Export(elementsToExport, dialog.FileName);
+                if (response.GetValueOrDefault() == true)
+                {
+                    var exporter = new JsonExporter();
+                    exporter.Export(elementsToExport, dialog.FileName);
+                }
             }
         }
 
@@ -90,7 +111,7 @@ namespace CodiceFiscaleUI.ArchiveWindow
                 peopleList.Add(element as Person);
             }
 
-            string message = "";
+            string message;
             if (peopleList.Count == 1)
             {
                 message = Localization.MsgDeleteTextSingular;
@@ -104,6 +125,18 @@ namespace CodiceFiscaleUI.ArchiveWindow
             if (response == MessageBoxResult.OK)
             {
                 viewModel.DeletePeople(peopleList);
+            }
+        }
+
+        private void GrdPeople_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            var dg = sender as DataGrid;
+            if (dg != null)
+            {
+                if (e.Key == Key.Delete)
+                {
+                    MnuDelete_Click(this, e);
+                }
             }
         }
     }
