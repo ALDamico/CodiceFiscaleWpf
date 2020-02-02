@@ -70,6 +70,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archivio.
+        /// </summary>
+        public static string ArchiveWindowTitle {
+            get {
+                return ResourceManager.GetString("ArchiveWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calcola.
         /// </summary>
         public static string BtnCalculate {
@@ -201,6 +210,16 @@ namespace ALD.LibFiscalCode.Localization {
         public static string ChkEnableCustMapping {
             get {
                 return ResourceManager.GetString("ChkEnableCustMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] codicefiscale_icopng {
+            get {
+                object obj = ResourceManager.GetObject("codicefiscale_icopng", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

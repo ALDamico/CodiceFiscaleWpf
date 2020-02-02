@@ -36,7 +36,11 @@
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuArchive}"
                           x:Name="MnuArchive"
-                          Click="MnuArchive_OnClick"></MenuItem>
+                          Click="MnuArchive_OnClick">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/address-book-o.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuExport}"
                           x:Name="MnuExport">
@@ -50,7 +54,11 @@
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
                           x:Name="MnuQuit"
-                          Click="MnuQuit_Click" />
+                          Click="MnuQuit_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/close.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}"
                       x:Name="MnuAdvanced">
@@ -69,7 +77,11 @@
                       Header="{x:Static l10n:Localization.MnuHelp}">
                 <MenuItem Header="{x:Static l10n:Localization.MnuAbout}"
                           x:Name="MnuAbout"
-                          Click="MnuAbout_OnClick" />
+                          Click="MnuAbout_OnClick">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/question-circle-o.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -159,7 +171,7 @@
                             TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
 
                     <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <fa:FontAwesome Icon="Search" FontSize="17"></fa:FontAwesome>
+                        <Image Source="Assets/search.png" Width="16" />
                         <Label Content="{x:Static l10n:Localization.LblSearch}"></Label>
                     </StackPanel>
                 </Button>
@@ -168,7 +180,7 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Grid.Row="2"
-                    Grid.Column="0">
+                    Grid.Column="1">
             <Button Margin="10"
                     x:Name="BtnReset"
                     Click="BtnReset_Click">
@@ -194,8 +206,14 @@
                              Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                 <Button x:Name="BtnCopyToClipboard"
                             HorizontalAlignment="Center"
-                            Content="{x:Static l10n:Localization.BtnCopyToClipboard}"
-                            Click="BtnCopyToClipboard_Click" />
+                            Click="BtnCopyToClipboard_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Assets/copy.png" Width="16" Height="16" />
+                            <Label Content="{x:Static l10n:Localization.BtnCopyToClipboard}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">

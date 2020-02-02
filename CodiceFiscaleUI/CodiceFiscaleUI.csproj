@@ -12,6 +12,7 @@
     <StartupObject>CodiceFiscaleUI.App</StartupObject>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <ApplicationIcon>Assets\codicefiscale-icopng.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,7 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\address-book-o.png" />
+    <None Remove="Assets\close.png" />
+    <None Remove="Assets\codicefiscale-icopng.ico" />
+    <None Remove="Assets\copy.png" />
+    <None Remove="Assets\download.png" />
     <None Remove="Assets\it.png" />
+    <None Remove="Assets\question-circle-o.png" />
+    <None Remove="Assets\search.png" />
     <None Remove="Assets\us.png" />
     <None Include="..\LICENSE">
       <Pack>True</Pack>
@@ -32,7 +40,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\address-book-o.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\close.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="Assets\codicefiscale-icopng.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Assets\copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\it.png" />
+    <Resource Include="Assets\question-circle-o.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\search.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
