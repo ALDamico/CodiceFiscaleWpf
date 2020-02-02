@@ -746,6 +746,24 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Non supportato!.
+        /// </summary>
+        public static string MsgBoxCopyNotSupportedCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxCopyNotSupportedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copiare più codici fiscali non è un&apos;operazione supportata!.
+        /// </summary>
+        public static string MsgBoxCopyNotSupportedText {
+            get {
+                return ResourceManager.GetString("MsgBoxCopyNotSupportedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Impossibile esportare.
         /// </summary>
         public static string MsgBoxExportUnavailableCaption {

@@ -346,6 +346,12 @@
   <data name="MonthOfDateRangeError" xml:space="preserve">
     <value>Valid parameter range 1-12</value>
   </data>
+  <data name="MsgBoxCopyNotSupportedCaption" xml:space="preserve">
+    <value>Non supportato!</value>
+  </data>
+  <data name="MsgBoxCopyNotSupportedText" xml:space="preserve">
+    <value>Copiare più codici fiscali non è un'operazione supportata!</value>
+  </data>
   <data name="MsgBoxExportUnavailableCaption" xml:space="preserve">
     <value>Impossibile esportare</value>
   </data>

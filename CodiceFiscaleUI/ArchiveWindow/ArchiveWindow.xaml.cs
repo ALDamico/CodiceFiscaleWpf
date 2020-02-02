@@ -38,11 +38,10 @@ namespace CodiceFiscaleUI.ArchiveWindow
 
         private void MnuCopy_Click(object sender, RoutedEventArgs e)
         {
-            var eventType = e.RoutedEvent;
             var selectedElements = GrdPeople.SelectedItems;
             if (selectedElements.Count > 1)
             {
-                MessageBox.Show("Copiare più codici fiscali non è un'operazione supportata!", "Non supportato!");
+                MessageBox.Show(Localization.MsgBoxCopyNotSupportedText, Localization.MsgBoxCopyNotSupportedCaption);
                 return;
             }
 
