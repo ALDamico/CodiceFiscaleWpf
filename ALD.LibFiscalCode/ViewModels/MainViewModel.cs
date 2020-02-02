@@ -199,7 +199,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 throw new ArgumentNullException(nameof(exportStrategy));
             }
-            exportStrategy.Export(this, targetPath);
+            exportStrategy.Export(currentPerson, targetPath);
         }
     }
 }
