@@ -12,13 +12,12 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
     public class MainViewModel : AbstractNotifyPropertyChanged, IEditableObject
     {
-      
-
         private Person currentPerson;
 
         private FiscalCode fiscalCode;
@@ -160,20 +159,17 @@ namespace ALD.LibFiscalCode.ViewModels
             Validator = new PersonValidator(CurrentPerson);
             if (Validator.IsValid)
             {
-                //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
-                Task.Run(
-                    () =>
-                    {
-                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
-                        FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
-                        omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
-                        omocodes = omocodeBuilder.Omocodes;
-                        using var context = new AppDataContext();
-                        context.SavePerson(CurrentPerson);
-                        SaveFiscalCode(context, Omocodes, CurrentPerson);
-                        context.SaveChangesAsync();
-                    }
-                );
+                fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+                FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+                CurrentPerson.FiscalCode = new FiscalCodeEntity() { FiscalCode = FiscalCode.FullFiscalCode, Person = CurrentPerson };
+                omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
+                omocodes = omocodeBuilder.Omocodes;
+                using var context = new AppDataContext();
+                context.FiscalCodes.Add(CurrentPerson.FiscalCode);
+                context.People.Add(CurrentPerson);
+                context.Entry(CurrentPerson.PlaceOfBirth).State = EntityState.Unchanged;
+
+                context.SaveChanges();
             }
 
             EndEdit();
@@ -184,13 +180,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private void SaveFiscalCode(AppDataContext context, IEnumerable<FiscalCodeDecorator> codes, Person person)
         {
-            var newFc = new FiscalCodeEntity
-            {
-                FiscalCode = codes.FirstOrDefault(fc => fc.IsMain)?.FiscalCode.FullFiscalCode,
-                Person = person
-            };
-            context.FiscalCodes.Add(newFc);
-            context.SaveChangesAsync();
+            context?.SaveFiscalCode(codes, person);
         }
 
         public void ChangePlace(Place newPlace)
@@ -199,13 +189,13 @@ namespace ALD.LibFiscalCode.ViewModels
             CurrentPerson.PlaceOfBirth = newPlace;
         }
 
-        public void Export(string targetPath,  IExportStrategy exportStrategy)
+        public void Export(string targetPath, IExportStrategy exportStrategy)
         {
             if (exportStrategy == null)
             {
                 throw new ArgumentNullException(nameof(exportStrategy));
             }
-            exportStrategy.Export(this, targetPath);
+            exportStrategy.Export(currentPerson, targetPath);
         }
     }
 }

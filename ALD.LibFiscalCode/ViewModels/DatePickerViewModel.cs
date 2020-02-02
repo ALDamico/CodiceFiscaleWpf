@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using ALD.LibFiscalCode.Persistence.Events;
-using ALD.LibFiscalCode.Persistence.Localization;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -13,8 +12,6 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             SelectedDateTime = startingDate;
         }
-
-        
 
         public DateTime SelectedDateTime
         {

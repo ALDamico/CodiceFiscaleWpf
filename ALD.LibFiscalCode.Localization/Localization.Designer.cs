@@ -70,6 +70,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Archivio.
+        /// </summary>
+        public static string ArchiveWindowTitle {
+            get {
+                return ResourceManager.GetString("ArchiveWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calcola.
         /// </summary>
         public static string BtnCalculate {
@@ -201,6 +210,16 @@ namespace ALD.LibFiscalCode.Localization {
         public static string ChkEnableCustMapping {
             get {
                 return ResourceManager.GetString("ChkEnableCustMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] codicefiscale_icopng {
+            get {
+                object obj = ResourceManager.GetObject("codicefiscale_icopng", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -727,6 +746,24 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Non supportato!.
+        /// </summary>
+        public static string MsgBoxCopyNotSupportedCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxCopyNotSupportedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copiare più codici fiscali non è un&apos;operazione supportata!.
+        /// </summary>
+        public static string MsgBoxCopyNotSupportedText {
+            get {
+                return ResourceManager.GetString("MsgBoxCopyNotSupportedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Impossibile esportare.
         /// </summary>
         public static string MsgBoxExportUnavailableCaption {
@@ -741,6 +778,24 @@ namespace ALD.LibFiscalCode.Localization {
         public static string MsgBoxExportUnavailableText {
             get {
                 return ResourceManager.GetString("MsgBoxExportUnavailableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Funzionalità non disponibile!.
+        /// </summary>
+        public static string MsgBoxFeatureUnavailableCaption {
+            get {
+                return ResourceManager.GetString("MsgBoxFeatureUnavailableCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La funzionalità richiesta non è ancora disponibile..
+        /// </summary>
+        public static string MsgBoxFeatureUnavailableText {
+            get {
+                return ResourceManager.GetString("MsgBoxFeatureUnavailableText", resourceCulture);
             }
         }
         
@@ -795,6 +850,33 @@ namespace ALD.LibFiscalCode.Localization {
         public static string MsgBoxResetText {
             get {
                 return ResourceManager.GetString("MsgBoxResetText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conferma eliminazione.
+        /// </summary>
+        public static string MsgDeleteCaption {
+            get {
+                return ResourceManager.GetString("MsgDeleteCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sei sicuro di voler eliminare gli elementi selezionati?.
+        /// </summary>
+        public static string MsgDeleteTextPlural {
+            get {
+                return ResourceManager.GetString("MsgDeleteTextPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sei sicuro di voler eliminare l&apos;elemento selezionato?.
+        /// </summary>
+        public static string MsgDeleteTextSingular {
+            get {
+                return ResourceManager.GetString("MsgDeleteTextSingular", resourceCulture);
             }
         }
         

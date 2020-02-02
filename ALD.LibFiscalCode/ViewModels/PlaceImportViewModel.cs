@@ -18,7 +18,7 @@ namespace ALD.LibFiscalCode.ViewModels
 
         private string inputFilename;
 
-        private readonly Type placeType = new Place().GetType();
+        private readonly Type placeType = typeof(Place);
 
         private bool usesCustomMapping;
 
@@ -27,7 +27,7 @@ namespace ALD.LibFiscalCode.ViewModels
             InputFilename = null;
             Mode = ImportMode.Update;
             Configuration = new ImporterConfiguration();
-           
+
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.SelectedPropertyName));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.Position));
             PropertyChanged += base.OnPropertyChanged(nameof(PlaceCsvMapper.CsvName));

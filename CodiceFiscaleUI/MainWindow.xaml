@@ -6,6 +6,7 @@
          xmlns:local="clr-namespace:CodiceFiscaleUI"
          xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
          xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
+         xmlns:fa="http://schemas.fontawesome.io/icons/"
          d:DataContext="{d:DesignInstance vm:MainViewModel}"
          mc:Ignorable="d"
          Title="{x:Static l10n:Localization.MainWindowTitle}"
@@ -35,7 +36,11 @@
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuArchive}"
                           x:Name="MnuArchive"
-                          Click="MnuArchive_OnClick"></MenuItem>
+                          Click="MnuArchive_OnClick">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/address-book-o.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuExport}"
                           x:Name="MnuExport">
@@ -49,7 +54,11 @@
                 <Separator />
                 <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
                           x:Name="MnuQuit"
-                          Click="MnuQuit_Click" />
+                          Click="MnuQuit_Click">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/close.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}"
                       x:Name="MnuAdvanced">
@@ -68,7 +77,11 @@
                       Header="{x:Static l10n:Localization.MnuHelp}">
                 <MenuItem Header="{x:Static l10n:Localization.MnuAbout}"
                           x:Name="MnuAbout"
-                          Click="MnuAbout_OnClick" />
+                          Click="MnuAbout_OnClick">
+                    <MenuItem.Icon>
+                        <Image Source="Assets/question-circle-o.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
@@ -95,8 +108,7 @@
                      Grid.Column="1"
                      x:Name="TxtName"
                      VerticalContentAlignment="Center"
-                     Text="{Binding CurrentPerson.Name}"
-                     Height="20" />
+                     Text="{Binding CurrentPerson.Name}" />
             <Label Grid.Row="1"
                    Grid.Column="0"
                    x:Name="LblSurname"
@@ -105,8 +117,7 @@
                      Grid.Column="1"
                      x:Name="TxtSurname"
                      VerticalContentAlignment="Center"
-                     Text="{Binding CurrentPerson.Surname}"
-                     Height="20" />
+                     Text="{Binding CurrentPerson.Surname}" />
             <Label Grid.Row="2"
                    Grid.Column="0"
                    x:Name="LblGender"
@@ -114,8 +125,7 @@
             <ComboBox Grid.Row="2"
                       Grid.Column="1"
                       x:Name="DrpGenderSelector"
-                      SelectionChanged="DrpGenderSelector_SelectionChanged"
-                      Height="20">
+                      SelectionChanged="DrpGenderSelector_SelectionChanged">
                 <ComboBoxItem>M</ComboBoxItem>
                 <ComboBoxItem>F</ComboBoxItem>
             </ComboBox>
@@ -132,8 +142,7 @@
                      HorizontalContentAlignment="Center"
                      MouseDown="TxtCalendar_MouseDown"
                      MouseDoubleClick="TxtCalendar_MouseDown"
-                     Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}"
-                     Height="20" />
+                     Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}" />
             <Label Grid.Row="4"
                    Grid.Column="0"
                    x:Name="LblPlaceOfBirth"
@@ -147,7 +156,7 @@
                       ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                       SelectionChanged="DrpPlaceOfBirth_SelectionChanged"
                       SelectedItem="{Binding SelectedPlace}"
-                      Height="20" Width="124">
+                       Width="124">
                     <ComboBox.ItemsPanel>
                         <!--https://stackoverflow.com/questions/8198645/wpf-combobox-performance-problems-by-binding-a-large-collections-->
                         <ItemsPanelTemplate>
@@ -157,25 +166,13 @@
                 </ComboBox>
                 <Button x:Name="BtnOpenPlaceList"
                             Click="BtnOpenPlaceList_OnClick"
-                            Height="20"
-                            IsEnabled="{Binding PlacesLoaded}">
-                    <StackPanel HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                        <Canvas Name="Svg3745">
-                            <Canvas.RenderTransform>
-                                <TranslateTransform X="0" Y="8" />
-                            </Canvas.RenderTransform>
-                            <Canvas.Resources />
-                            <Path Name="Path3743"
-                                      Fill="#000000"
-                                      Data="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
-                                      Height="16" Stretch="UniformToFill" Width="16" />
-                        </Canvas>
-                        <Separator Visibility="Hidden" Width="55" />
-                        <Label x:Name="LblSearch"
-                                   HorizontalContentAlignment="Right"
-                                   VerticalContentAlignment="Center"
-                                   Content="{x:Static l10n:Localization.LblSearch}" />
+                            IsEnabled="{Binding PlacesLoaded}"
+
+                            TextElement.FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome">
+
+                    <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="Assets/search.png" Width="16" />
+                        <Label Content="{x:Static l10n:Localization.LblSearch}"></Label>
                     </StackPanel>
                 </Button>
             </VirtualizingStackPanel>
@@ -183,7 +180,7 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Grid.Row="2"
-                    Grid.Column="0">
+                    Grid.Column="1">
             <Button Margin="10"
                     x:Name="BtnReset"
                     Click="BtnReset_Click">
@@ -209,8 +206,14 @@
                              Text="{Binding FiscalCode.FullFiscalCode, Mode=OneWay}" />
                 <Button x:Name="BtnCopyToClipboard"
                             HorizontalAlignment="Center"
-                            Content="{x:Static l10n:Localization.BtnCopyToClipboard}"
-                            Click="BtnCopyToClipboard_Click" />
+                            Click="BtnCopyToClipboard_Click">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Assets/copy.png" Width="16" Height="16" />
+                            <Label Content="{x:Static l10n:Localization.BtnCopyToClipboard}" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">

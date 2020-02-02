@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using ALD.LibFiscalCode.Interfaces;
@@ -8,16 +9,16 @@ using ALD.LibFiscalCode.ViewModels;
 
 namespace ALD.LibFiscalCode.Exporters
 {
-    public class XmlExporter:IExportStrategy
+    public class XmlExporter : IExportStrategy
     {
-        public void Export(MainViewModel viewModel, string path)
+        public void Export(Person person, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            var exportedObject = new PersonJson(viewModel.CurrentPerson, viewModel.FiscalCode);
+            var exportedObject = new PersonJson(person, person.FiscalCode);
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
@@ -54,6 +55,11 @@ namespace ALD.LibFiscalCode.Exporters
                 writer.WriteEndElement(); //person
                 writer.WriteEndDocument();
             }
+        }
+
+        public void Export(IEnumerable<Person> peopleList, string fileName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

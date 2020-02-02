@@ -9,15 +9,17 @@ using ALD.LibFiscalCode.Persistence.Sqlite;
 
 namespace ALD.LibFiscalCode.Settings
 {
-    internal class ChangeSplittingStrategy: ChangeSettingsBase, IChangeSettingsCommand
+    internal class ChangeSplittingStrategy : ChangeSettingsBase, IChangeSettingsCommand
     {
         private string method;
 
-        public ChangeSplittingStrategy(AppSettings settings, string method):base(settings)
+        public ChangeSplittingStrategy(AppSettings settings, string method) : base(settings)
         {
             this.method = method;
         }
+
         public bool IsCompleted { get; set; }
+
         public void ChangeSetting()
         {
             if (method.ToUpper(CultureInfo.InvariantCulture) != "FAST" && method.ToUpper(CultureInfo.InvariantCulture) != "UNIDECODE")
@@ -27,7 +29,7 @@ namespace ALD.LibFiscalCode.Settings
             else
             {
                 using var db = new AppDataContext();
-                db.Settings.FirstOrDefault(s => s.Name == "SplittingStrategy").StringValue = method;
+                db.Settings.FirstOrDefault(s => s.Name == "SplittingMethod").StringValue = method;
                 Target.SplittingStrategy = method;
             }
         }

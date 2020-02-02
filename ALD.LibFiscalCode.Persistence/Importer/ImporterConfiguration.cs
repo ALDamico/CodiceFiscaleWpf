@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using ALD.LibFiscalCode.Persistence.Models;
@@ -8,7 +9,6 @@ namespace ALD.LibFiscalCode.Persistence.Importer
 {
     public class ImporterConfiguration
     {
-
         public ImporterConfiguration(string delimiter, char escape, Encoding encoding)
         {
             Delimiter = delimiter;
@@ -40,16 +40,15 @@ namespace ALD.LibFiscalCode.Persistence.Importer
             ClassMap.Map(p => p.Code).Name(Mapping[nameof(Place.Code)].Name);
         }
 
-        public Configuration ToConfiguration()
+        public CsvConfiguration ToConfiguration()
         {
-            var output = new Configuration();
+            var output = new CsvConfiguration(CultureInfo.InvariantCulture);
 
             output.Delimiter = Delimiter;
             output.Escape = Escape;
             output.Encoding = Encoding;
             output.HasHeaderRecord = true;
             //output.PrepareHeaderForMatch = ((s, i) => s.Replace("place_", "").ToSentenceCase());
-
 
             return output;
         }
