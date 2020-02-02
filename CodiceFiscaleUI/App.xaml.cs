@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using CodiceFiscaleUI.Settings;
@@ -14,8 +16,24 @@ namespace CodiceFiscaleUI
 
         public App()
         {
-            using var dataContext = new AppDataContext();
-            Settings = AppSettings.AppSettingsFactory(dataContext);
+            AppDataContext dataContext = new AppDataContext();
+
+            try
+            {
+                Settings = AppSettings.AppSettingsFactory(dataContext);
+            }
+            catch (Exception ex)
+            {
+                var configWindow = new InitialConfiguration.InitialConfigurationWindow(dataContext);
+                configWindow.Show();
+
+                Settings = AppSettings.AppSettingsFactory(dataContext);
+            }
+        }
+
+        private async Task PerformMigration(AppDataContext dataContext)
+        {
+            return;
         }
     }
 }

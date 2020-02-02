@@ -1,0 +1,13 @@
+﻿<Window x:Class="CodiceFiscaleUI.InitialConfiguration.InitialConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodiceFiscaleUI.InitialConfiguration"
+        mc:Ignorable="d"
+        Title="InitialConfigurationWindow" Height="100" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="Window_Closing">
+    <StackPanel>
+        <Label Content="La configurazione iniziale di Codice Fiscale è in corso. Attendere..." />
+        <ProgressBar IsIndeterminate="True" Height="32" Name="Progbar"></ProgressBar>
+    </StackPanel>
+</Window>

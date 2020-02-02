@@ -188,6 +188,14 @@ namespace CodiceFiscaleUI
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             DataContext = viewModel;
+            var configWindow = Application.Current.Windows;
+            foreach (var win in configWindow)
+            {
+                if (win != this)
+                {
+                    ((Window)win).Close();
+                }
+            }
         }
 
         private void BtnOpenPlaceList_OnClick(object sender, RoutedEventArgs e)
