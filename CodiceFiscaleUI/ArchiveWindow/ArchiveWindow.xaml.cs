@@ -47,7 +47,6 @@ namespace CodiceFiscaleUI.ArchiveWindow
             }
 
             Clipboard.SetText((selectedElements[0] as Person).FiscalCode.FiscalCode);
-            MessageBox.Show((selectedElements[0] as Person).FiscalCode.FiscalCode);
         }
 
         private IEnumerable<Person> GetSelectedItems()
@@ -80,6 +79,32 @@ namespace CodiceFiscaleUI.ArchiveWindow
             {
                 var exporter = new JsonExporter();
                 exporter.Export(elementsToExport, dialog.FileName);
+            }
+        }
+
+        private void MnuDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedElements = GrdPeople.SelectedItems;
+            var peopleList = new List<Person>();
+            foreach (var element in selectedElements)
+            {
+                peopleList.Add(element as Person);
+            }
+
+            string message = "";
+            if (peopleList.Count == 1)
+            {
+                message = Localization.MsgDeleteTextSingular;
+            }
+            else
+            {
+                message = Localization.MsgDeleteTextPlural;
+            }
+
+            var response = MessageBox.Show(message, Localization.MsgDeleteCaption, MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+            if (response == MessageBoxResult.OK)
+            {
+                viewModel.DeletePeople(peopleList);
             }
         }
     }

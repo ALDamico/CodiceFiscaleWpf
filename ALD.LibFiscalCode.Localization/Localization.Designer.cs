@@ -818,6 +818,33 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conferma eliminazione.
+        /// </summary>
+        public static string MsgDeleteCaption {
+            get {
+                return ResourceManager.GetString("MsgDeleteCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sei sicuro di voler eliminare gli elementi selezionati?.
+        /// </summary>
+        public static string MsgDeleteTextPlural {
+            get {
+                return ResourceManager.GetString("MsgDeleteTextPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sei sicuro di voler eliminare l&apos;elemento selezionato?.
+        /// </summary>
+        public static string MsgDeleteTextSingular {
+            get {
+                return ResourceManager.GetString("MsgDeleteTextSingular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to csv.
         /// </summary>
         public static string OpenFileDialogDefaultExt {

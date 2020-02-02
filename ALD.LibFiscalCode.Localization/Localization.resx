@@ -370,6 +370,15 @@
   <data name="MsgBoxResetText" xml:space="preserve">
     <value>Hai delle modifiche in sospeso. Sei sicuro di voler reimpostare?</value>
   </data>
+  <data name="MsgDeleteCaption" xml:space="preserve">
+    <value>Conferma eliminazione</value>
+  </data>
+  <data name="MsgDeleteTextPlural" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare gli elementi selezionati?</value>
+  </data>
+  <data name="MsgDeleteTextSingular" xml:space="preserve">
+    <value>Sei sicuro di voler eliminare l'elemento selezionato?</value>
+  </data>
   <data name="OpenFileDialogDefaultExt" xml:space="preserve">
     <value>csv</value>
   </data>

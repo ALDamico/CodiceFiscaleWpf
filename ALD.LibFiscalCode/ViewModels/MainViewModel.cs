@@ -159,21 +159,17 @@ namespace ALD.LibFiscalCode.ViewModels
             Validator = new PersonValidator(CurrentPerson);
             if (Validator.IsValid)
             {
-                //Executed in a task because Unidecoder is quite slow and we don't need to await its completion.
-                Task.Run(
-                    () =>
-                    {
-                        fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
-                        FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
-                        omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
-                        omocodes = omocodeBuilder.Omocodes;
-                        using var context = new AppDataContext();
-                        context.SavePerson(CurrentPerson);
-                        context.SaveFiscalCode(Omocodes, CurrentPerson);
+                fiscalCodeBuilder = new FiscalCodeBuilder(CurrentPerson);
+                FiscalCode = fiscalCodeBuilder.ComputedFiscalCode;
+                CurrentPerson.FiscalCode = new FiscalCodeEntity() { FiscalCode = FiscalCode.FullFiscalCode, Person = CurrentPerson };
+                omocodeBuilder = new OmocodeBuilder(fiscalCodeBuilder);
+                omocodes = omocodeBuilder.Omocodes;
+                using var context = new AppDataContext();
+                context.FiscalCodes.Add(CurrentPerson.FiscalCode);
+                context.People.Add(CurrentPerson);
+                context.Entry(CurrentPerson.PlaceOfBirth).State = EntityState.Unchanged;
 
-                        context.SaveChanges();
-                    }
-                );
+                context.SaveChanges();
             }
 
             EndEdit();

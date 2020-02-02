@@ -25,8 +25,6 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
         public DbSet<Person> People { get; set; }
         public DbSet<FiscalCodeEntity> FiscalCodes { get; set; }
         public DbSet<LanguageInfo> Languages { get; set; }
-        public DbSet<LocalizedString> LocalizedStrings { get; set; }
-        public DbSet<WindowModel> Windows { get; set; }
         public DbSet<SettingModel> Settings { get; set; }
 
         private string dbPath;
@@ -66,6 +64,8 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
                 .HasConversion(g => g == Gender.Male ? "M" : "F", g => g.Equals("M") ? Gender.Male : Gender.Female);
             peopleEntity.Property<int>("PlaceOfBirthId").HasColumnName("place_of_birth_id");
             peopleEntity.HasOne<Place>(p => p.PlaceOfBirth).WithMany().HasForeignKey("PlaceOfBirthId");
+            peopleEntity.Property<int>("FiscalCodeId").HasColumnName("fiscal_code_id");
+            peopleEntity.HasOne<FiscalCodeEntity>(p => p.FiscalCode).WithOne(fc => fc.Person).HasForeignKey<Person>("FiscalCodeId");
 
             var fiscalCodeEntity = modelBuilder.Entity<FiscalCodeEntity>();
             fiscalCodeEntity.ToTable("FiscalCodes");
@@ -73,7 +73,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             fiscalCodeEntity.HasKey("Id");
             fiscalCodeEntity.Property(fc => fc.FiscalCode).HasColumnName("fiscal_code");
             fiscalCodeEntity.Property<int>("PersonId").HasColumnName("person_id");
-            fiscalCodeEntity.HasOne(fc => fc.Person);
+            fiscalCodeEntity.HasOne<Person>(fc => fc.Person).WithOne(p => p.FiscalCode).HasForeignKey<FiscalCodeEntity>("PersonId");
 
             var languageInfoEntity = modelBuilder.Entity<LanguageInfo>();
             languageInfoEntity.ToTable("Languages");
@@ -83,21 +83,6 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             languageInfoEntity.Property(l => l.Iso2Code).HasColumnName("iso_2_code");
             languageInfoEntity.Property(l => l.Iso3Code).HasColumnName("iso_3_code");
             languageInfoEntity.Property(l => l.ImagePath).HasColumnName("icon_name");
-
-            var windowsEntity = modelBuilder.Entity<WindowModel>();
-            windowsEntity.ToTable("Windows");
-            windowsEntity.Property(w => w.Id).HasColumnName("id");
-            windowsEntity.Property(w => w.Name).HasColumnName("window_name");
-
-            var localizedStringEntity = modelBuilder.Entity<LocalizedString>();
-            localizedStringEntity.Property(s => s.Id).HasColumnName("id");
-            localizedStringEntity.HasKey(s => s.Id);
-            localizedStringEntity.Property(s => s.Name).HasColumnName("name");
-            localizedStringEntity.Property(s => s.Value).HasColumnName("value");
-            localizedStringEntity.Property<int>("language_id").HasColumnName("language_id").HasColumnType("int");
-            localizedStringEntity.HasOne(s => s.Language).WithMany().HasForeignKey("language_id");
-            localizedStringEntity.Property<int>("window_id").HasColumnName("window_id").HasColumnType("int");
-            localizedStringEntity.HasOne(s => s.Window).WithMany().HasForeignKey("window_id");
 
             var appSettingsEntity = modelBuilder.Entity<SettingModel>();
             appSettingsEntity.ToTable("Settings");
@@ -111,14 +96,20 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         public async Task SavePerson(Person person)
         {
+            if (person == null)
+            {
+                return;
+            }
             if (await People.ContainsAsync(person))
             {
-                Entry(People).State = EntityState.Unchanged;
+                Entry(person).State = EntityState.Unchanged;
                 return;
             }
 
-            Entry(typeof(Place)).State = EntityState.Unchanged;
             People.Add(person);
+            FiscalCodes.Add(person.FiscalCode);
+            Entry(person.PlaceOfBirth).State = EntityState.Detached;
+            SaveChanges();
         }
 
         public async Task SaveFiscalCode(IEnumerable<FiscalCodeDecorator> codes, Person person)
@@ -133,19 +124,10 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
             {
                 return;
             }
-            Entry<Place>(person.PlaceOfBirth).State = EntityState.Unchanged;
-            Entry<Person>(person).State = EntityState.Unchanged;
+            Entry<Place>(person.PlaceOfBirth).State = EntityState.Detached;
+            Entry<Person>(person).State = EntityState.Detached;
             FiscalCodes.Add(newFc);
             await SaveChangesAsync();
-        }
-
-        public Dictionary<string, string> GetLocalizedStrings(LanguageInfo languageInfo)
-        {
-            var dic = (from l in LocalizedStrings.Include(l => l.Language)
-                       where l.Language.Equals(languageInfo)
-                       select l
-                ).ToDictionary(l => l.Name, x => x.Value);
-            return dic;
         }
     }
 }
