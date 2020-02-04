@@ -16,6 +16,7 @@ using ArchiveWindow = CodiceFiscaleUI.ArchiveWindow.ArchiveWindow;
 using Microsoft.Win32;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 using System.Diagnostics;
+using CodiceFiscaleUI.Omocodes;
 
 namespace CodiceFiscaleUI
 {
@@ -267,12 +268,10 @@ namespace CodiceFiscaleUI
             archiveWin.Show();
         }
 
-        private void MnuShowOmocodes_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void MnuViewOmocodes_Click(object sender, RoutedEventArgs e)
         {
+            var omocodeWindow = new OmocodeWindow(viewModel);
+            omocodeWindow.Show();
         }
 
         private void MnuOpenWebsite_Click(object sender, RoutedEventArgs e)

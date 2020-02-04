@@ -28,7 +28,7 @@ namespace ALD.LibFiscalCode.Builders
                     var newChar = OmocodeLookup.Get(letter);
                     partial = partial.Replace(letter, newChar);
                     var omocodeBuilder = new FiscalCodeBuilder(partial);
-                    Omocodes.Add(new FiscalCodeDecorator(builder.ComputedFiscalCode));
+                    Omocodes.Add(new FiscalCodeDecorator(omocodeBuilder.ComputedFiscalCode));
                     base.OnPropertyChanged(nameof(Omocodes));
                 }
             }

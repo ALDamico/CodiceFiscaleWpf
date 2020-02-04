@@ -1,0 +1,24 @@
+﻿<Window x:Class="CodiceFiscaleUI.Omocodes.OmocodeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodiceFiscaleUI.Omocodes"
+        xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
+        d:DataContext="{d:DesignInstance vm:OmocodeViewModel}"
+        mc:Ignorable="d"
+        Title="Omocodi" Width="200" Height="300" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <StackPanel>
+        <ListView ItemsSource="{Binding Omocodes}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copia">
+                        <MenuItem.Icon>
+                            <Image Source="../Assets/copy.png"></Image>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </StackPanel>
+</Window>
