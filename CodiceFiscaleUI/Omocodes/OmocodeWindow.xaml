@@ -7,7 +7,11 @@
         xmlns:vm="clr-namespace:ALD.LibFiscalCode.ViewModels;assembly=ALD.LibFiscalCode"
         d:DataContext="{d:DesignInstance vm:OmocodeViewModel}"
         mc:Ignorable="d"
-        Title="Omocodi" Width="200" Height="300" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+        Title="Omocodi"
+        Width="200"
+        Height="300"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight">
     <StackPanel>
         <ListView ItemsSource="{Binding Omocodes}">
             <ListView.ContextMenu>
