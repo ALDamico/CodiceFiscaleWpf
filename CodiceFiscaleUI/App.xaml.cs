@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using CodiceFiscaleUI.Settings;
+using Microsoft.Data.Sqlite;
 
 namespace CodiceFiscaleUI
 {
@@ -22,18 +23,14 @@ namespace CodiceFiscaleUI
             {
                 Settings = AppSettings.AppSettingsFactory(dataContext);
             }
-            catch (Exception ex)
+            catch (SqliteException)
             {
                 var configWindow = new InitialConfiguration.InitialConfigurationWindow(dataContext);
                 configWindow.Show();
 
                 Settings = AppSettings.AppSettingsFactory(dataContext);
             }
-        }
-
-        private async Task PerformMigration(AppDataContext dataContext)
-        {
-            return;
+            dataContext.Dispose();
         }
     }
 }

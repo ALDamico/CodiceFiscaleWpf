@@ -22,6 +22,10 @@ namespace CodiceFiscaleUI.Omocodes
 
         public OmocodeWindow(MainViewModel parentViewModel)
         {
+            if (parentViewModel == null)
+            {
+                throw new ArgumentNullException(nameof(parentViewModel));
+            }
             viewModel = new OmocodeViewModel(parentViewModel.CurrentPerson, parentViewModel.Omocodes);
             DataContext = viewModel;
 

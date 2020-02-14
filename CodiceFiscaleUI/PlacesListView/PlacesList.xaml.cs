@@ -65,7 +65,7 @@ namespace CodiceFiscaleUI.PlacesListView
             }
 
             var filterText = (sender as TextBox)?.Text;
-            if (string.IsNullOrEmpty(filterText) || filterText.Equals(Localization.TxtFilterResults))
+            if (string.IsNullOrEmpty(filterText) || filterText.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 viewModel.ResetFilter();
             }
@@ -84,7 +84,7 @@ namespace CodiceFiscaleUI.PlacesListView
                 TxtFilter.Foreground = Brushes.Gainsboro;
                 TxtFilter.Text = Localization.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults))
+            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;
@@ -104,7 +104,7 @@ namespace CodiceFiscaleUI.PlacesListView
                 TxtFilter.Foreground = Brushes.Gainsboro;
                 TxtFilter.Text = Localization.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults))
+            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;

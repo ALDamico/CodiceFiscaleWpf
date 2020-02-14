@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using ALD.LibFiscalCode.ViewModels;
 using Microsoft.Win32;
@@ -59,7 +61,7 @@ namespace CodiceFiscaleUI.PlaceImport
             if (result != null)
             {
                 
-                MessageBox.Show(string.Format(Localization.ErrorDialogText,  viewModel.InputFilename),
+                MessageBox.Show(string.Format(CultureInfo.InvariantCulture , Localization.ErrorDialogText,  viewModel.InputFilename),
                     Localization.ErrorDialogCaption,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);

@@ -12,7 +12,6 @@ using CodiceFiscaleUI.AboutView;
 using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
-using ArchiveWindow = CodiceFiscaleUI.ArchiveWindow.ArchiveWindow;
 using Microsoft.Win32;
 using Localization = ALD.LibFiscalCode.Localization.Localization;
 using System.Diagnostics;
@@ -264,7 +263,7 @@ namespace CodiceFiscaleUI
 
         private void MnuArchive_OnClick(object sender, RoutedEventArgs e)
         {
-            var archiveWin = new ArchiveWindow.ArchiveWindow();
+            var archiveWin = new ArchiveWindow.ArchiveView();
             archiveWin.Show();
         }
 

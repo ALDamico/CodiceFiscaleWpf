@@ -15,11 +15,11 @@ namespace CodiceFiscaleUI.ArchiveWindow
     /// <summary>
     /// Interaction logic for ArchiveWindow.xaml
     /// </summary>
-    public partial class ArchiveWindow : Window
+    public partial class ArchiveView : Window
     {
         private readonly ArchiveViewModel viewModel;
 
-        public ArchiveWindow()
+        public ArchiveView()
         {
             viewModel = new ArchiveViewModel();
             DataContext = viewModel;

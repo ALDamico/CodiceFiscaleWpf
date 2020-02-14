@@ -23,12 +23,16 @@ namespace CodiceFiscaleUI.InitialConfiguration
         {
             //Progbar.BeginAnimation(null, new System.Windows.Media.Animation.());
             InitializeComponent();
-            PerformMigration(context);
+            PerformMigration(context).ConfigureAwait(true);
         }
 
         public async Task PerformMigration(AppDataContext context)
         {
-            context.MigrateAsync();
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            await context.MigrateAsync().ConfigureAwait(true);
             canClose = true;
         }
 
