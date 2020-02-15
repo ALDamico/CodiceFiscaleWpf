@@ -9,7 +9,7 @@ using ALD.LibFiscalCode.Interfaces;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
 using Microsoft.Data.Sqlite;

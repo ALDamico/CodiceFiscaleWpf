@@ -1,6 +1,5 @@
 ﻿using System;
 using ALD.LibFiscalCode.Persistence.Events;
-using ALD.LibFiscalCode.Persistence.Sqlite;
 
 //using ALD.LibFiscalCode.Progress;
 /*

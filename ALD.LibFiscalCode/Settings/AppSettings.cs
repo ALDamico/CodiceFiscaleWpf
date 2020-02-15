@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using ALD.LibFiscalCode.Factories;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.StringManipulation;
 
 namespace ALD.LibFiscalCode.Settings

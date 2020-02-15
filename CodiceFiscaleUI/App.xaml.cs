@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using CodiceFiscaleUI.Settings;
 using Microsoft.Data.Sqlite;

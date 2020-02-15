@@ -5,7 +5,7 @@ using System.Text;
 using ALD.LibFiscalCode.StringManipulation;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 
 namespace ALD.LibFiscalCode.Settings
 {

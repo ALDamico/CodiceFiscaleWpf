@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.DatePicker;

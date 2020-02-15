@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace ALD.LibFiscalCode.Persistence.Sqlite
+namespace ALD.LibFiscalCode.Persistence.ORM.Sqlite
 {
-    public class AppDataContext : DbContext
+    public class AppDataContext : AppDataContextBase
     {
-        public AppDataContext()
-        {
-        }
-
         public async Task MigrateAsync()
         {
             Database.Migrate();
@@ -49,16 +44,7 @@ namespace ALD.LibFiscalCode.Persistence.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var placeEntity = modelBuilder.Entity<Place>();
-            placeEntity.Property(p => p.Id).HasColumnName("id");
-            placeEntity.HasKey("Id");
-            placeEntity.Property(p => p.Name).HasColumnName("name");
-            placeEntity.Property(p => p.Province).HasColumnName("province_name");
-            placeEntity.Property(p => p.ProvinceAbbreviation).HasColumnName("province_abbreviation");
-            placeEntity.Property(p => p.Region).HasColumnName("region_name");
-            placeEntity.Property(p => p.Code).HasColumnName("code");
-            placeEntity.HasIndex(p => p.ProvinceAbbreviation);
-            placeEntity.HasIndex(p => p.Region);
+            base.OnModelCreating(modelBuilder); //Replaces placeEntity configuration. Places is available in all dbcontexts
 
             var peopleEntity = modelBuilder.Entity<Person>();
 

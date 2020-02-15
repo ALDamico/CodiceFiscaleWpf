@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Persistence.ORM;
+using ALD.LibFiscalCode.Persistence.ORM.MySQL;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,18 +15,31 @@ namespace CodiceFiscaleApi
     [Route("api/[controller]")]
     public class PlacesController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private AppDataContext dataContext;
+
+        public PlacesController(AppDataContextBase dataContext)
         {
-            return new string[] { "value1", "value2" };
+            this.dataContext = dataContext as AppDataContext;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/<controller>
+    [HttpGet]
+        public string Get(string name)
         {
-            return "value";
+            
+            if (!string.IsNullOrEmpty(name) && name.Length < 3)
+            {
+                return null;
+            }
+
+            
+            var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
+            var outputObject = JsonConvert.SerializeObject(matchingPlaces, Formatting.Indented);
+            if (matchingPlaces.Count() == 1)
+            {
+                outputObject = JsonConvert.SerializeObject(matchingPlaces.First(), Formatting.Indented);
+            }
+            return outputObject;
         }
 
         // POST api/<controller>

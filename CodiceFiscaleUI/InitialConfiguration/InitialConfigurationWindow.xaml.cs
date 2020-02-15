@@ -1,5 +1,4 @@
-﻿using ALD.LibFiscalCode.Persistence.Sqlite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 
 namespace CodiceFiscaleUI.InitialConfiguration
 {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 
@@ -11,17 +12,23 @@ namespace ALD.LibFiscalCode.Validators
         public PersonValidator(Person person)
         {
             this.person = person;
-            ValidationMessages = new List<string>();
+            ValidationMessages = new List<ValidationResult>();
             Validate();
         }
 
         public bool IsValid { get; private set; }
 
-        public List<string> ValidationMessages { get; }
+        public List<ValidationResult> ValidationMessages { get; }
 
         public string GetValidationMessagesAsString()
         {
-            return string.Concat(ValidationMessages);
+            StringBuilder builder = new StringBuilder();
+            foreach (var message in ValidationMessages)
+            {
+                builder.Append(message.Message).Append("\n");
+            }
+
+            return builder.ToString();
         }
 
         public void Validate()
@@ -29,22 +36,22 @@ namespace ALD.LibFiscalCode.Validators
            
             if (string.IsNullOrWhiteSpace(person.Name))
             {
-                ValidationMessages.Add(Localization.Localization.ValidationMissingName);
+                ValidationMessages.Add(new ValidationResult(false,Localization.Localization.ValidationMissingName )); 
             }
 
             if (string.IsNullOrWhiteSpace(person.Surname))
             {
-                ValidationMessages.Add(Localization.Localization.ValidationMissingSurname);
+                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingSurname));
             }
 
             if (person.Gender == Gender.Unspecified)
             {
-                ValidationMessages.Add(Localization.Localization.ValidationMissingGender);
+                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingGender));
             }
 
             if (person.PlaceOfBirth == null)
             {
-                ValidationMessages.Add(Localization.Localization.ValidationMissingDateOfBirth);
+                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingDateOfBirth));
             }
 
             IsValid = ValidationMessages.Count == 0;

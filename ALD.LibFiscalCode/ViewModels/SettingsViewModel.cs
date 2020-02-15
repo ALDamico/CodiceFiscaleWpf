@@ -5,7 +5,7 @@ using System.Linq;
 using ALD.LibFiscalCode.Persistence;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 
 namespace ALD.LibFiscalCode.ViewModels

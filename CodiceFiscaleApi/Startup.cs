@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ALD.LibFiscalCode.Persistence;
+using ALD.LibFiscalCode.Persistence.ORM;
+using ALD.LibFiscalCode.Persistence.ORM.MySQL;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodiceFiscaleApi
 {
@@ -25,7 +29,10 @@ namespace CodiceFiscaleApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDataContextBase>(options =>
+                options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddControllers();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +48,7 @@ namespace CodiceFiscaleApi
             app.UseRouting();
 
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

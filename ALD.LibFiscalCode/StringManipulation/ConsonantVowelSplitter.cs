@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ALD.LibFiscalCode.Persistence.Sqlite;
+using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using Unidecode.NET;
 
