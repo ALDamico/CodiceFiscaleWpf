@@ -1,6 +1,7 @@
 ﻿using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Localization;
 using ALD.LibFiscalCode.Validators.Interfaces;
+using System.Globalization;
 
 namespace ALD.LibFiscalCode.Validators.FiscalCode
 {
@@ -29,7 +30,7 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
             {
                 Result = new ValidationResult(false, 
                     LocalizationStrings.FiscalCodeValidationPlaceCodeInvalid,
-                    LocalizationStrings.FiscalCodeValidationPlaceCodeInvalidDetails);
+                   string.Format(CultureInfo.CurrentCulture, LocalizationStrings.FiscalCodeValidationPlaceCodeInvalidDetails, builder.ComputedFiscalCode.PlaceCode));
             }
         }
 

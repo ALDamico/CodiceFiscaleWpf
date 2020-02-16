@@ -1,4 +1,4 @@
-"id";"name";"province_name";"province_abbreviation";"region_name";"code"
+id;name;province_name;province_abbreviation;region_name;code
 1;Agliè;Torino;TO;Piemonte;A074
 2;Airasca;Torino;TO;Piemonte;A109
 3;Ala di Stura;Torino;TO;Piemonte;A117
@@ -8137,16 +8137,3 @@
 8136;Isole Turks e Caicos;Stato estero;EE;America;Z519
 8137;Isole Vergini britanniche;Stato estero;EE;America;Z525
 8138;Wallis e Futuna;Stato estero;EE;Oceania;Z729
-8139;Bronte;Catania;CT;Sicilia;B202
-8140;Bronte;Catania;CT;Sicilia;B202
-8141;Bronte;Catania;CT;Sicilia;B202
-8142;Bronte;Catania;CT;Sicilia;B202
-8143;Bronte;Catania;CT;Sicilia;B202
-8144;Bronte;Catania;CT;Sicilia;B202
-8145;Terlizzi;Bari;BA;Puglia;L109
-8146;Calenzano;Firenze;FI;Toscana;B406
-8147;Calenzano;Firenze;FI;Toscana;B406
-8148;Certaldo;Firenze;FI;Toscana;C540
-8149;Termeno sulla strada del vino;Bolzano/Bozen;BZ;Trentino-Alto Adige/Südtirol;L111
-8150;Termeno sulla strada del vino;Bolzano/Bozen;BZ;Trentino-Alto Adige/Südtirol;L111
-8151;Termeno sulla strada del vino;Bolzano/Bozen;BZ;Trentino-Alto Adige/Südtirol;L111

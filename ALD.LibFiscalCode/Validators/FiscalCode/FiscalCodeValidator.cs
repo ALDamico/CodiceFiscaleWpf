@@ -7,7 +7,7 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
 {
     public class FiscalCodeValidator:IValidator
     {
-        public bool IsValid => ValidationMessages.Count != 0 && ValidationMessages.TrueForAll(m => m.IsValid == true);
+        public bool IsValid => ValidationMessages?.Count != 0 && ValidationMessages.TrueForAll(m => m.IsValid == true);
         public List<ValidationResult> ValidationMessages { get; private set; }
         private FiscalCodeBuilder builder;
         private Persistence.Models.FiscalCode validationTarget;
@@ -18,6 +18,8 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
             builder = new FiscalCodeBuilder(person);
             validationTarget = fiscalCode;
             runner = new FiscalCodeValidationRunner(fiscalCode);
+            Validate();
+
         }
         public void Validate()
         {
