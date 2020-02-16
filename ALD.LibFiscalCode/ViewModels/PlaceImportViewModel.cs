@@ -77,7 +77,7 @@ namespace ALD.LibFiscalCode.ViewModels
         public async Task<Exception> Import()
         {
             var t = PlacesImporter.Import(InputFilename, Configuration, Mode);
-
+            await t.ConfigureAwait(true);
             return t.Status == TaskStatus.Faulted ? new FileNotFoundException(t.Exception.Message) : null;
         }
     }

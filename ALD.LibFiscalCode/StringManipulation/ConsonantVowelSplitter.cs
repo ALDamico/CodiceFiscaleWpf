@@ -27,13 +27,13 @@ namespace ALD.LibFiscalCode.StringManipulation
                 //Uses unidecode method as a fallback if the previous attempt failed.
                 split = new UnidecodeSplittingStrategy(word).Result;
             }
-            ExecuteSplit(split.ToUpper());
+            ExecuteSplit(split.ToUpperInvariant());
         }
 
         public ConsonantVowelSplitter(string word, ISplittingStrategy strategy)
         {
             word = strategy.Result;
-            ExecuteSplit(word.ToUpper());
+            ExecuteSplit(word.ToUpperInvariant());
         }
 
         private void ExecuteSplit(string word)

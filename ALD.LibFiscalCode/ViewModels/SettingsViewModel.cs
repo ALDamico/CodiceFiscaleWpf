@@ -59,7 +59,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 if (changeSettingsInvoker.PreviewChanges.ContainsKey("SplittingStrategy"))
                 {
-                    return (string) ChangeSettingsInvoker.PreviewChanges[nameof(Settings.SplittingStrategy)];
+                    return (string) ChangeSettingsInvoker.PreviewChanges[nameof(Settings.SplittingStrategyName)];
                 }
 
                 return splittingStrategy;
@@ -86,7 +86,7 @@ namespace ALD.LibFiscalCode.ViewModels
                     return splittingStrategy == "FAST" ? 0 : 1;
                 }
 
-                return settings.SplittingStrategy == "FAST" ? 0 : 1;
+                return settings.SplittingStrategyName == "FAST" ? 0 : 1;
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
-
-namespace ALD.LibFiscalCode.Validators
+﻿namespace ALD.LibFiscalCode.Validators.Interfaces
 {
     public interface IValidationCommand<TValidationTarget>
     {

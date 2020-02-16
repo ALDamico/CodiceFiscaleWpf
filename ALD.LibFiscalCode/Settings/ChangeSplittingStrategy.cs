@@ -30,7 +30,7 @@ namespace ALD.LibFiscalCode.Settings
             {
                 using var db = new AppDataContext();
                 db.Settings.FirstOrDefault(s => s.Name == "SplittingMethod").StringValue = method;
-                Target.SplittingStrategy = method;
+                Target.SplittingStrategyName = method;
             }
         }
     }

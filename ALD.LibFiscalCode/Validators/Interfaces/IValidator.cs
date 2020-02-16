@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ALD.LibFiscalCode.Validators
+namespace ALD.LibFiscalCode.Validators.Interfaces
 {
     public interface IValidator
     {

@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using ALD.LibFiscalCode.Persistence.Enums;
-using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Validators.Interfaces;
 
-namespace ALD.LibFiscalCode.Validators
+namespace ALD.LibFiscalCode.Validators.Person
 {
     public class PersonValidator : IValidator
     {
-        private readonly Person person;
+        private readonly Persistence.Models.Person person;
 
-        public PersonValidator(Person person)
+        public PersonValidator(Persistence.Models.Person person)
         {
             this.person = person;
             ValidationMessages = new List<ValidationResult>();

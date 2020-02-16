@@ -29,15 +29,16 @@ namespace ALD.LibFiscalCode.ViewModels
             PopulatePlacesList();
         }
 
-        public void DeletePeople(IEnumerable<Person> people)
+        public void DeletePeople(IEnumerable<Person> peopleToDelete)
         {
+            if (peopleToDelete == null || !peopleToDelete.Any())
+            {
+                return;
+            }
             using var dataContext = new AppDataContext();
 
-            foreach (var person in people)
+            foreach (var person in peopleToDelete)
             {
-                //var fcToRemove = dataContext.FiscalCodes.Where(p => p.Person == person).FirstOrDefault();
-                //dataContext.Entry(fcToRemove).State = EntityState.Deleted;
-                //dataContext.FiscalCodes.Remove(fcToRemove);
                 dataContext.People.Remove(person);
                 dataContext.Entry(person).State = EntityState.Deleted;
 
@@ -47,7 +48,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 dataContext.SaveChanges();
             }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException ex)
             {
                 foreach (var entry in ex.Entries)
                 {
@@ -84,7 +85,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 using var dataContext = new AppDataContext();
                 People = new ObservableCollection<Person>(dataContext.People.Include(p => p.PlaceOfBirth).Include(p => p.FiscalCode));
-            });
+            }).ConfigureAwait(true);
         }
     }
 }

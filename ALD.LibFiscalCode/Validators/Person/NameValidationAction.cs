@@ -1,10 +1,10 @@
-﻿using ALD.LibFiscalCode.Persistence.Models;
+﻿using ALD.LibFiscalCode.Validators.Interfaces;
 
-namespace ALD.LibFiscalCode.Validators
+namespace ALD.LibFiscalCode.Validators.Person
 {
-    public class NameValidationAction:IValidationCommand<Person>
+    public class NameValidationAction:IValidationCommand<Persistence.Models.Person>
     {
-        public void ExecuteValidation(Person person)
+        public void ExecuteValidation(Persistence.Models.Person person)
         {
             ValidationResult result = null;
             if (person == null)

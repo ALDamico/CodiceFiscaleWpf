@@ -1,20 +1,20 @@
 ﻿using System.Globalization;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Localization;
-using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Validators.Interfaces;
 
-namespace ALD.LibFiscalCode.Validators
+namespace ALD.LibFiscalCode.Validators.FiscalCode
 {
-    public class FiscalCodeNameValidationCommand : IValidationCommand<FiscalCode>
+    public class NameValidationCommand : IValidationCommand<Persistence.Models.FiscalCode>
     {
-        public FiscalCodeNameValidationCommand(FiscalCodeBuilder builder)
+        public NameValidationCommand(FiscalCodeBuilder builder)
         {
             this.builder = builder;
         }
 
         private readonly FiscalCodeBuilder builder;
 
-        public void ExecuteValidation(FiscalCode validationTarget)
+        public void ExecuteValidation(Persistence.Models.FiscalCode validationTarget)
         {
             if (validationTarget == null)
             {
@@ -24,11 +24,11 @@ namespace ALD.LibFiscalCode.Validators
 
             if (validationTarget.Name == builder.ComputedFiscalCode.Name)
             {
-                Result = new ValidationResult(true, Localization.LocalizationStrings.FiscalCodeValidationNameValid);
+                Result = new ValidationResult(true, LocalizationStrings.FiscalCodeValidationNameValid);
             }
             else
             {
-                Result = new ValidationResult(false, Localization.LocalizationStrings.FiscalCodeValidationNameInvalid,
+                Result = new ValidationResult(false, LocalizationStrings.FiscalCodeValidationNameInvalid,
                     string.Format(CultureInfo.CurrentCulture,
                         Localization.LocalizationStrings.FiscalCodeValidationNameInvalidDetails,
                         builder.ComputedFiscalCode.Name));
