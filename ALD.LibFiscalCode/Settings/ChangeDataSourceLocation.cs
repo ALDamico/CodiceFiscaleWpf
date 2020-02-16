@@ -18,7 +18,7 @@ namespace ALD.LibFiscalCode.Settings
 
         public void ChangeSetting()
         {
-            //TODO Add more refined validation?
+            
             if (File.Exists(targetPath))
             {
                 Target.DataSourceLocation = targetPath;
