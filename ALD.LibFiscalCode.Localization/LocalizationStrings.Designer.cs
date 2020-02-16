@@ -19,17 +19,17 @@ namespace ALD.LibFiscalCode.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Localization {
+    public class LocalizationStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Localization() {
+        internal LocalizationStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ALD.LibFiscalCode.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ALD.LibFiscalCode.Localization.Localization", typeof(Localization).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ALD.LibFiscalCode.Localization.LocalizationStrings", typeof(LocalizationStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -319,6 +319,33 @@ namespace ALD.LibFiscalCode.Localization {
         public static string FileDialogDatabaseFile {
             get {
                 return ResourceManager.GetString("FileDialogDatabaseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del nome non è valida..
+        /// </summary>
+        public static string FiscalCodeValidationNameInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nel codice fiscale il nome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il nome contiene più di quattro consonanti, vengono prese la prima, la terza e la quarta consonante.\nAltrimenti, vengono applicate le stesse regole usate per il cognome.\nLa rappresentazione del nome prevista era {0}..
+        /// </summary>
+        public static string FiscalCodeValidationNameInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del nome è valida..
+        /// </summary>
+        public static string FiscalCodeValidationNameValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameValid", resourceCulture);
             }
         }
         
@@ -985,6 +1012,15 @@ namespace ALD.LibFiscalCode.Localization {
         public static string TxtFilterResults {
             get {
                 return ResourceManager.GetString("TxtFilterResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;oggetto era null..
+        /// </summary>
+        public static string ValidationArgumentNull {
+            get {
+                return ResourceManager.GetString("ValidationArgumentNull", resourceCulture);
             }
         }
         

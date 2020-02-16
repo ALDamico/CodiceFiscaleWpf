@@ -439,6 +439,18 @@
   <data name="ValidationMissingName" xml:space="preserve">
     <value>Nome non compilato.</value>
   </data>
+  <data name="ValidationArgumentNull" xml:space="preserve">
+    <value>L'oggetto era null.</value>
+  </data>
+  <data name="FiscalCodeValidationNameInvalid" xml:space="preserve">
+    <value>La rappresentazione del nome non è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationNameValid" xml:space="preserve">
+    <value>La rappresentazione del nome è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationNameInvalidDetails" xml:space="preserve">
+    <value>Nel codice fiscale il nome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il nome contiene più di quattro consonanti, vengono prese la prima, la terza e la quarta consonante.\nAltrimenti, vengono applicate le stesse regole usate per il cognome.\nLa rappresentazione del nome prevista era {0}.</value>
+  </data>
   <data name="ValidationMissingSurname" xml:space="preserve">
     <value>Cognome non compilato.</value>
   </data>

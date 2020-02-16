@@ -8,7 +8,7 @@
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
         mc:Ignorable="d"
-        Title="{x:Static l10n:Localization.SettingsWindowTitle}"
+        Title="{x:Static l10n:LocalizationStrings.SettingsWindowTitle}"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight">
     <Grid Margin="10">
@@ -29,10 +29,10 @@
                Grid.ColumnSpan="2"
                FontSize="28"
                HorizontalContentAlignment="Center"
-               Content="{x:Static l10n:Localization.SettingsWindowBanner}" />
+               Content="{x:Static l10n:LocalizationStrings.SettingsWindowBanner}" />
         <Label Grid.Row="1"
                Grid.Column="0"
-               Content="{x:Static l10n:Localization.LblLanguage}" />
+               Content="{x:Static l10n:LocalizationStrings.LblLanguage}" />
         <ComboBox Grid.Row="1"
                   Grid.Column="1"
                   ItemsSource="{Binding AvailableLanguages}"
@@ -51,24 +51,24 @@
         </ComboBox>
         <Label Grid.Row="2"
                Grid.Column="0"
-               Content="{x:Static l10n:Localization.LblMaxHistorySize}" />
+               Content="{x:Static l10n:LocalizationStrings.LblMaxHistorySize}" />
         <TextBox Grid.Row="2"
                  Grid.Column="1"
                  Text="{Binding MaxHistorySize}" />
         <Label Grid.Row="3"
                Grid.Column="0"
-               Content="{x:Static l10n:Localization.LblSplittingStrategy}" />
+               Content="{x:Static l10n:LocalizationStrings.LblSplittingStrategy}" />
         <ComboBox Grid.Row="3"
                   Grid.Column="1"
                   x:Name="DrpChangeSplittingMethod"
                   SelectionChanged="DrpChangeSplittingMethod_OnSelectionChanged"
                   SelectedIndex="{Binding SelectedSplittingStrategy, Mode=OneWay}">
-            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodFast}" ToolTip="{x:Static l10n:Localization.SplittingMethodFastTooltip}" />
-            <ComboBoxItem Content="{x:Static l10n:Localization.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:Localization.SplittingMethodUnidecodeTooltip}" />
+            <ComboBoxItem Content="{x:Static l10n:LocalizationStrings.SplittingMethodFast}" ToolTip="{x:Static l10n:LocalizationStrings.SplittingMethodFastTooltip}" />
+            <ComboBoxItem Content="{x:Static l10n:LocalizationStrings.SplittingMethodUnidecode}" ToolTip="{x:Static l10n:LocalizationStrings.SplittingMethodUnidecodeTooltip}" />
         </ComboBox>
         <!--<Label Grid.Row="3"
                Grid.Column="0"
-               Content="{x:Static l10n:Localization.LblDatabasePath}" />
+               Content="{x:Static l10n:LocalizationStrings.LblDatabasePath}" />
         <StackPanel Grid.Row="3"
                     Grid.Column="1"
                     Orientation="Horizontal">
@@ -82,7 +82,7 @@
         </StackPanel>-->
         <Label Grid.Row="4"
                Grid.Column="0"
-               Content="{x:Static l10n:Localization.LblDefaultDate}" />
+               Content="{x:Static l10n:LocalizationStrings.LblDefaultDate}" />
         <TextBox Grid.Row="4"
                  Grid.Column="1"
                  x:Name="TxtDefaultDate"
@@ -94,12 +94,12 @@
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center">
-            <Button Content="{x:Static l10n:Localization.BtnConfirm}"
+            <Button Content="{x:Static l10n:LocalizationStrings.BtnConfirm}"
                     x:Name="BtnConfirm"
                     Click="BtnConfirm_OnClick"></Button>
             <Separator Width="20"
                        Visibility="Hidden" />
-            <Button Content="{x:Static l10n:Localization.BtnCancel}"
+            <Button Content="{x:Static l10n:LocalizationStrings.BtnCancel}"
                     x:Name="BtnCancel"
                     Click="BtnCancel_OnClick" />
         </StackPanel>

@@ -13,12 +13,15 @@ namespace ALD.LibFiscalCode.Validators
         {
             this.person = person;
             ValidationMessages = new List<ValidationResult>();
+            validationRunner = new PersonValidationRunner(person);
             Validate();
         }
 
-        public bool IsValid { get; private set; }
+        private readonly PersonValidationRunner validationRunner;
 
-        public List<ValidationResult> ValidationMessages { get; }
+        public bool IsValid => ValidationMessages.Count != 0 && ValidationMessages.TrueForAll(m => m.IsValid == true);
+
+        public List<ValidationResult> ValidationMessages { get; private set; }
 
         public string GetValidationMessagesAsString()
         {
@@ -33,28 +36,12 @@ namespace ALD.LibFiscalCode.Validators
 
         public void Validate()
         {
-           
-            if (string.IsNullOrWhiteSpace(person.Name))
-            {
-                ValidationMessages.Add(new ValidationResult(false,Localization.Localization.ValidationMissingName )); 
-            }
+            validationRunner.AddValidationStep(new NameValidationAction());
+            validationRunner.AddValidationStep(new SurnameValidationAction());
+            validationRunner.AddValidationStep(new GenderValidationAction());
+            validationRunner.AddValidationStep(new PlaceOfBirthValidationAction());
 
-            if (string.IsNullOrWhiteSpace(person.Surname))
-            {
-                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingSurname));
-            }
-
-            if (person.Gender == Gender.Unspecified)
-            {
-                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingGender));
-            }
-
-            if (person.PlaceOfBirth == null)
-            {
-                ValidationMessages.Add(new ValidationResult(false, Localization.Localization.ValidationMissingDateOfBirth));
-            }
-
-            IsValid = ValidationMessages.Count == 0;
+            ValidationMessages = validationRunner.Validate();
         }
     }
 }

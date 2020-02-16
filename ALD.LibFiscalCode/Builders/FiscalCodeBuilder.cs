@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using ALD.LibFiscalCode.Localization;
 using ALD.LibFiscalCode.Lookups;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
@@ -37,7 +38,7 @@ namespace ALD.LibFiscalCode.Builders
 
             if (partial.Length != 15)
             {
-                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
+                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
                 throw new ArgumentException(argumentMessage);
             }
 
@@ -56,7 +57,7 @@ namespace ALD.LibFiscalCode.Builders
         {
             if (input.Length != 15)
             {
-                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
+                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
 
                 throw new ArgumentException(argumentMessage);
             }

@@ -4,11 +4,11 @@ using System.Windows;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.ViewModels;
-using Localization = ALD.LibFiscalCode.Localization.Localization;
 using Microsoft.Win32;
 using ALD.LibFiscalCode.Exporters;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ALD.LibFiscalCode.Localization;
 
 namespace CodiceFiscaleUI.ArchiveWindow
 {
@@ -35,7 +35,7 @@ namespace CodiceFiscaleUI.ArchiveWindow
             var selectedElements = GrdPeople.SelectedItems;
             if (selectedElements.Count > 1)
             {
-                MessageBox.Show(Localization.MsgBoxCopyNotSupportedText, Localization.MsgBoxCopyNotSupportedCaption);
+                MessageBox.Show(LocalizationStrings.MsgBoxCopyNotSupportedText, LocalizationStrings.MsgBoxCopyNotSupportedCaption);
                 return;
             }
 
@@ -49,7 +49,7 @@ namespace CodiceFiscaleUI.ArchiveWindow
 
         private void MnuExportToXml_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Localization.MsgBoxFeatureUnavailableText, Localization.MsgBoxFeatureUnavailableCaption);
+            MessageBox.Show(LocalizationStrings.MsgBoxFeatureUnavailableText, LocalizationStrings.MsgBoxFeatureUnavailableCaption);
         }
 
         private void MnuExportToJson_Click(object sender, RoutedEventArgs e)
@@ -60,8 +60,8 @@ namespace CodiceFiscaleUI.ArchiveWindow
                 CheckFileExists = false,
                 AddExtension = true,
                 DefaultExt = ".json",
-                Title = Localization.ExportDialogTitle,
-                Filter = Localization.ExportDialogJsonFilter,
+                Title = LocalizationStrings.ExportDialogTitle,
+                Filter = LocalizationStrings.ExportDialogJsonFilter,
             };
 
             var elementsToExport = new List<PersonJson>();
@@ -114,14 +114,14 @@ namespace CodiceFiscaleUI.ArchiveWindow
             string message;
             if (peopleList.Count == 1)
             {
-                message = Localization.MsgDeleteTextSingular;
+                message = LocalizationStrings.MsgDeleteTextSingular;
             }
             else
             {
-                message = Localization.MsgDeleteTextPlural;
+                message = LocalizationStrings.MsgDeleteTextPlural;
             }
 
-            var response = MessageBox.Show(message, Localization.MsgDeleteCaption, MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+            var response = MessageBox.Show(message, LocalizationStrings.MsgDeleteCaption, MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
             if (response == MessageBoxResult.OK)
             {
                 viewModel.DeletePeople(peopleList);
