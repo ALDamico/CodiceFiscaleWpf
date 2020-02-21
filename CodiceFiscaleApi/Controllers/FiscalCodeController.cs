@@ -23,19 +23,6 @@ namespace CodiceFiscaleApi.Controllers
         {
             this.dataContext = dataContext;
         }
-        // GET: api/FiscalCode
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/FiscalCode/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST: api/FiscalCode
         [HttpPost("calculate")]
@@ -75,7 +62,5 @@ namespace CodiceFiscaleApi.Controllers
             var obj = new { result = "failed", payload = validator };
             return JsonConvert.SerializeObject(obj);
         }
-
-
     }
 }
