@@ -9,7 +9,7 @@ namespace ALD.LibFiscalCode.Tests
         [Fact]
         public void CsvTest()
         {
-            var importer = new PlacesImporter("C:/Users/aldam/Downloads/Elenco-codici-statistici-e-denominazioni-delle-unita-territoriali/Elenco codici statistici e denominazioni delle unita territoriali/Elenco-codici-statistici-e-denominazioni-al-01_01_2020.csv", new CsvImportStrategy());
+            var importer = new PlacesImporter("C:\\Users\\aldam\\Downloads\\Elenco-codici-statistici-e-denominazioni-delle-unita-territoriali (1)\\Elenco codici statistici e denominazioni delle unita territoriali\\Elenco-codici-statistici-e-denominazioni-al-01_01_2020.csv", new CsvImportStrategy(), 2020);
         }
     }
 }

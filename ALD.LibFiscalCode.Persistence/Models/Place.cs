@@ -3,7 +3,7 @@ using System;
 
 namespace ALD.LibFiscalCode.Persistence.Models
 {
-    public class Place
+    public class Place:IComparable<Place>
     {
         private readonly PlaceEqualityComparer equalityComparer;
 
@@ -31,6 +31,16 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public PlaceEqualityComparer GetEqualityComparer()
         {
             return equalityComparer;
+        }
+
+        public int CompareTo(Place other)
+        {
+            if (equalityComparer.Equals(this, other))
+            {
+                return 1;
+            }
+
+            return 0;
         }
 
         public override string ToString()

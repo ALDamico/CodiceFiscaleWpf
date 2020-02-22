@@ -1,4 +1,5 @@
-﻿using ALD.LibFiscalCode.Persistence.Interfaces;
+﻿using System;
+using ALD.LibFiscalCode.Persistence.Interfaces;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ExcelDataReader;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ALD.LibFiscalCode.Persistence.Importer
 {
-    public class CsvImportStrategy:IImportStrategy
+    public class CsvImportStrategy : IImportStrategy
     {
         public void ImportData(string fileName, int year)
         {
@@ -42,10 +43,12 @@ namespace ALD.LibFiscalCode.Persistence.Importer
                                     Province = province,
                                     ProvinceAbbreviation = provinceAbbreviation,
                                     Code = code,
-                                    Region = region
+                                    Region = region,
+                                    StartDate = new DateTime(year, 1, 1)
                                 };
                                 newPlaces.Add(newPlace);
                             }
+
                             headerLine = false;
                         }
                     } while (reader.NextResult());
@@ -54,11 +57,32 @@ namespace ALD.LibFiscalCode.Persistence.Importer
                 using var dbContext = new AppDataContext();
                 foreach (var place in newPlaces)
                 {
-                    if (!dbContext.Places.Contains(place, place.GetEqualityComparer()))
+                    var duplicateCheck = dbContext.Places
+                        .FirstOrDefault(p =>
+                            p.Name == place.Name && p.StartDate == place.StartDate && p.EndDate == place.EndDate);
+                    var previousPlace = dbContext.Places.FirstOrDefault(p =>
+                        p.Name == place.Name && (p.EndDate == null || p.EndDate < place.StartDate));
+                    if (previousPlace != null)
                     {
-                        Task.Run(() => dbContext.AddAsync(place));
+                        previousPlace.EndDate = place.StartDate;
+                        dbContext.Places.Update(previousPlace);
+                    }
+
+                    var nextPlace =
+                        dbContext.Places.FirstOrDefault(p => p.Name == place.Name && p.StartDate < place.EndDate);
+                    if (nextPlace != null)
+                    {
+                        place.EndDate = nextPlace.StartDate;
+                        dbContext.Places.Update(nextPlace);
+                    }
+
+                    
+                    if (duplicateCheck == null)
+                    {
+                        dbContext.Places.AddAsync(place);
                     }
                 }
+
                 dbContext.SaveChanges();
             }
         }
