@@ -1,17 +1,16 @@
 ﻿using System;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.ORM.MySQL;
 using Microsoft.EntityFrameworkCore;
 
-namespace ALD.LibFiscalCode.Persistence.ORM
+namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
 {
-    public class AppDataContextBase:DbContext
+    public class AppDataContext:DbContext
     {
-        public AppDataContextBase()
+        public AppDataContext()
         {
             
         }
-        public AppDataContextBase(DbContextOptions<AppDataContextBase> options):base(options)
+        public AppDataContext(DbContextOptions<AppDataContext> options):base(options)
         {
             
         }

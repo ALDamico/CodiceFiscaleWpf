@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM;
-using ALD.LibFiscalCode.Persistence.ORM.MySQL;
+using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -15,9 +15,9 @@ namespace CodiceFiscaleApi
     [Route("api/[controller]")]
     public class PlacesController : Controller
     {
-        private AppDataContextBase dataContext;
+        private AppDataContext dataContext;
 
-        public PlacesController(AppDataContextBase dataContext)
+        public PlacesController(AppDataContext dataContext)
         {
             this.dataContext = dataContext;
         }

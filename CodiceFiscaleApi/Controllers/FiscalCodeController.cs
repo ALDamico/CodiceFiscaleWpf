@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM;
+using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using Microsoft.AspNetCore.Http;
@@ -17,9 +18,9 @@ namespace CodiceFiscaleApi.Controllers
     [ApiController]
     public class FiscalCodeController : ControllerBase
     {
-        private AppDataContextBase dataContext;
+        private AppDataContext dataContext;
 
-        public FiscalCodeController(AppDataContextBase dataContext)
+        public FiscalCodeController(AppDataContext dataContext)
         {
             this.dataContext = dataContext;
         }
@@ -30,7 +31,7 @@ namespace CodiceFiscaleApi.Controllers
         {
             if (person != null)
             {
-                person.PlaceOfBirth = dataContext.Places.Where(p => p.Id == placeOfBirthId).SingleOrDefault();
+                person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
             }
             var validator = new PersonValidator(person);
             if (validator.IsValid)

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.Persistence.ORM.Sqlite
 {
-    public class AppDataContext : AppDataContextBase
+    public class AppDataContext:DbContext
     {
         public async Task MigrateAsync()
         {
@@ -44,7 +44,24 @@ namespace ALD.LibFiscalCode.Persistence.ORM.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); //Replaces placeEntity configuration. Places is available in all dbcontexts
+            if (modelBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
+            //Places configuration
+            var placeEntity = modelBuilder.Entity<Place>();
+            placeEntity.Property(p => p.Id).HasColumnName("id");
+            placeEntity.HasKey("Id");
+            placeEntity.Property(p => p.Name).HasColumnName("name");
+            placeEntity.Property(p => p.Province).HasColumnName("province_name");
+            placeEntity.Property(p => p.ProvinceAbbreviation).HasColumnName("province_abbreviation");
+            placeEntity.Property(p => p.Region).HasColumnName("region_name");
+            placeEntity.Property(p => p.Code).HasColumnName("code");
+            placeEntity.Property(p => p.StartDate).HasColumnName("start_date");
+            placeEntity.Property(p => p.EndDate).HasColumnName("end_date");
+
+            placeEntity.HasIndex(p => p.ProvinceAbbreviation);
+            placeEntity.HasIndex(p => p.Region);
 
             var peopleEntity = modelBuilder.Entity<Person>();
 
