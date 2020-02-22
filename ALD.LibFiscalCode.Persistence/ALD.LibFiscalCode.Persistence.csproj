@@ -6,15 +6,18 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\AppDataContextModelSnapshot.cs" />
+    <Compile Remove="ORM\MySQL\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="DataSource\app.db" />
     <None Remove="DataSource\Places_201912281810.csv" />
+    <None Remove="ORM\MySQL\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="15.0.0" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -53,6 +56,12 @@
     <Content Include="Migrations\AppDataContextModelSnapshot.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ORM\MySQL\**" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ALD.LibFiscalCode.Persistence;
 using ALD.LibFiscalCode.Persistence.ORM;
-using ALD.LibFiscalCode.Persistence.ORM.MySQL;
+using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodiceFiscaleApi
@@ -29,7 +29,7 @@ namespace CodiceFiscaleApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDataContextBase>(options =>
+            services.AddDbContext<AppDataContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
             services.AddControllers();
             

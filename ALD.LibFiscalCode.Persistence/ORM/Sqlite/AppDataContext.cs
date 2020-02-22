@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ALD.LibFiscalCode.Persistence.ORM.Sqlite
 {
-    public class AppDataContext : AppDataContextBase
+    public class AppDataContext : MSSQL.AppDataContext
     {
         public async Task MigrateAsync()
         {
