@@ -8,7 +8,7 @@
          xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
          d:DataContext="{d:DesignInstance vm:MainViewModel}"
          mc:Ignorable="d"
-         Title="{x:Static l10n:Localization.MainWindowTitle}"
+         Title="{x:Static l10n:LocalizationStrings.MainWindowTitle}"
          Height="250"
          Width="600"
          Closing="Window_Closing"
@@ -27,13 +27,13 @@
         <Menu Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2">
-            <MenuItem Header="{x:Static l10n:Localization.MnuFile}"
+            <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuFile}"
                       x:Name="MnuFile">
-                <MenuItem Header="{x:Static l10n:Localization.MnuNew}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuNew}"
                           x:Name="MnuNew"
                           Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuArchive}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuArchive}"
                           x:Name="MnuArchive"
                           Click="MnuArchive_OnClick">
                     <MenuItem.Icon>
@@ -41,17 +41,17 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuExport}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExport}"
                           x:Name="MnuExport">
-                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToJson}"
+                    <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToJson}"
                               x:Name="MnuExportToJson"
                               Click="MnuExportToJson_OnClick" />
-                    <MenuItem Header="{x:Static l10n:Localization.MnuExportToXml}"
+                    <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToXml}"
                               x:Name="MnuExportToXml"
                               Click="MnuExportToXml_OnClick" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuQuit}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuQuit}"
                           x:Name="MnuQuit"
                           Click="MnuQuit_Click">
                     <MenuItem.Icon>
@@ -59,22 +59,22 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="{x:Static l10n:Localization.MnuAdvanced}"
+            <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuAdvanced}"
                       x:Name="MnuAdvanced">
-                <MenuItem Header="{x:Static l10n:Localization.MnuPlaces}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuPlaces}"
                           x:Name="MnuPlaces"
                           Click="MnuPlaces_Click" />
-                <MenuItem Header="{x:Static l10n:Localization.MnuUpdatePlaces}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuUpdatePlaces}"
                           x:Name="MnuUpdatePlaces"
-                          Click="MnuUpdatePlaces_Click" IsEnabled="False" ToolTip="{x:Static l10n:Localization.MsgBoxFeatureUnavailableText}" />
+                          Click="MnuUpdatePlaces_Click" IsEnabled="False" ToolTip="{x:Static l10n:LocalizationStrings.MsgBoxFeatureUnavailableText}" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:Localization.MnuOptions}"
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuOptions}"
                           x:Name="MnuOptions"
                           Click="MnuOptions_OnClick" />
             </MenuItem>
             <MenuItem x:Name="MnuHelp"
-                      Header="{x:Static l10n:Localization.MnuHelp}">
-                <MenuItem Header="{x:Static l10n:Localization.MnuAbout}"
+                      Header="{x:Static l10n:LocalizationStrings.MnuHelp}">
+                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuAbout}"
                           x:Name="MnuAbout"
                           Click="MnuAbout_OnClick"
                           IsEnabled="False">
@@ -114,7 +114,7 @@
             <Label Grid.Row="1"
                    Grid.Column="0"
                    x:Name="LblSurname"
-                   Content="{x:Static l10n:Localization.LblSurname}" />
+                   Content="{x:Static l10n:LocalizationStrings.LblSurname}" />
             <TextBox Grid.Row="1"
                      Grid.Column="1"
                      x:Name="TxtSurname"
@@ -123,7 +123,7 @@
             <Label Grid.Row="2"
                    Grid.Column="0"
                    x:Name="LblGender"
-                   Content="{x:Static l10n:Localization.LblGender}" />
+                   Content="{x:Static l10n:LocalizationStrings.LblGender}" />
             <ComboBox Grid.Row="2"
                       Grid.Column="1"
                       x:Name="DrpGenderSelector"
@@ -134,7 +134,7 @@
             <Label Grid.Row="3"
                    Grid.Column="0"
                    x:Name="LblDateOfBirth"
-                   Content="{x:Static l10n:Localization.LblDateOfBirth}" />
+                   Content="{x:Static l10n:LocalizationStrings.LblDateOfBirth}" />
             <TextBox Grid.Row="3"
                      Grid.Column="1"
                      IsReadOnly="False"
@@ -148,7 +148,7 @@
             <Label Grid.Row="4"
                    Grid.Column="0"
                    x:Name="LblPlaceOfBirth"
-                   Content="{x:Static l10n:Localization.LblPlaceOfBirth}" />
+                   Content="{x:Static l10n:LocalizationStrings.LblPlaceOfBirth}" />
             <VirtualizingStackPanel Grid.Row="4"
                         Grid.Column="1"
                         Orientation="Horizontal">
@@ -174,7 +174,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="Assets/search.png" Width="16" />
-                        <Label Content="{x:Static l10n:Localization.LblSearch}"></Label>
+                        <Label Content="{x:Static l10n:LocalizationStrings.LblSearch}"></Label>
                     </StackPanel>
                 </Button>
             </VirtualizingStackPanel>
@@ -191,7 +191,7 @@
             <Button Margin="10"
                     x:Name="BtnCalculate"
                     Click="BtnCalculate_Click"
-                    Content="{x:Static l10n:Localization.BtnCalculate}" />
+                    Content="{x:Static l10n:LocalizationStrings.BtnCalculate}" />
         </StackPanel>
         <StackPanel Grid.Row="1"
                     Grid.Column="1"
@@ -209,7 +209,7 @@
                     <TextBox.ContextMenu>
                         <ContextMenu>
 
-                            <MenuItem Header="{x:Static l10n:Localization.BtnCopyToClipboard}"
+                            <MenuItem Header="{x:Static l10n:LocalizationStrings.BtnCopyToClipboard}"
                                       Click="BtnCopyToClipboard_Click"
                                       IsEnabled="{Binding FiscalCodeCalculated}">
                                 <MenuItem.Icon>
@@ -232,7 +232,7 @@
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Assets/copy.png" Width="16" Height="16" />
-                            <Label Content="{x:Static l10n:Localization.BtnCopyToClipboard}" />
+                            <Label Content="{x:Static l10n:LocalizationStrings.BtnCopyToClipboard}" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -257,10 +257,10 @@
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem x:Name="CtxMnuCopy"
-                                          Header="{x:Static l10n:Localization.CtxMnuCopy}"
+                                          Header="{x:Static l10n:LocalizationStrings.CtxMnuCopy}"
                                           Click="BtnCopyToClipboard_Click" />
                             <Separator />
-                            <MenuItem Header="{x:Static l10n:Localization.CtxMnuLstOmocode}"
+                            <MenuItem Header="{x:Static l10n:LocalizationStrings.CtxMnuLstOmocode}"
                                           x:Name="CtxMnuLstOmocode"
                                           Click="MnuLstOmocode_Click" />
                         </ContextMenu>

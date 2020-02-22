@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         mc:Ignorable="d"
-        Title="{x:Static l10n:Localization.DatePickerWindowTitle}"
+        Title="{x:Static l10n:LocalizationStrings.DatePickerWindowTitle}"
         ResizeMode="NoResize"
         SizeToContent="WidthAndHeight"
         ShowInTaskbar="False">
@@ -24,12 +24,12 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <Button x:Name="BtnOk"
-                    Content="{x:Static l10n:Localization.BtnOk}"
+                    Content="{x:Static l10n:LocalizationStrings.BtnOk}"
                     Click="btnOk_Click"
                     Width="40" />
             <Separator Visibility="Hidden" Width="10" />
             <Button x:Name="BtnCancel"
-                    Content="{x:Static l10n:Localization.BtnCancel}"
+                    Content="{x:Static l10n:LocalizationStrings.BtnCancel}"
                     Click="btnCancel_Click"
                     Width="40" />
         </StackPanel>

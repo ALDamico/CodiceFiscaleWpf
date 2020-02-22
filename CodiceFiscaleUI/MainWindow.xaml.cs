@@ -13,7 +13,7 @@ using CodiceFiscaleUI.DatePicker;
 using CodiceFiscaleUI.PlaceImport;
 using CodiceFiscaleUI.PlacesListView;
 using Microsoft.Win32;
-using Localization = ALD.LibFiscalCode.Localization.Localization;
+using ALD.LibFiscalCode.Localization;
 using System.Diagnostics;
 using CodiceFiscaleUI.Omocodes;
 
@@ -55,8 +55,8 @@ namespace CodiceFiscaleUI
             var response = MessageBoxResult.None;
             if (viewModel.HasPendingChanges)
             {
-                response = MessageBox.Show(Localization.MsgBoxResetText,
-                    Localization.MsgBoxResetCaption,
+                response = MessageBox.Show(LocalizationStrings.MsgBoxResetText,
+                    LocalizationStrings.MsgBoxResetCaption,
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Question,
                     MessageBoxResult.Cancel);
@@ -114,7 +114,7 @@ namespace CodiceFiscaleUI
             var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
-                MessageBox.Show(check.GetValidationMessagesAsString(), Localization.ValidationDialogCaption, MessageBoxButton.OK,
+                MessageBox.Show(check.GetValidationMessagesAsString(), LocalizationStrings.ValidationDialogCaption, MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -159,8 +159,8 @@ namespace CodiceFiscaleUI
             if (viewModel.HasPendingChanges)
             {
                 var result =
-                    MessageBox.Show(Localization.DialogConfirmExitText,
-                        Localization.DialogConfirmExitCaption,
+                    MessageBox.Show(LocalizationStrings.DialogConfirmExitText,
+                        LocalizationStrings.DialogConfirmExitCaption,
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Asterisk,
                         MessageBoxResult.Cancel);
@@ -216,9 +216,9 @@ namespace CodiceFiscaleUI
                 var dialog = new SaveFileDialog();
                 dialog.CheckFileExists = false;
                 dialog.AddExtension = true;
-                dialog.Title = Localization.ExportDialogTitle;
+                dialog.Title = LocalizationStrings.ExportDialogTitle;
                 dialog.DefaultExt = ".json";
-                dialog.Filter = Localization.ExportDialogJsonFilter;
+                dialog.Filter = LocalizationStrings.ExportDialogJsonFilter;
                 dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
                                       DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
 
@@ -230,8 +230,8 @@ namespace CodiceFiscaleUI
             }
             else
             {
-                MessageBox.Show(this, Localization.MsgBoxExportUnavailableText,
-                    Localization.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, LocalizationStrings.MsgBoxExportUnavailableText,
+                    LocalizationStrings.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -242,9 +242,9 @@ namespace CodiceFiscaleUI
                 var dialog = new SaveFileDialog();
                 dialog.CheckFileExists = false;
                 dialog.AddExtension = true;
-                dialog.Title = Localization.ExportDialogTitle;
+                dialog.Title = LocalizationStrings.ExportDialogTitle;
                 dialog.DefaultExt = ".xml";
-                dialog.Filter = Localization.ExportDialogXmlFilter;
+                dialog.Filter = LocalizationStrings.ExportDialogXmlFilter;
                 dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
                                   DateTime.Now.ToString(DateFormat.FilenameSortable) + ".xml";
 
@@ -256,8 +256,8 @@ namespace CodiceFiscaleUI
             }
             else
             {
-                MessageBox.Show(this, Localization.MsgBoxExportUnavailableText,
-                    Localization.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, LocalizationStrings.MsgBoxExportUnavailableText,
+                    LocalizationStrings.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

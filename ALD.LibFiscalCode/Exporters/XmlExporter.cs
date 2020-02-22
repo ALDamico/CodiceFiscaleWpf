@@ -13,6 +13,10 @@ namespace ALD.LibFiscalCode.Exporters
     {
         public void Export(Person person, string path)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person));
+            }
             if (string.IsNullOrWhiteSpace(path))
             {
                 throw new ArgumentNullException(nameof(path));
@@ -23,7 +27,7 @@ namespace ALD.LibFiscalCode.Exporters
             settings.Encoding = Encoding.UTF8;
             settings.Indent = true;
             settings.IndentChars = "    ";
-            using (XmlWriter writer = XmlTextWriter.Create(path, settings))
+            using (XmlWriter writer = XmlWriter.Create(path, settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("person");

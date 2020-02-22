@@ -15,11 +15,11 @@ namespace CodiceFiscaleApi
     [Route("api/[controller]")]
     public class PlacesController : Controller
     {
-        private AppDataContext dataContext;
+        private AppDataContextBase dataContext;
 
         public PlacesController(AppDataContextBase dataContext)
         {
-            this.dataContext = dataContext as AppDataContext;
+            this.dataContext = dataContext;
         }
 
         // GET: api/<controller>
@@ -27,18 +27,26 @@ namespace CodiceFiscaleApi
         public string Get(string name)
         {
             
-            if (!string.IsNullOrEmpty(name) && name.Length < 3)
+            if (string.IsNullOrEmpty(name) || name.Length < 3)
             {
                 return null;
             }
 
-            
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
             var outputObject = JsonConvert.SerializeObject(matchingPlaces, Formatting.Indented);
             if (matchingPlaces.Count() == 1)
             {
                 outputObject = JsonConvert.SerializeObject(matchingPlaces.First(), Formatting.Indented);
             }
+            return outputObject;
+        }
+
+
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            var place = dataContext.Places.Where(p => p.Id == id).SingleOrDefault();
+            var outputObject = JsonConvert.SerializeObject(place, Formatting.Indented);
             return outputObject;
         }
 

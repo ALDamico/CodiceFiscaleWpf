@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using ALD.LibFiscalCode.Localization;
 using ALD.LibFiscalCode.Lookups;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Events;
@@ -35,9 +36,9 @@ namespace ALD.LibFiscalCode.Builders
                 throw new ArgumentNullException(nameof(partial));
             }
 
-            if (partial.Length != 15)
+            if (partial.Length != 15 && partial.Length != 16)
             {
-                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
+                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
                 throw new ArgumentException(argumentMessage);
             }
 
@@ -45,8 +46,15 @@ namespace ALD.LibFiscalCode.Builders
             fiscalCode.Surname = partial.Substring(0, 3);
             fiscalCode.Name = partial.Substring(3, 3);
             fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5);
-            fiscalCode.PlaceCode = partial.Substring(10, 4);
-            fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+            fiscalCode.PlaceCode = partial.Substring(11, 4);
+            
+            if (partial.Length == 15) {
+                fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+            }
+            else
+            {
+                fiscalCode.CheckDigit = partial.Substring(15, 1);
+            }
             ComputedFiscalCode = fiscalCode;
         }
 
@@ -56,7 +64,7 @@ namespace ALD.LibFiscalCode.Builders
         {
             if (input.Length != 15)
             {
-                string argumentMessage = Localization.Localization.BuilderPartialFcLengthException;
+                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
 
                 throw new ArgumentException(argumentMessage);
             }

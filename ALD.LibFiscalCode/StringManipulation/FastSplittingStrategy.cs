@@ -29,7 +29,7 @@ namespace ALD.LibFiscalCode.StringManipulation
                 }
             }
 
-            Result = stringBuilder.ToString().Normalize(NormalizationForm.FormC).ToUpper();
+            Result = stringBuilder.ToString().Normalize(NormalizationForm.FormC).ToUpperInvariant();
         }
     }
 }

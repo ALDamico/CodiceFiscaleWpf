@@ -59,46 +59,47 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -112,10 +113,14 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+      PublicKeyToken=b77a5c561934e089
+    </value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+      PublicKeyToken=b77a5c561934e089
+    </value>
   </resheader>
   <data name="AboutWindowTitle" xml:space="preserve">
     <value>Informazioni su Codice Fiscale</value>
@@ -168,9 +173,12 @@
   <data name="ChkEnableCustMapping" xml:space="preserve">
     <value>Abilita</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms"
+            name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
   <data name="codicefiscale_icopng" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\codicefiscale-icopng.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Resources\codicefiscale-icopng.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+      PublicKeyToken=b77a5c561934e089
+    </value>
   </data>
   <data name="CtxMnuCopy" xml:space="preserve">
     <value>Copia</value>
@@ -439,7 +447,55 @@
   <data name="ValidationMissingName" xml:space="preserve">
     <value>Nome non compilato.</value>
   </data>
+  <data name="ValidationArgumentNull" xml:space="preserve">
+    <value>L'oggetto era null.</value>
+  </data>
+  <data name="FiscalCodeValidationNameInvalid" xml:space="preserve">
+    <value>La rappresentazione del nome non è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationNameValid" xml:space="preserve">
+    <value>La rappresentazione del nome è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationNameInvalidDetails" xml:space="preserve">
+    <value>Nel codice fiscale il nome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il nome contiene più di quattro consonanti, vengono prese la prima, la terza e la quarta consonante.\nAltrimenti, vengono applicate le stesse regole usate per il cognome.\nLa rappresentazione del nome prevista era {0}.</value>
+  </data>
+  <data name="FiscalCodeValidationSurnameInvalid" xml:space="preserve">
+    <value>La rappresentazione del cognome non è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationSurnameValid" xml:space="preserve">
+    <value>La rappresentazione del cognome è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationSurnameInvalidDetails" xml:space="preserve">
+    <value>Nel codice fiscale il cognome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il cognome contiene più di tre consonanti, vengono prese la prima, la seconda e la terza consonante.\nAltrimenti, vengono prese le consonanti presenti e si popolano le lettere mancanti con le vocali nell'ordine in cui compaiono. Se anche in questo caso la lunghezza della stringa risultante è inferiore ai tre caratteri, l'ultimo carattere viene posto fisso a X.\nLa rappresentazione del cognome prevista era {0}.</value>
+  </data>
   <data name="ValidationMissingSurname" xml:space="preserve">
     <value>Cognome non compilato.</value>
+  </data>
+  <data name="FiscalCodeValidationBirthDateAndGenderInvalid" xml:space="preserve">
+    <value>La rappresentazione del sesso e della data di nascita non è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationBirthDateAndGenderValid" xml:space="preserve">
+    <value>La rappresentazione del sesso e della data di nascita è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationBirthDateAndGenderInvalidDetails" xml:space="preserve">
+    <value>Nel codice fiscale la data di nascita e il sesso sono rappresentati da una stringa di cinque caratteri, calcolata nel modo seguente:\nSi prende la data di nascita in formato YYMMDD e si sostituisce il mese in base a una regola di sostituzione. Se il soggetto è di sesso femminile, si aggiunge 40 al giorno di nascita.\nLa rappresentazione della data di nascita e del sesso prevista era {0}.</value>
+  </data>
+  <data name="FiscalCodeValidationPlaceCodeValid" xml:space="preserve">
+    <value>Il codice del luogo è valido.</value>
+  </data>
+  <data name="FiscalCodeValidationPlaceCodeInvalid" xml:space="preserve">
+    <value>Il codice del luogo non è valido.</value>
+  </data>
+  <data name="FiscalCodeValidationPlaceCodeInvalidDetails" xml:space="preserve">
+    <value>Nel codice fiscale il luogo di nascita è rappresentato dal codice nazionale o Codice Belfiore, una stringa di 4 caratteri alfanumerici composta da una lettera e tre numeri. Il codice Belfiore previsto per questo codice fiscale era {0}.</value>
+  </data>
+  <data name="FiscalCodeValidationCheckDigitInvalid" xml:space="preserve">
+    <value>La check digit non è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationCheckDigitValid" xml:space="preserve">
+    <value>La check digit è valida.</value>
+  </data>
+  <data name="FiscalCodeValidationCheckDigitInvalidDetails" xml:space="preserve">
+    <value>La check digit è un carattere che viene calcolato in base ai precedenti quindici caratteri secondo un algoritmo specifico. La check digit prevista era {0}.</value>
   </data>
 </root>

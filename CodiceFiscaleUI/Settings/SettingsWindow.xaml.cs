@@ -8,7 +8,7 @@ using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.ViewModels;
 using CodiceFiscaleUI.DatePicker;
 using Microsoft.Win32;
-using Localization = ALD.LibFiscalCode.Localization.Localization;
+using ALD.LibFiscalCode.Localization;
 
 namespace CodiceFiscaleUI.Settings
 {
@@ -31,8 +31,8 @@ namespace CodiceFiscaleUI.Settings
         {
             if (viewModel.ChangeSettingsInvoker.HasPendingActions)
             {
-                var response = MessageBox.Show(this, Localization.MsgBoxPendingChangesText,
-                    Localization.MsgBoxPendingChangesCaption, MessageBoxButton.OKCancel, MessageBoxImage.Information,
+                var response = MessageBox.Show(this, LocalizationStrings.MsgBoxPendingChangesText,
+                    LocalizationStrings.MsgBoxPendingChangesCaption, MessageBoxButton.OKCancel, MessageBoxImage.Information,
                     MessageBoxResult.Cancel);
                 if (response != MessageBoxResult.OK)
                 {
@@ -47,7 +47,7 @@ namespace CodiceFiscaleUI.Settings
         private void BtnPickDbLocation_OnClick(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Title = Localization.FileDialogDatabaseFile;
+            dialog.Title = LocalizationStrings.FileDialogDatabaseFile;
             dialog.Multiselect = false;
             var result = dialog.ShowDialog(this);
 
@@ -65,8 +65,8 @@ namespace CodiceFiscaleUI.Settings
                 else
                 {
                     MessageBox.Show(this,
-                        Localization.MsgBoxInvalidDatabaseText,
-                        Localization.MsgBoxInvalidDatabaseCaption,
+                        LocalizationStrings.MsgBoxInvalidDatabaseText,
+                        LocalizationStrings.MsgBoxInvalidDatabaseCaption,
                         MessageBoxButton.OK,
                         MessageBoxImage.Exclamation,
                         MessageBoxResult.OK);

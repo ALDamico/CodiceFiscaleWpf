@@ -41,7 +41,7 @@ namespace ALD.LibFiscalCode.Settings
                 throw new ArgumentException("Invalid strategy");
             }
 
-            if (newStrategy == target.SplittingStrategy) return;
+            if (newStrategy == target.SplittingStrategyName) return;
 
             pendingActions.Add(new ChangeSplittingStrategy(target, newStrategy));
             PreviewChanges["SplittingStrategy"] = newStrategy;

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
-using Localization = ALD.LibFiscalCode.Localization.Localization;
+using ALD.LibFiscalCode.Localization;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
@@ -65,7 +65,7 @@ namespace CodiceFiscaleUI.PlacesListView
             }
 
             var filterText = (sender as TextBox)?.Text;
-            if (string.IsNullOrEmpty(filterText) || filterText.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
+            if (string.IsNullOrEmpty(filterText) || filterText.Equals(LocalizationStrings.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 viewModel.ResetFilter();
             }
@@ -82,9 +82,9 @@ namespace CodiceFiscaleUI.PlacesListView
             if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
                 TxtFilter.Foreground = Brushes.Gainsboro;
-                TxtFilter.Text = Localization.TxtFilterResults;
+                TxtFilter.Text = LocalizationStrings.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
+            else if (TxtFilter.Text.Equals(LocalizationStrings.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;
@@ -102,9 +102,9 @@ namespace CodiceFiscaleUI.PlacesListView
             if (string.IsNullOrWhiteSpace(TxtFilter.Text))
             {
                 TxtFilter.Foreground = Brushes.Gainsboro;
-                TxtFilter.Text = Localization.TxtFilterResults;
+                TxtFilter.Text = LocalizationStrings.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(Localization.TxtFilterResults, StringComparison.InvariantCulture))
+            else if (TxtFilter.Text.Equals(LocalizationStrings.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;

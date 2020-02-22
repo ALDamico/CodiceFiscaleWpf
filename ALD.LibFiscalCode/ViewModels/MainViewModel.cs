@@ -12,6 +12,8 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
 using ALD.LibFiscalCode.Settings;
 using ALD.LibFiscalCode.Validators;
+using ALD.LibFiscalCode.Validators.Interfaces;
+using ALD.LibFiscalCode.Validators.Person;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 

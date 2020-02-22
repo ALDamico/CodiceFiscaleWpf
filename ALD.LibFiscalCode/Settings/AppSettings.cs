@@ -50,7 +50,7 @@ namespace ALD.LibFiscalCode.Settings
             //instance.DataSourceLocation = SetDataSourceLocation(dataContext);
             instance.MaxHistorySize = SetMaxHistorySize(dataContext);
             instance.DefaultDate = SetDefaultDate(dataContext);
-            instance.SplittingStrategy = SetSplittingStrategy(dataContext);
+            instance.SplittingStrategyName = SetSplittingStrategy(dataContext);
             return instance;
         }
 
@@ -146,7 +146,7 @@ namespace ALD.LibFiscalCode.Settings
             var splittingStrategy = settingsPersistence.FirstOrDefault(s => s.Name.Equals("SplittingStrategy"));
             if (splittingStrategy != null)
             {
-                splittingStrategy.StringValue = SplittingStrategy;
+                splittingStrategy.StringValue = SplittingStrategyName;
             }
 
             dataContext.SaveChanges();
@@ -167,6 +167,6 @@ namespace ALD.LibFiscalCode.Settings
             return new UnidecodeSplittingStrategy(output);
         }
 
-        public string SplittingStrategy { get; set; }
+        public string SplittingStrategyName { get; set; }
     }
 }

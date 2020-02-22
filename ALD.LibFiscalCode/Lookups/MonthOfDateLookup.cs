@@ -27,7 +27,7 @@ namespace ALD.LibFiscalCode.Lookups
         {
             if (input < 1 || input > 12)
             {
-                throw new ArgumentException(Localization.Localization.MonthOfDateRangeError);
+                throw new ArgumentException(LocalizationStrings.MonthOfDateRangeError);
             }
 
             return Lookup[input];

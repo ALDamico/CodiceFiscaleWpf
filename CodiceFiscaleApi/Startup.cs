@@ -30,7 +30,7 @@ namespace CodiceFiscaleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDataContextBase>(options =>
-                options.UseMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
+                options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
             services.AddControllers();
             
         }
@@ -41,6 +41,7 @@ namespace CodiceFiscaleApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors();
             }
 
             app.UseHttpsRedirection();

@@ -19,17 +19,17 @@ namespace ALD.LibFiscalCode.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Localization {
+    public class LocalizationStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Localization() {
+        internal LocalizationStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace ALD.LibFiscalCode.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ALD.LibFiscalCode.Localization.Localization", typeof(Localization).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ALD.LibFiscalCode.Localization.LocalizationStrings", typeof(LocalizationStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -319,6 +319,141 @@ namespace ALD.LibFiscalCode.Localization {
         public static string FileDialogDatabaseFile {
             get {
                 return ResourceManager.GetString("FileDialogDatabaseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del sesso e della data di nascita non è valida..
+        /// </summary>
+        public static string FiscalCodeValidationBirthDateAndGenderInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationBirthDateAndGenderInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nel codice fiscale la data di nascita e il sesso sono rappresentati da una stringa di cinque caratteri, calcolata nel modo seguente:\nSi prende la data di nascita in formato YYMMDD e si sostituisce il mese in base a una regola di sostituzione. Se il soggetto è di sesso femminile, si aggiunge 40 al giorno di nascita.\nLa rappresentazione della data di nascita e del sesso prevista era {0}..
+        /// </summary>
+        public static string FiscalCodeValidationBirthDateAndGenderInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationBirthDateAndGenderInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del sesso e della data di nascita è valida..
+        /// </summary>
+        public static string FiscalCodeValidationBirthDateAndGenderValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationBirthDateAndGenderValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La check digit non è valida..
+        /// </summary>
+        public static string FiscalCodeValidationCheckDigitInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationCheckDigitInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La check digit è un carattere che viene calcolato in base ai precedenti quindici caratteri secondo un algoritmo specifico. La check digit prevista era {0}..
+        /// </summary>
+        public static string FiscalCodeValidationCheckDigitInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationCheckDigitInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La check digit è valida..
+        /// </summary>
+        public static string FiscalCodeValidationCheckDigitValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationCheckDigitValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del nome non è valida..
+        /// </summary>
+        public static string FiscalCodeValidationNameInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nel codice fiscale il nome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il nome contiene più di quattro consonanti, vengono prese la prima, la terza e la quarta consonante.\nAltrimenti, vengono applicate le stesse regole usate per il cognome.\nLa rappresentazione del nome prevista era {0}..
+        /// </summary>
+        public static string FiscalCodeValidationNameInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del nome è valida..
+        /// </summary>
+        public static string FiscalCodeValidationNameValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationNameValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Il codice del luogo non è valido..
+        /// </summary>
+        public static string FiscalCodeValidationPlaceCodeInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationPlaceCodeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nel codice fiscale il luogo di nascita è rappresentato dal codice nazionale o Codice Belfiore, una stringa di 4 caratteri alfanumerici composta da una lettera e tre numeri. Il codice Belfiore previsto per questo codice fiscale era {0}..
+        /// </summary>
+        public static string FiscalCodeValidationPlaceCodeInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationPlaceCodeInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Il codice del luogo è valido..
+        /// </summary>
+        public static string FiscalCodeValidationPlaceCodeValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationPlaceCodeValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del cognome non è valida..
+        /// </summary>
+        public static string FiscalCodeValidationSurnameInvalid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationSurnameInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nel codice fiscale il cognome viene rappresentato da una stringa di tre caratteri, calcolata nel modo seguente:\nSe il cognome contiene più di tre consonanti, vengono prese la prima, la seconda e la terza consonante.\nAltrimenti, vengono prese le consonanti presenti e si popolano le lettere mancanti con le vocali nell&apos;ordine in cui compaiono. Se anche in questo caso la lunghezza della stringa risultante è inferiore ai tre caratteri, l&apos;ultimo carattere viene posto fisso a X.\nLa rappresentazione del cognome  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string FiscalCodeValidationSurnameInvalidDetails {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationSurnameInvalidDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to La rappresentazione del cognome è valida..
+        /// </summary>
+        public static string FiscalCodeValidationSurnameValid {
+            get {
+                return ResourceManager.GetString("FiscalCodeValidationSurnameValid", resourceCulture);
             }
         }
         
@@ -985,6 +1120,15 @@ namespace ALD.LibFiscalCode.Localization {
         public static string TxtFilterResults {
             get {
                 return ResourceManager.GetString("TxtFilterResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;oggetto era null..
+        /// </summary>
+        public static string ValidationArgumentNull {
+            get {
+                return ResourceManager.GetString("ValidationArgumentNull", resourceCulture);
             }
         }
         
