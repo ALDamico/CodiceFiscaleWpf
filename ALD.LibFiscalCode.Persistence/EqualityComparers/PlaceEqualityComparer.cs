@@ -21,6 +21,8 @@ namespace ALD.LibFiscalCode.Persistence.EqualityComparers
 
             if (!x.Name.Equals(y.Name)) return false;
             if (!x.Province.Equals(y.Province)) return false;
+            if (!x.StartDate.Equals(y.StartDate)) return false;
+            if (!x.EndDate.Equals(y.EndDate)) return false;
             return x.Region.Equals(y.Region);
         }
 

@@ -1,4 +1,5 @@
 ﻿using ALD.LibFiscalCode.Persistence.EqualityComparers;
+using System;
 
 namespace ALD.LibFiscalCode.Persistence.Models
 {
@@ -17,6 +18,8 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public string ProvinceAbbreviation { get; set; }
         public string Region { get; set; }
         public string Code { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public bool IsForeignCountry => ProvinceAbbreviation == "EE";
 
