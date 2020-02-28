@@ -8,7 +8,8 @@
          xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
          d:DataContext="{d:DesignInstance vm:MainViewModel}"
          mc:Ignorable="d"
-         Title="{x:Static l10n:LocalizationStrings.MainWindowTitle}"
+         Title="Codice fiscale"
+        x:Uid="MainWindowTitle"
          Height="250"
          Width="600"
          Closing="Window_Closing"
@@ -27,55 +28,54 @@
         <Menu Grid.Row="0"
               Grid.Column="0"
               Grid.ColumnSpan="2">
-            <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuFile}"
-                      x:Name="MnuFile">
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuNew}"
-                          x:Name="MnuNew"
+            <MenuItem x:Uid="MnuFile" Header="File">
+                <MenuItem Header="Nuovo"
+                          x:Uid="MnuNew"
                           Click="BtnReset_Click" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuArchive}"
-                          x:Name="MnuArchive"
+                <MenuItem Header="Archivio"
+                          x:Uid="MnuArchive"
                           Click="MnuArchive_OnClick">
                     <MenuItem.Icon>
                         <Image Source="Assets/address-book-o.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExport}"
-                          x:Name="MnuExport">
-                    <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToJson}"
-                              x:Name="MnuExportToJson"
+                <MenuItem Header="Esporta"
+                          x:Uid="MnuExport">
+                    <MenuItem Header="In formato JSON"
+                              x:Uid="MnuExportToJson"
                               Click="MnuExportToJson_OnClick" />
-                    <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToXml}"
-                              x:Name="MnuExportToXml"
+                    <MenuItem Header="In formato XML"
+                              x:Uid="MnuExportToXml"
                               Click="MnuExportToXml_OnClick" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuQuit}"
-                          x:Name="MnuQuit"
+                <MenuItem Header="Esci"
+                          x:Uid="MnuQuit"
                           Click="MnuQuit_Click">
                     <MenuItem.Icon>
                         <Image Source="Assets/close.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuAdvanced}"
-                      x:Name="MnuAdvanced">
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuPlaces}"
-                          x:Name="MnuPlaces"
+            <MenuItem Header="Avanzate"
+                      x:Uid="MnuAdvanced">
+                <MenuItem Header="Luoghi"
+                          x:Uid="MnuPlaces"
                           Click="MnuPlaces_Click" />
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuUpdatePlaces}"
-                          x:Name="MnuUpdatePlaces"
-                          Click="MnuUpdatePlaces_Click" IsEnabled="False" ToolTip="{x:Static l10n:LocalizationStrings.MsgBoxFeatureUnavailableText}" />
+                <MenuItem Header="Aggiorna il database dei luoghi"
+                          x:Uid="MnuUpdatePlaces"
+                          Click="MnuUpdatePlaces_Click" IsEnabled="False" ToolTip="Questa caratteristica non è ancora disponibile!" />
                 <Separator />
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuOptions}"
-                          x:Name="MnuOptions"
+                <MenuItem Header="Impostazioni"
+                          x:Uid="MnuOptions"
                           Click="MnuOptions_OnClick" />
             </MenuItem>
-            <MenuItem x:Name="MnuHelp"
-                      Header="{x:Static l10n:LocalizationStrings.MnuHelp}">
-                <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuAbout}"
-                          x:Name="MnuAbout"
+            <MenuItem x:Uid="MnuHelp"
+                      Header="?">
+                <MenuItem Header="Informazioni su Codice Fiscale"
+                          x:Uid="MnuAbout"
                           Click="MnuAbout_OnClick"
                           IsEnabled="False">
                     <MenuItem.Icon>
@@ -104,28 +104,29 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0"
                    Grid.Column="0"
-                   x:Name="LblName"
+                   x:Uid="LblName"
                    Content="Nome" />
             <TextBox Grid.Row="0"
                      Grid.Column="1"
-                     x:Name="TxtName"
+                     x:Uid="TxtName"
                      VerticalContentAlignment="Center"
                      Text="{Binding CurrentPerson.Name}" />
             <Label Grid.Row="1"
                    Grid.Column="0"
-                   x:Name="LblSurname"
-                   Content="{x:Static l10n:LocalizationStrings.LblSurname}" />
+                   x:Uid="LblSurname"
+                   Content="Cognome" />
             <TextBox Grid.Row="1"
                      Grid.Column="1"
-                     x:Name="TxtSurname"
+                     x:Uid="TxtSurname"
                      VerticalContentAlignment="Center"
                      Text="{Binding CurrentPerson.Surname}" />
             <Label Grid.Row="2"
                    Grid.Column="0"
-                   x:Name="LblGender"
-                   Content="{x:Static l10n:LocalizationStrings.LblGender}" />
+                   x:Uid="LblGender"
+                   Content="Sesso" />
             <ComboBox Grid.Row="2"
                       Grid.Column="1"
+                      x:Uid="DrpGenderSelector"
                       x:Name="DrpGenderSelector"
                       SelectionChanged="DrpGenderSelector_SelectionChanged">
                 <ComboBoxItem>M</ComboBoxItem>
@@ -133,13 +134,13 @@
             </ComboBox>
             <Label Grid.Row="3"
                    Grid.Column="0"
-                   x:Name="LblDateOfBirth"
-                   Content="{x:Static l10n:LocalizationStrings.LblDateOfBirth}" />
+                   x:Uid="LblDateOfBirth"
+                   Content="Data di nascita" />
             <TextBox Grid.Row="3"
                      Grid.Column="1"
                      IsReadOnly="False"
                      IsReadOnlyCaretVisible="False"
-                     x:Name="TxtCalendar"
+                     x:Uid="TxtCalendar"
                      VerticalContentAlignment="Center"
                      HorizontalContentAlignment="Center"
                      MouseDown="TxtCalendar_MouseDown"
@@ -147,13 +148,14 @@
                      Text="{Binding CurrentPerson.DateOfBirth, StringFormat=dd/MM/yyyy, Mode=OneWay}" />
             <Label Grid.Row="4"
                    Grid.Column="0"
-                   x:Name="LblPlaceOfBirth"
-                   Content="{x:Static l10n:LocalizationStrings.LblPlaceOfBirth}" />
+                   x:Uid="LblPlaceOfBirth"
+                   Content="Luogo di nascita" />
             <VirtualizingStackPanel Grid.Row="4"
                         Grid.Column="1"
                         Orientation="Horizontal">
                 <ComboBox
-                      x:Name="DrpPlaceOfBirth"
+                      x:Uid="DrpPlaceOfBirth"
+                    x:Name="DrpPlaceOfBirth"
                       IsEditable="True"
                       ItemsSource="{Binding Places, Mode=OneWay, IsAsync=True, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                       SelectionChanged="DrpPlaceOfBirth_SelectionChanged"
@@ -166,7 +168,7 @@
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
                 </ComboBox>
-                <Button x:Name="BtnOpenPlaceList"
+                <Button x:Uid="BtnOpenPlaceList"
                             Click="BtnOpenPlaceList_OnClick"
                             IsEnabled="{Binding PlacesLoaded}"
 
@@ -174,7 +176,7 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="Assets/search.png" Width="16" />
-                        <Label Content="{x:Static l10n:LocalizationStrings.LblSearch}"></Label>
+                        <Label Content="Cerca}"></Label>
                     </StackPanel>
                 </Button>
             </VirtualizingStackPanel>
@@ -184,14 +186,14 @@
                     Grid.Row="2"
                     Grid.Column="1">
             <Button Margin="10"
-                    x:Name="BtnReset"
+                    x:Uid="BtnReset"
                     Click="BtnReset_Click">
                 Reset
             </Button>
             <Button Margin="10"
-                    x:Name="BtnCalculate"
+                    x:Uid="BtnCalculate"
                     Click="BtnCalculate_Click"
-                    Content="{x:Static l10n:LocalizationStrings.BtnCalculate}" />
+                    Content="Calcola" />
         </StackPanel>
         <StackPanel Grid.Row="1"
                     Grid.Column="1"
@@ -199,7 +201,8 @@
                     Margin="10">
             <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
-                <TextBox x:Name="TxtFiscalCode"
+                <TextBox x:Uid="TxtFiscalCode"
+                         x:Name="TxtFiscalCode"
                              HorizontalAlignment="Center"
                              MinWidth="200"
                              MaxWidth="600"
@@ -209,7 +212,7 @@
                     <TextBox.ContextMenu>
                         <ContextMenu>
 
-                            <MenuItem Header="{x:Static l10n:LocalizationStrings.BtnCopyToClipboard}"
+                            <MenuItem Header="Copia"
                                       Click="BtnCopyToClipboard_Click"
                                       IsEnabled="{Binding FiscalCodeCalculated}">
                                 <MenuItem.Icon>
@@ -221,18 +224,19 @@
                             <Separator />
                             <MenuItem Header="Visualizza gli omocodi"
                                       Name="MnuViewOmocodes"
+                                      x:Uid="MnuViewOmocodes"
                                       IsEnabled="{Binding FiscalCodeCalculated}"
                                       Click="MnuViewOmocodes_Click"></MenuItem>
                         </ContextMenu>
                     </TextBox.ContextMenu>
                 </TextBox>
-                <Button x:Name="BtnCopyToClipboard"
+                <Button x:Uid="BtnCopyToClipboard"
                             HorizontalAlignment="Center"
                             Click="BtnCopyToClipboard_Click" IsEnabled="{Binding FiscalCodeCalculated}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Assets/copy.png" Width="16" Height="16" />
-                            <Label Content="{x:Static l10n:LocalizationStrings.BtnCopyToClipboard}" />
+                            <Label Content="Copia" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
@@ -242,7 +246,7 @@
                 <!--<ListBox Height="288"
                              MinWidth="200"
                              MaxWidth="600"
-                             x:Name="LstOmocode"
+                             x:Uid="LstOmocode"
                              ItemsSource="{Binding Omocodes}">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
@@ -256,12 +260,12 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="CtxMnuCopy"
-                                          Header="{x:Static l10n:LocalizationStrings.CtxMnuCopy}"
+                            <MenuItem x:Uid="CtxMnuCopy"
+                                          Header="{x:Static l10n:ALD.LibFiscalCode.Localization.CodiceFiscaleUI.CtxMnuCopy}"
                                           Click="BtnCopyToClipboard_Click" />
                             <Separator />
-                            <MenuItem Header="{x:Static l10n:LocalizationStrings.CtxMnuLstOmocode}"
-                                          x:Name="CtxMnuLstOmocode"
+                            <MenuItem Header="{x:Static l10n:ALD.LibFiscalCode.Localization.CodiceFiscaleUI.CtxMnuLstOmocode}"
+                                          x:Uid="CtxMnuLstOmocode"
                                           Click="MnuLstOmocode_Click" />
                         </ContextMenu>
                     </ListBox.ContextMenu>

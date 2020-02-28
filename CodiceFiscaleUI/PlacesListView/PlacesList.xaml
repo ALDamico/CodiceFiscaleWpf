@@ -7,7 +7,7 @@
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm1:PlacesListViewModel}"
         mc:Ignorable="d"
-        Title="{x:Static l10n:LocalizationStrings.PlacesListTitle}"
+        Title="{x:Static l10n:CodiceFiscaleUI.PlacesListTitle}"
         Height="450"
         Width="800">
 
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Header="{x:Static l10n:LocalizationStrings.GrpBxPlaces}"
+        <GroupBox Header="{x:Static l10n:CodiceFiscaleUI.GrpBxPlaces}"
                   x:Name="GrpBxPlaces"
                   Grid.Row="0"
                   Grid.Column="0"
@@ -32,7 +32,7 @@
                 </Grid.RowDefinitions>
                 <!-- TODO Handle this update even in code-behind -->
                 <TextBox Grid.Row="0"
-                         Text="{x:Static l10n:LocalizationStrings.TxtFilterResults}"
+                         Text="{x:Static l10n:CodiceFiscaleUI.TxtFilterResults}"
                          Foreground="Gainsboro"
                          x:Name="TxtFilter"
                          LostFocus="TxtFilter_OnLostFocus"
@@ -51,7 +51,7 @@
         </GroupBox>
         <GroupBox Grid.Row="0"
                   Grid.Column="1"
-                  Header="{x:Static l10n:LocalizationStrings.GrpBxInformation}">
+                  Header="{x:Static l10n:CodiceFiscaleUI.GrpBxInformation}">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -65,15 +65,15 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static l10n:LocalizationStrings.LblPlaceName}" />
+                <Label Grid.Row="0" Grid.Column="0" Content="{x:Static l10n:CodiceFiscaleUI.LblPlaceName}" />
                 <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedPlace.Name}" />
-                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static l10n:LocalizationStrings.LblProvince}" />
+                <Label Grid.Row="1" Grid.Column="0" Content="{x:Static l10n:CodiceFiscaleUI.LblProvince}" />
                 <Label Grid.Row="1" Grid.Column="1" Content="{Binding SelectedPlace.Province}" />
-                <Label Grid.Row="1" Grid.Column="2" Content="{x:Static l10n:LocalizationStrings.LblAbbreviation}" />
+                <Label Grid.Row="1" Grid.Column="2" Content="{x:Static l10n:CodiceFiscaleUI.LblAbbreviation}" />
                 <Label Grid.Row="1" Grid.Column="3" Content="{Binding SelectedPlace.ProvinceAbbreviation}" />
-                <Label Grid.Row="2" Grid.Column="0" Content="{x:Static l10n:LocalizationStrings.LblRegion}" />
+                <Label Grid.Row="2" Grid.Column="0" Content="{x:Static l10n:CodiceFiscaleUI.LblRegion}" />
                 <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}" />
-                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{x:Static l10n:LocalizationStrings.LblCode}" />
+                <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{x:Static l10n:CodiceFiscaleUI.LblCode}" />
                 <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}" />
             </Grid>
         </GroupBox>
@@ -104,15 +104,15 @@
                     <Separator Width="20"
                                Visibility="Hidden" />
                     <Label x:Name="LblSelect"
-                           Content="{x:Static l10n:LocalizationStrings.BtnSelectPlace}" />
+                           Content="{x:Static l10n:CodiceFiscaleUI.BtnSelectPlace}" />
                 </StackPanel>
             </Button>
             <Separator Visibility="Hidden"
                        Width="20" />
             <Button x:Name="BtnClose"
-                    Content="{x:Static l10n:LocalizationStrings.BtnClose}"
+                    Content="{x:Static l10n:CodiceFiscaleUI.BtnClose}"
                     Click="BtnClose_OnClick"
-                    ToolTip="{x:Static l10n:LocalizationStrings.BtnCloseTooltip}" />
+                    ToolTip="{x:Static l10n:CodiceFiscaleUI.BtnCloseTooltip}" />
         </StackPanel>
     </Grid>
 </Window>

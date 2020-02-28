@@ -29,7 +29,8 @@ namespace ALD.LibFiscalCode.Settings
             else
             {
                 using var db = new AppDataContext();
-                db.Settings.FirstOrDefault(s => s.Name == "SplittingMethod").StringValue = method;
+                db.Settings.FirstOrDefault(s => s.Name == "SplittingStrategy").StringValue = method;
+                db.SaveChanges();
                 Target.SplittingStrategyName = method;
             }
         }

@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using ALD.LibFiscalCode.Localization;
 using System.Diagnostics;
 using CodiceFiscaleUI.Omocodes;
+using System.Globalization;
 
 namespace CodiceFiscaleUI
 {
@@ -30,7 +31,9 @@ namespace CodiceFiscaleUI
         {
             settings = ((App)Application.Current).Settings;
             viewModel = new MainViewModel(settings);
-
+            CultureInfo.DefaultThreadCurrentUICulture = settings.AppLanguage;
+            CultureInfo.DefaultThreadCurrentCulture = settings.AppLanguage;
+            ALD.LibFiscalCode.Localization.CodiceFiscaleUI.Culture = settings.AppLanguage;
             InitializeComponent();
         }
 
@@ -55,8 +58,8 @@ namespace CodiceFiscaleUI
             var response = MessageBoxResult.None;
             if (viewModel.HasPendingChanges)
             {
-                response = MessageBox.Show(LocalizationStrings.MsgBoxResetText,
-                    LocalizationStrings.MsgBoxResetCaption,
+                response = MessageBox.Show(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxResetText,
+                    ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxResetCaption,
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Question,
                     MessageBoxResult.Cancel);
@@ -114,7 +117,7 @@ namespace CodiceFiscaleUI
             var check = viewModel.CalculateFiscalCode();
             if (!check.IsValid)
             {
-                MessageBox.Show(check.GetValidationMessagesAsString(), LocalizationStrings.ValidationDialogCaption, MessageBoxButton.OK,
+                MessageBox.Show(check.GetValidationMessagesAsString(), ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ValidationDialogCaption, MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
         }
@@ -159,8 +162,8 @@ namespace CodiceFiscaleUI
             if (viewModel.HasPendingChanges)
             {
                 var result =
-                    MessageBox.Show(LocalizationStrings.DialogConfirmExitText,
-                        LocalizationStrings.DialogConfirmExitCaption,
+                    MessageBox.Show(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.DialogConfirmExitText,
+                        ALD.LibFiscalCode.Localization.CodiceFiscaleUI.DialogConfirmExitCaption,
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Asterisk,
                         MessageBoxResult.Cancel);
@@ -216,9 +219,9 @@ namespace CodiceFiscaleUI
                 var dialog = new SaveFileDialog();
                 dialog.CheckFileExists = false;
                 dialog.AddExtension = true;
-                dialog.Title = LocalizationStrings.ExportDialogTitle;
+                dialog.Title = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ExportDialogTitle;
                 dialog.DefaultExt = ".json";
-                dialog.Filter = LocalizationStrings.ExportDialogJsonFilter;
+                dialog.Filter = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ExportDialogJsonFilter;
                 dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
                                       DateTime.Now.ToString(DateFormat.FilenameSortable) + ".json";
 
@@ -230,8 +233,8 @@ namespace CodiceFiscaleUI
             }
             else
             {
-                MessageBox.Show(this, LocalizationStrings.MsgBoxExportUnavailableText,
-                    LocalizationStrings.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxExportUnavailableText,
+                    ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -242,9 +245,9 @@ namespace CodiceFiscaleUI
                 var dialog = new SaveFileDialog();
                 dialog.CheckFileExists = false;
                 dialog.AddExtension = true;
-                dialog.Title = LocalizationStrings.ExportDialogTitle;
+                dialog.Title = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ExportDialogTitle;
                 dialog.DefaultExt = ".xml";
-                dialog.Filter = LocalizationStrings.ExportDialogXmlFilter;
+                dialog.Filter = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ExportDialogXmlFilter;
                 dialog.FileName = viewModel.CurrentPerson.Name + "_" + viewModel.CurrentPerson.Surname + "_" +
                                   DateTime.Now.ToString(DateFormat.FilenameSortable) + ".xml";
 
@@ -256,8 +259,8 @@ namespace CodiceFiscaleUI
             }
             else
             {
-                MessageBox.Show(this, LocalizationStrings.MsgBoxExportUnavailableText,
-                    LocalizationStrings.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxExportUnavailableText,
+                    ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxExportUnavailableCaption, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

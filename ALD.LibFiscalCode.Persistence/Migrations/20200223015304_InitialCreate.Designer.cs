@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ALD.LibFiscalCode.Persistence.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20200202135921_InitialCreate")]
+    [Migration("20200223015304_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("FiscalCode")
                         .HasColumnName("fiscal_code")
@@ -69,39 +69,12 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.LocalizedString", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("LanguageId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("WindowId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("WindowId");
-
-                    b.ToTable("LocalizedStrings");
-                });
-
             modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnName("date_of_birth")
@@ -146,6 +119,10 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                         .HasColumnName("code")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnName("end_date")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnName("name")
                         .HasColumnType("TEXT");
@@ -160,6 +137,10 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
 
                     b.Property<string>("Region")
                         .HasColumnName("region_name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnName("start_date")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -195,20 +176,6 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.WindowModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Windows");
-                });
-
             modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.FiscalCodeEntity", b =>
                 {
                     b.HasOne("ALD.LibFiscalCode.Persistence.Models.Person", "Person")
@@ -216,17 +183,6 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                         .HasForeignKey("ALD.LibFiscalCode.Persistence.Models.FiscalCodeEntity", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.LocalizedString", b =>
-                {
-                    b.HasOne("ALD.LibFiscalCode.Persistence.Models.LanguageInfo", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId");
-
-                    b.HasOne("ALD.LibFiscalCode.Persistence.Models.WindowModel", "Window")
-                        .WithMany()
-                        .HasForeignKey("WindowId");
                 });
 
             modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.Person", b =>

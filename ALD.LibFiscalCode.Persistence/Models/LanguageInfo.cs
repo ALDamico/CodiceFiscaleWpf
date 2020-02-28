@@ -28,10 +28,10 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public static implicit operator LanguageInfo(CultureInfo par)
         {
             var isoCode = par.Name;
-            if (isoCode.Length != 2)
+            /*if (isoCode.Length != 2)
             {
                 isoCode = isoCode.Substring(0, 2);
-            }
+            }*/
 
             using var db = new AppDataContext();
             return db.Languages.FirstOrDefault(l => l.Iso2Code.Equals(isoCode));

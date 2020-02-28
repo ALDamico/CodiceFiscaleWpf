@@ -9,7 +9,7 @@
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         xmlns:localization="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         mc:Ignorable="d"
-        Title="{x:Static localization:LocalizationStrings.ArchiveWindowTitle}" Height="450" Width="800">
+        Title="{x:Static localization:CodiceFiscaleUI.ArchiveWindowTitle}" Height="450" Width="800">
     <Window.Icon>
         <BitmapImage UriSource="../Assets/address-book-o.png" />
     </Window.Icon>
@@ -34,10 +34,10 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Esporta">
-                        <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToJson}"
+                        <MenuItem Header="{x:Static l10n:CodiceFiscaleUI.MnuExportToJson}"
                               x:Name="MnuExportToJson"
                               Click="MnuExportToJson_Click" />
-                        <MenuItem Header="{x:Static l10n:LocalizationStrings.MnuExportToXml}"
+                        <MenuItem Header="{x:Static l10n:CodiceFiscaleUI.MnuExportToXml}"
                               x:Name="MnuExportToXml"
                               Click="MnuExportToXml_Click" />
                     </MenuItem>
@@ -51,11 +51,11 @@
             </DataGrid.ContextMenu>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrName}" Binding="{Binding Path=Name}" />
-                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrSurname}" Binding="{Binding Path=Surname}" />
-                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrGender}" Binding="{Binding Gender}" />
-                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrPlaceOfBirth}" Binding="{Binding PrettyDate}" />
-                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrFiscalCode}" Binding="{Binding FiscalCode}">
+                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrName}" Binding="{Binding Path=Name}" />
+                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrSurname}" Binding="{Binding Path=Surname}" />
+                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrGender}" Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrPlaceOfBirth}" Binding="{Binding PrettyDate}" />
+                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrFiscalCode}" Binding="{Binding FiscalCode}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

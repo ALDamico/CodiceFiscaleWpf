@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using ALD.LibFiscalCode.Persistence.Factories;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
@@ -21,6 +22,8 @@ namespace ALD.LibFiscalCode.Settings
             Target.AppLanguage = CultureInfoFactory.GetCultureInfoFromLanguageInfo(newLanguage);
             using var db = new AppDataContext();
             db.Settings.FirstOrDefault(s => s.Name == "AppLanguage").StringValue = Target.InternalLanguage.Iso2Code;
+            db.SaveChanges();
+            CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture(Target.InternalLanguage.Iso2Code);
             IsCompleted = true;
         }
     }

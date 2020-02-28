@@ -17,19 +17,19 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
         {
             if (validationTarget == null)
             {
-                Result = new ValidationResult(false, LocalizationStrings.ValidationArgumentNull);
+                Result = new ValidationResult(false, CodiceFiscaleUI.ValidationArgumentNull);
                 return;
             }
 
             if (validationTarget.DateOfBirthAndGender == builder.ComputedFiscalCode.DateOfBirthAndGender)
             {
-                Result = new ValidationResult(true, LocalizationStrings.FiscalCodeValidationBirthDateAndGenderValid);
+                Result = new ValidationResult(true, CodiceFiscaleUI.FiscalCodeValidationBirthDateAndGenderValid);
             }
             else
             {
                 Result = new ValidationResult(false, 
-                    LocalizationStrings.FiscalCodeValidationBirthDateAndGenderInvalid,
-                    LocalizationStrings.FiscalCodeValidationBirthDateAndGenderInvalidDetails);
+                    CodiceFiscaleUI.FiscalCodeValidationBirthDateAndGenderInvalid,
+                    CodiceFiscaleUI.FiscalCodeValidationBirthDateAndGenderInvalidDetails);
             }
         }
 

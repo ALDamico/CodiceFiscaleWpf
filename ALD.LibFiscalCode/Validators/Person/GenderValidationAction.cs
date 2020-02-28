@@ -9,12 +9,12 @@ namespace ALD.LibFiscalCode.Validators.Person
         {
             if (validationTarget == null)
             {
-                Result = new ValidationResult(false, Localization.LocalizationStrings.ValidationArgumentNull);
+                Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationArgumentNull);
                 return;
             }
             if (validationTarget.Gender == Gender.Unspecified)
             {
-                Result = new ValidationResult(false, Localization.LocalizationStrings.ValidationMissingGender);
+                Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationMissingGender);
             }
             else
             {

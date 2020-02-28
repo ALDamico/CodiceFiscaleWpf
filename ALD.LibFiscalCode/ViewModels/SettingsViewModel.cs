@@ -28,7 +28,7 @@ namespace ALD.LibFiscalCode.ViewModels
                 AvailableLanguages.Add(CultureInfoWithFlag.FromLanguageInfo(lang));
             }
 
-            CurrentLanguage = AvailableLanguages[0];
+            //CurrentLanguage = new CultureInfoWithFlag(CultureInfo.CurrentUICulture, "");
             base.OnPropertyChanged(nameof(AvailableLanguages));
             base.OnPropertyChanged(nameof(Settings));
             base.OnPropertyChanged(nameof(CurrentLanguage));
@@ -59,7 +59,7 @@ namespace ALD.LibFiscalCode.ViewModels
             {
                 if (changeSettingsInvoker.PreviewChanges.ContainsKey("SplittingStrategy"))
                 {
-                    return (string) ChangeSettingsInvoker.PreviewChanges[nameof(Settings.SplittingStrategyName)];
+                    return (string) ChangeSettingsInvoker.PreviewChanges["SplittingStrategy"];
                 }
 
                 return splittingStrategy;
@@ -114,16 +114,17 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             get
             {
-                if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(Settings.AppLanguage)))
+                /*if (ChangeSettingsInvoker.PreviewChanges.ContainsKey(nameof(Settings.AppLanguage)))
                 {
                     return (CultureInfoWithFlag)ChangeSettingsInvoker.PreviewChanges[nameof(Settings.AppLanguage)];
-                }
+                }*/
 
                 return currentLanguage;
             }
             set
             {
                 currentLanguage = value;
+                ChangeSettingsInvoker.ChangeAppLanguage(currentLanguage.Culture);
                 OnPropertyChanged(nameof(CurrentLanguage));
             }
         }

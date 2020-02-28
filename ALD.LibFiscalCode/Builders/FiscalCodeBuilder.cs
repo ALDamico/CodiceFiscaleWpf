@@ -38,7 +38,7 @@ namespace ALD.LibFiscalCode.Builders
 
             if (partial.Length != 15 && partial.Length != 16)
             {
-                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
+                string argumentMessage = CodiceFiscaleUI.BuilderPartialFcLengthException;
                 throw new ArgumentException(argumentMessage);
             }
 
@@ -64,7 +64,7 @@ namespace ALD.LibFiscalCode.Builders
         {
             if (input.Length != 15)
             {
-                string argumentMessage = LocalizationStrings.BuilderPartialFcLengthException;
+                string argumentMessage = CodiceFiscaleUI.BuilderPartialFcLengthException;
 
                 throw new ArgumentException(argumentMessage);
             }

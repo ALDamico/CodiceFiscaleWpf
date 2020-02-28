@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ALD.LibFiscalCode.Persistence.Models;
 using System.Linq;
 using ALD.LibFiscalCode.Persistence.ORM.Sqlite;
+using System.Globalization;
 
 namespace ALD.LibFiscalCode.Settings
 {
@@ -51,6 +52,12 @@ namespace ALD.LibFiscalCode.Settings
         {
             pendingActions.Add(new ChangeAppLanguage(target, languageInfo));
             PreviewChanges["AppLanguage"] = languageInfo;
+        }
+
+        public void ChangeAppLanguage(CultureInfo culture)
+        {
+            pendingActions.Add(new ChangeAppLanguage(target, culture));
+            PreviewChanges["AppLanguage"] = culture;
         }
 
         public void ProcessPendingActions(AppSettings settings)

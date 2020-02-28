@@ -1,13 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using CsvHelper;
-using System.IO;
-using System.Globalization;
-using System.Text;
-using ALD.LibFiscalCode.Persistence.Models;
-using Microsoft.EntityFrameworkCore;
-using CsvHelper.Configuration;
-using ALD.LibFiscalCode.Persistence.Importer;
 
 namespace ALD.LibFiscalCode.Persistence.Migrations
 {
@@ -19,7 +11,8 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "Languages",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false),
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(nullable: true),
                     iso_2_code = table.Column<string>(nullable: true),
                     iso_3_code = table.Column<string>(nullable: true),
@@ -34,13 +27,15 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "Places",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false)
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(nullable: true),
                     province_name = table.Column<string>(nullable: true),
                     province_abbreviation = table.Column<string>(nullable: true),
                     region_name = table.Column<string>(nullable: true),
-                    code = table.Column<string>(nullable: true)
+                    code = table.Column<string>(nullable: true),
+                    start_date = table.Column<DateTime>(nullable: true),
+                    end_date = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,7 +46,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "Settings",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false)
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     string_value = table.Column<string>(nullable: true),
                     int_value = table.Column<int>(nullable: true),
@@ -60,19 +55,6 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Settings", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Windows",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Windows", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,35 +78,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                         column: x => x.place_of_birth_id,
                         principalTable: "Places",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LocalizedStrings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
-                    LanguageId = table.Column<int>(nullable: true),
-                    WindowId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LocalizedStrings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LocalizedStrings_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LocalizedStrings_Windows_WindowId",
-                        column: x => x.WindowId,
-                        principalTable: "Windows",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,16 +108,6 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_LocalizedStrings_LanguageId",
-                table: "LocalizedStrings",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LocalizedStrings_WindowId",
-                table: "LocalizedStrings",
-                column: "WindowId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_People_place_of_birth_id",
                 table: "People",
                 column: "place_of_birth_id");
@@ -177,8 +121,8 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "IX_Places_region_name",
                 table: "Places",
                 column: "region_name");
-
-            Seed(migrationBuilder);
+            SeedSettings(migrationBuilder);
+            SeedLanguages(migrationBuilder);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -187,7 +131,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "FiscalCodes");
 
             migrationBuilder.DropTable(
-                name: "LocalizedStrings");
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -196,42 +140,25 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 name: "People");
 
             migrationBuilder.DropTable(
-                name: "Languages");
-
-            migrationBuilder.DropTable(
-                name: "Windows");
-
-            migrationBuilder.DropTable(
                 name: "Places");
         }
-
-        protected virtual void Seed(MigrationBuilder builder)
+        private void SeedSettings(MigrationBuilder migrationBuilder)
         {
-            using var reader = new StreamReader(@"./Migrations/Places_201912281810.csv");
-            var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture);
-            configuration.Delimiter = ";";
-            configuration.Escape = '"';
-            configuration.Encoding = Encoding.UTF8;
-            configuration.HeaderValidated = null;
-            configuration.MissingFieldFound = null;
-            configuration.RegisterClassMap(new PlaceMap());
-            using var csv = new CsvReader(reader, configuration);
+            migrationBuilder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "AppLanguage", null, "1" });
+            migrationBuilder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "MaxHistorySize", null, null });
+            migrationBuilder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "DefaultDate", null, null });
+            migrationBuilder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "SplittingStrategy", "FAST", null });
+        }
 
-            //Places
-            var records = csv.GetRecords<Place>();
-            foreach (var line in records)
-            {
-                builder.InsertData("Places", new string[] { "name", "province_name", "province_abbreviation", "region_name", "code" }, new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code });
-            }
+        private void SeedLanguages(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.InsertData("Languages", new string[] { "name", "iso_2_code", "iso_3_code", "icon_name" }, new string[] { "Italiano", "it", "ita", "Assets/it.png" });
+            migrationBuilder.InsertData("Languages", new string[] { "name", "iso_2_code", "iso_3_code", "icon_name" }, new string[] { "English", "en", "eng", "Assets/us.png" });
+        }
 
-            //languages
-            builder.InsertData("Languages", new string[] { "name", "iso_2_code", "iso_3_code", "icon_name" }, new string[] { "Italiano", "it", "ita", "Assets/it.png" });
+        private void SeedPlaces(MigrationBuilder migrationBuilder)
+        {
 
-            //settings
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "AppLanguage", null, "1" });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "MaxHistorySize", null, "0" });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "DefaultDate", null, null });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "SplittingMethod", "FAST", null });
         }
     }
 }

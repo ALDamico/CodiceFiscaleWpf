@@ -18,19 +18,19 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
         {
             if (validationTarget == null)
             {
-                Result = new ValidationResult(false, LocalizationStrings.ValidationArgumentNull);
+                Result = new ValidationResult(false, CodiceFiscaleUI.ValidationArgumentNull);
                 return;
             }
 
             if (validationTarget.PlaceCode == builder.ComputedFiscalCode.PlaceCode)
             {
-                Result = new ValidationResult(true, LocalizationStrings.FiscalCodeValidationPlaceCodeValid);
+                Result = new ValidationResult(true, CodiceFiscaleUI.FiscalCodeValidationPlaceCodeValid);
             }
             else
             {
                 Result = new ValidationResult(false, 
-                    LocalizationStrings.FiscalCodeValidationPlaceCodeInvalid,
-                   string.Format(CultureInfo.CurrentCulture, LocalizationStrings.FiscalCodeValidationPlaceCodeInvalidDetails, builder.ComputedFiscalCode.PlaceCode));
+                    CodiceFiscaleUI.FiscalCodeValidationPlaceCodeInvalid,
+                   string.Format(CultureInfo.CurrentCulture, CodiceFiscaleUI.FiscalCodeValidationPlaceCodeInvalidDetails, builder.ComputedFiscalCode.PlaceCode));
             }
         }
 

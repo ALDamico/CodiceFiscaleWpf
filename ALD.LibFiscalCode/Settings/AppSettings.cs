@@ -47,6 +47,7 @@ namespace ALD.LibFiscalCode.Settings
             var actualLanguage = SetLanguage(dataContext);
 
             instance.AppLanguage = CultureInfoFactory.GetCultureInfoFromLanguageInfo(actualLanguage);
+            
             //instance.DataSourceLocation = SetDataSourceLocation(dataContext);
             instance.MaxHistorySize = SetMaxHistorySize(dataContext);
             instance.DefaultDate = SetDefaultDate(dataContext);
@@ -69,9 +70,11 @@ namespace ALD.LibFiscalCode.Settings
             {
                 throw new ArgumentNullException(nameof(dataContext));
             }
-            var languageId = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("AppLanguage")).IntValue;
+            var language = dataContext.Settings.FirstOrDefault(s => s.Name.Equals("AppLanguage")).StringValue;
 
-            var actualLanguage = dataContext.Languages.FirstOrDefault(l => l.Id == languageId);
+            var actualLanguage = dataContext.Languages.FirstOrDefault(l => l.Iso2Code == language);
+            CultureInfo.CurrentUICulture = actualLanguage;
+            
             return actualLanguage;
         }
 

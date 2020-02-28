@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using ALD.LibFiscalCode.ViewModels;
 using Microsoft.Win32;
 using ALD.LibFiscalCode.Localization;
+using Loc = ALD.LibFiscalCode.Localization;
 
 namespace CodiceFiscaleUI.PlaceImport
 {
@@ -27,9 +28,9 @@ namespace CodiceFiscaleUI.PlaceImport
         {
             var dialog = new OpenFileDialog
             {
-                Title = LocalizationStrings.OpenFileDialogTitle,
-                Filter = LocalizationStrings.OpenFileDialogFilter,
-                DefaultExt =  LocalizationStrings.OpenFileDialogDefaultExt
+                Title = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.OpenFileDialogTitle,
+                Filter = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.OpenFileDialogFilter,
+                DefaultExt =  ALD.LibFiscalCode.Localization.CodiceFiscaleUI.OpenFileDialogDefaultExt
             };
 
             viewModel.InputFilename = dialog.FileName;
@@ -61,8 +62,8 @@ namespace CodiceFiscaleUI.PlaceImport
             if (result != null)
             {
                 
-                MessageBox.Show(string.Format(CultureInfo.InvariantCulture , LocalizationStrings.ErrorDialogText,  viewModel.InputFilename),
-                    LocalizationStrings.ErrorDialogCaption,
+                MessageBox.Show(string.Format(CultureInfo.InvariantCulture , Loc.CodiceFiscaleUI.ErrorDialogText,  viewModel.InputFilename),
+                    ALD.LibFiscalCode.Localization.CodiceFiscaleUI.ErrorDialogCaption,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }

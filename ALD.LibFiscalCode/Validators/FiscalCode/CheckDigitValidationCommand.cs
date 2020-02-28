@@ -2,6 +2,7 @@
 using ALD.LibFiscalCode.Localization;
 using ALD.LibFiscalCode.Validators.Interfaces;
 
+
 namespace ALD.LibFiscalCode.Validators.FiscalCode
 {
     public class CheckDigitValidationCommand : IValidationCommand<Persistence.Models.FiscalCode>
@@ -17,18 +18,18 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
         {
             if (validationTarget == null)
             {
-                Result = new ValidationResult(false, LocalizationStrings.ValidationArgumentNull);
+                Result = new ValidationResult(false, CodiceFiscaleUI.ValidationArgumentNull);
                 return;
             }
 
             if (validationTarget.CheckDigit == builder.ComputedFiscalCode.CheckDigit)
             {
-                Result = new ValidationResult(true, LocalizationStrings.FiscalCodeValidationCheckDigitValid);
+                Result = new ValidationResult(true, CodiceFiscaleUI.FiscalCodeValidationCheckDigitValid);
             }
             else
             {
-                Result = new ValidationResult(false, LocalizationStrings.FiscalCodeValidationCheckDigitInvalid,
-                    LocalizationStrings.FiscalCodeValidationCheckDigitInvalidDetails);
+                Result = new ValidationResult(false, CodiceFiscaleUI.FiscalCodeValidationCheckDigitInvalid,
+                    CodiceFiscaleUI.FiscalCodeValidationCheckDigitInvalidDetails);
             }
         }
 

@@ -8,12 +8,12 @@ namespace ALD.LibFiscalCode.Validators.Person
         {
             if (validationTarget == null)
             {
-                Result = new ValidationResult(false, Localization.LocalizationStrings.ValidationArgumentNull);
+                Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationArgumentNull);
                 return;
             }
             if (string.IsNullOrWhiteSpace(validationTarget.Surname))
             {
-                Result = new ValidationResult(false, Localization.LocalizationStrings.ValidationMissingSurname);
+                Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationMissingSurname);
             }
             else
             {

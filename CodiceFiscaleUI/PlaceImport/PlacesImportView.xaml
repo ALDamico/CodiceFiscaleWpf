@@ -7,7 +7,7 @@
         xmlns:l10n="clr-namespace:ALD.LibFiscalCode.Localization;assembly=ALD.LibFiscalCode.Localization"
         d:DataContext="{d:DesignInstance vm:PlaceImportViewModel}"
         mc:Ignorable="d"
-        Title="{x:Static l10n:LocalizationStrings.PlacesImportViewTitle}"
+        Title="{x:Static l10n:CodiceFiscaleUI.PlacesImportViewTitle}"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
@@ -15,7 +15,7 @@
                 HorizontalAlignment="Center"
                 Margin="20">
         <StackPanel Orientation="Horizontal">
-            <Label Content="{x:Static l10n:LocalizationStrings.LblSourceFile}" />
+            <Label Content="{x:Static l10n:CodiceFiscaleUI.LblSourceFile}" />
             <TextBox x:Name="TxtFilename"
                      Width="200"
                      Text="{Binding InputFilename, Mode=TwoWay}"
@@ -35,10 +35,10 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
                         Margin="5">
-                <GroupBox Header="{x:Static l10n:LocalizationStrings.GrpBxMode}">
+                <GroupBox Header="{x:Static l10n:CodiceFiscaleUI.GrpBxMode}">
                     <ItemsControl>
-                        <RadioButton Content="{x:Static l10n:LocalizationStrings.BtnOverwrite}" />
-                        <RadioButton Content="{x:Static l10n:LocalizationStrings.BtnUpdate}" />
+                        <RadioButton Content="{x:Static l10n:CodiceFiscaleUI.BtnOverwrite}" />
+                        <RadioButton Content="{x:Static l10n:CodiceFiscaleUI.BtnUpdate}" />
                     </ItemsControl>
                 </GroupBox>
             </StackPanel>
@@ -46,7 +46,7 @@
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center" 
                         Margin="5">
-                <GroupBox Header="{x:Static l10n:LocalizationStrings.GrpBxCustomMapping}">
+                <GroupBox Header="{x:Static l10n:CodiceFiscaleUI.GrpBxCustomMapping}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -62,7 +62,7 @@
                         </Grid.RowDefinitions>
                         <CheckBox Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="{x:Static l10n:LocalizationStrings.ChkEnableCustMapping}"
+                                  Content="{x:Static l10n:CodiceFiscaleUI.ChkEnableCustMapping}"
                                   IsChecked="{Binding UsesCustomMapping}" />
                         <DataGrid Grid.Row="1"
                                   Grid.ColumnSpan="2"
@@ -74,12 +74,12 @@
                                   ItemsSource="{Binding FieldMapping}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrFieldName}" 
+                                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrFieldName}" 
                                                     Binding="{Binding CsvName}" />
-                                <DataGridTextColumn Header="{x:Static l10n:LocalizationStrings.HdrFieldPosition}" 
+                                <DataGridTextColumn Header="{x:Static l10n:CodiceFiscaleUI.HdrFieldPosition}" 
                                                     Binding="{Binding Position}" />
                                 <DataGridComboBoxColumn x:Name="ColSel"
-                                                        Header="{x:Static l10n:LocalizationStrings.HdrFieldMapsTo}"
+                                                        Header="{x:Static l10n:CodiceFiscaleUI.HdrFieldMapsTo}"
                                                         ItemsSource="{Binding AvailableProperties, UpdateSourceTrigger=PropertyChanged}"
                                                         SelectedItemBinding="{Binding SelectedPropertyName, UpdateSourceTrigger=PropertyChanged}" />
                             </DataGrid.Columns>
@@ -93,13 +93,13 @@
                     Orientation="Horizontal" 
                     HorizontalAlignment="Center">
             <Button x:Name="BtnImport" 
-                    Content="{x:Static l10n:LocalizationStrings.BtnStartImport}" 
+                    Content="{x:Static l10n:CodiceFiscaleUI.BtnStartImport}" 
                     IsEnabled="{Binding CanStartImport}" 
                     Click="btnImport_Click" />
             <Separator Width="10" 
                        Visibility="Hidden" />
             <Button x:Name="BtnCancel" 
-                    Content="{x:Static l10n:LocalizationStrings.BtnCancel}" 
+                    Content="{x:Static l10n:CodiceFiscaleUI.BtnCancel}" 
                     Click="btnCancel_Click" 
                     IsCancel="True" />
         </StackPanel>

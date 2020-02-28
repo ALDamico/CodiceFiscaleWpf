@@ -31,8 +31,8 @@ namespace CodiceFiscaleUI.Settings
         {
             if (viewModel.ChangeSettingsInvoker.HasPendingActions)
             {
-                var response = MessageBox.Show(this, LocalizationStrings.MsgBoxPendingChangesText,
-                    LocalizationStrings.MsgBoxPendingChangesCaption, MessageBoxButton.OKCancel, MessageBoxImage.Information,
+                var response = MessageBox.Show(this, ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxPendingChangesText,
+                    ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxPendingChangesCaption, MessageBoxButton.OKCancel, MessageBoxImage.Information,
                     MessageBoxResult.Cancel);
                 if (response != MessageBoxResult.OK)
                 {
@@ -47,7 +47,7 @@ namespace CodiceFiscaleUI.Settings
         private void BtnPickDbLocation_OnClick(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Title = LocalizationStrings.FileDialogDatabaseFile;
+            dialog.Title = CodiceFiscaleUI.FileDialogDatabaseFile;
             dialog.Multiselect = false;
             var result = dialog.ShowDialog(this);
 
@@ -65,8 +65,8 @@ namespace CodiceFiscaleUI.Settings
                 else
                 {
                     MessageBox.Show(this,
-                        LocalizationStrings.MsgBoxInvalidDatabaseText,
-                        LocalizationStrings.MsgBoxInvalidDatabaseCaption,
+                        CodiceFiscaleUI.MsgBoxInvalidDatabaseText,
+                        CodiceFiscaleUI.MsgBoxInvalidDatabaseCaption,
                         MessageBoxButton.OK,
                         MessageBoxImage.Exclamation,
                         MessageBoxResult.OK);

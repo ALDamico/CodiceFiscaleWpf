@@ -1,21 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="LocalizationStrings.Designer.cs">
+    <Compile Update="CodiceFiscaleUI.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Localization.resx</DependentUpon>
+      <DependentUpon>CodiceFiscaleUI.resx</DependentUpon>
+    </Compile>
+    <Compile Update="CodiceFiscaleUI.en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CodiceFiscaleUI.en.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="LocalizationStrings.resx">
+    <EmbeddedResource Update="CodiceFiscaleUI.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>LocalizationStrings.Designer.cs</LastGenOutput>
+      <LastGenOutput>CodiceFiscaleUI.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="CodiceFiscaleUI.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CodiceFiscaleUI.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
