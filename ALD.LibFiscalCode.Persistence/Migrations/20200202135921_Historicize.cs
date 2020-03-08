@@ -207,7 +207,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
 
         protected virtual void Seed(MigrationBuilder builder)
         {
-            using var reader = new StreamReader(@"./Migrations/Places_201912281810.csv");
+            using var reader = new StreamReader(@"../ALD.LibFiscalCode.Persistence/Migrations/Places_201912281810.csv");
             var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture);
             configuration.Delimiter = ";";
             configuration.Escape = '"';

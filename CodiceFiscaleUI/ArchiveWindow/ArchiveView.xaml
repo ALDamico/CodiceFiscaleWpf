@@ -28,7 +28,7 @@
 
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Copia codice fiscale" Name="MnuCopy" Click="MnuCopy_Click">
+                    <MenuItem Header="Copia codice fiscale" Name="MnuCopy" Click="MnuCopy_Click" >
                         <MenuItem.Icon>
                             <Image Source="../Assets/copy.png" />
                         </MenuItem.Icon>

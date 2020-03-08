@@ -33,6 +33,10 @@ namespace CodiceFiscaleUI.ArchiveWindow
         private void MnuCopy_Click(object sender, RoutedEventArgs e)
         {
             var selectedElements = GrdPeople.SelectedItems;
+            if (selectedElements.Count == 0)
+            {
+                return;
+            }
             if (selectedElements.Count > 1)
             {
                 MessageBox.Show(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxCopyNotSupportedText, ALD.LibFiscalCode.Localization.CodiceFiscaleUI.MsgBoxCopyNotSupportedCaption);
