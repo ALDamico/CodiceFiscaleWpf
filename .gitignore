@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 ALD.LibFiscalCode.Persistence/DataSource/app.db
 *.db
+PlacesImporter/app.db
