@@ -23,7 +23,7 @@ namespace CodiceFiscaleApi
         }
 
         // GET: api/<controller>
-    [HttpGet]
+        [HttpGet]
         public string Get(string name)
         {
             

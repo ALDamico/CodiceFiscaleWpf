@@ -30,6 +30,8 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
             placeEntity.Property(p => p.ProvinceAbbreviation).HasColumnName("province_abbreviation");
             placeEntity.Property(p => p.Region).HasColumnName("region_name");
             placeEntity.Property(p => p.Code).HasColumnName("code");
+            placeEntity.Property(p => p.StartDate).HasColumnName("start_date");
+            placeEntity.Property(p => p.EndDate).HasColumnName("end_date");
             placeEntity.HasIndex(p => p.ProvinceAbbreviation);
             placeEntity.HasIndex(p => p.Region);
             

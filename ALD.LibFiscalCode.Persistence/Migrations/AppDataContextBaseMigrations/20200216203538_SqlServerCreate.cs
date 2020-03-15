@@ -2,6 +2,7 @@
 using ALD.LibFiscalCode.Persistence.Models;
 using CsvHelper;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -22,7 +23,9 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.AppDataContextBaseMigrations
                     province_name = table.Column<string>(nullable: true),
                     province_abbreviation = table.Column<string>(nullable: true),
                     region_name = table.Column<string>(nullable: true),
-                    code = table.Column<string>(nullable: true)
+                    code = table.Column<string>(nullable: true),
+                    start_date = table.Column<DateTime>(nullable:true),
+                    end_date = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +52,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.AppDataContextBaseMigrations
 
         protected virtual void Seed(MigrationBuilder builder)
         {
-            using var reader = new StreamReader(@"./Migrations/Places_201912281810.csv");
+            using var reader = new StreamReader(@"../ALD.LibFiscalCode.Persistence/Migrations/Places_201912281810.csv");
             var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture);
             configuration.Delimiter = ";";
             configuration.Escape = '"';
