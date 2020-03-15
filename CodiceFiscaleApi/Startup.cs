@@ -32,7 +32,11 @@ namespace CodiceFiscaleApi
             services.AddDbContext<AppDataContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
             services.AddControllers();
-            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", builder => builder.WithOrigins(new string[] { "http://localhost:8080", "https://localhost:8080" }).AllowAnyHeader().AllowAnyMethod());
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +45,7 @@ namespace CodiceFiscaleApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors();
+                app.UseCors("AllowLocalhost");
             }
 
             app.UseHttpsRedirection();
@@ -49,7 +53,7 @@ namespace CodiceFiscaleApi
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
 
             app.UseEndpoints(endpoints =>
             {

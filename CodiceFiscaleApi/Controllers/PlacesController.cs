@@ -7,6 +7,7 @@ using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,11 +34,22 @@ namespace CodiceFiscaleApi
             }
 
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
-            var outputObject = JsonConvert.SerializeObject(matchingPlaces, Formatting.Indented);
-            if (matchingPlaces.Count() == 1)
+
+            DefaultContractResolver contractResolver = new DefaultContractResolver()
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var serializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = contractResolver
+            };
+            var outputObject = JsonConvert.SerializeObject(matchingPlaces, serializerSettings);
+            /*if (matchingPlaces.Count() == 1)
             {
                 outputObject = JsonConvert.SerializeObject(matchingPlaces.First(), Formatting.Indented);
-            }
+            }*/
             return outputObject;
         }
 
