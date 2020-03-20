@@ -8,6 +8,7 @@ using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
+using CodiceFiscaleApi.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,25 +20,29 @@ namespace CodiceFiscaleApi.Controllers
     public class FiscalCodeController : ControllerBase
     {
         private AppDataContext dataContext;
+        private JsonNetConfiguration jsonNetConfiguration;
 
         public FiscalCodeController(AppDataContext dataContext)
         {
             this.dataContext = dataContext;
+            jsonNetConfiguration = new JsonNetConfiguration();
         }
 
         // POST: api/FiscalCode
         [HttpPost("calculate")]
-        public string Post([FromForm] Person person,[FromForm] int placeOfBirthId)
+        public string Post([FromForm] string person,[FromForm] int placeOfBirthId)
         {
+            Person deserialized = new Person();
+            deserialized = JsonConvert.DeserializeObject(person, deserialized.GetType(), jsonNetConfiguration.SerializerSettings) as Person;
             if (person != null)
             {
-                person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
+                deserialized.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
             }
-            var validator = new PersonValidator(person);
+            var validator = new PersonValidator(deserialized);
             if (validator.IsValid)
             {
-                var fc = new FiscalCodeBuilder(person);
-                var serializedObject = JsonConvert.SerializeObject(fc.ComputedFiscalCode, Formatting.Indented);
+                var fc = new FiscalCodeBuilder(deserialized);
+                var serializedObject = JsonConvert.SerializeObject(fc.ComputedFiscalCode, jsonNetConfiguration.SerializerSettings);
                 return serializedObject;
             }
             var obj = new { result = "failed", payload = validator };

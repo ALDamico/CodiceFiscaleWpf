@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
+using CodiceFiscaleApi.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -17,10 +18,12 @@ namespace CodiceFiscaleApi
     public class PlacesController : Controller
     {
         private AppDataContext dataContext;
+        private JsonNetConfiguration jsonNetConfiguration;
 
         public PlacesController(AppDataContext dataContext)
         {
             this.dataContext = dataContext;
+            jsonNetConfiguration = new JsonNetConfiguration();
         }
 
         // GET: api/<controller>
@@ -35,17 +38,7 @@ namespace CodiceFiscaleApi
 
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
 
-            DefaultContractResolver contractResolver = new DefaultContractResolver()
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var serializerSettings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                ContractResolver = contractResolver
-            };
-            var outputObject = JsonConvert.SerializeObject(matchingPlaces, serializerSettings);
+            var outputObject = JsonConvert.SerializeObject(matchingPlaces, jsonNetConfiguration.SerializerSettings);
             /*if (matchingPlaces.Count() == 1)
             {
                 outputObject = JsonConvert.SerializeObject(matchingPlaces.First(), Formatting.Indented);
