@@ -30,7 +30,7 @@ namespace CodiceFiscaleApi.Controllers
 
         // POST: api/FiscalCode
         [HttpPost("calculate")]
-        public string Post([FromForm] string person,[FromForm] int placeOfBirthId)
+        public string Post([FromForm] string person,[FromForm] int? placeOfBirthId)
         {
             Person deserialized = new Person();
             deserialized = JsonConvert.DeserializeObject(person, deserialized.GetType(), jsonNetConfiguration.SerializerSettings) as Person;
