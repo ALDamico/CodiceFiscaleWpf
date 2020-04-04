@@ -82,8 +82,6 @@ namespace ALD.LibFiscalCode.Builders
 
         private string CalculateDateOfBirthAndGenderString(DateTime dateOfBirth, Gender gender)
         {
-            var output = "";
-
             var yearOfBirth = dateOfBirth.ToString("yy", CultureInfo.InvariantCulture);
             var monthOfBirth = MonthOfDateLookup.GetValue(dateOfBirth.Month);
             var dayOfBirth = dateOfBirth.Day;
@@ -93,7 +91,7 @@ namespace ALD.LibFiscalCode.Builders
             }
 
             var dayOfBirthStr = dayOfBirth < 10 ? "0" + dayOfBirth : dayOfBirth.ToString(CultureInfo.InvariantCulture);
-            output = $"{yearOfBirth}{monthOfBirth}{dayOfBirthStr}";
+            var output = $"{yearOfBirth}{monthOfBirth}{dayOfBirthStr}";
             return output;
         }
 
@@ -122,7 +120,7 @@ namespace ALD.LibFiscalCode.Builders
             }
             else
             {
-                output = new string(nameSplitter.Vowels.ToArray());
+                output = new string(nameSplitter.Vowels.GetRange(0, 3).ToArray());
             }
 
             if (output.Length == 2)

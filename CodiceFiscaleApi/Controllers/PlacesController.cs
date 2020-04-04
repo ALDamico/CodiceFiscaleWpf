@@ -26,6 +26,19 @@ namespace CodiceFiscaleApi
             jsonNetConfiguration = new JsonNetConfiguration();
         }
 
+        [HttpGet("all")]
+        public string GetAllPlaces()
+        {
+            var placesList = (
+                from place
+                in dataContext.Places
+                where place.EndDate == null
+                select new { place.Id, prettyName = $"{place.Name} ({place.ProvinceAbbreviation})" }
+                );
+            var outputObject = JsonConvert.SerializeObject(placesList, jsonNetConfiguration.SerializerSettings);
+            return outputObject;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public string Get(string name)
@@ -39,10 +52,7 @@ namespace CodiceFiscaleApi
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
 
             var outputObject = JsonConvert.SerializeObject(matchingPlaces, jsonNetConfiguration.SerializerSettings);
-            /*if (matchingPlaces.Count() == 1)
-            {
-                outputObject = JsonConvert.SerializeObject(matchingPlaces.First(), Formatting.Indented);
-            }*/
+            
             return outputObject;
         }
 

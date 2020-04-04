@@ -12,7 +12,11 @@ namespace ALD.LibFiscalCode.Persistence.Models
                 throw new ArgumentNullException(nameof(person));
             }
             this.person = person;
-            fiscalCodeEntity = person.FiscalCode;
+            if (person.FiscalCode != null)
+            {
+                fiscalCodeEntity = person.FiscalCode;
+            }
+            
         }
 
         public PersonJson(Person person, FiscalCode fiscalCode)
@@ -35,6 +39,26 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public DateTime DateOfBirth => person.DateOfBirth;
         public string Gender => person.Gender.ToString();
         public string PlaceOfBirth => person.PlaceOfBirth.ToString();
-        public string FiscalCode => this.fiscalCode != null ? fiscalCode.FullFiscalCode : fiscalCodeEntity.FiscalCode;
+        public string FiscalCode
+        {
+            get
+            {
+                if (fiscalCode == null)
+                {
+                    if (fiscalCodeEntity != null)
+                    {
+                        return fiscalCodeEntity.FiscalCode;
+                    }
+                }
+                else
+                {
+                    return fiscalCode.FullFiscalCode;
+                }
+
+                return null;
+            }
+            
+        }
+        //=> this.fiscalCode != null ? fiscalCode.FullFiscalCode : fiscalCodeEntity.FiscalCode;
     }
 }

@@ -41,5 +41,7 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
 
             return stringBuilder.ToString();
         }
+
+        
     }
 }

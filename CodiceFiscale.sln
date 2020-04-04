@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ALD.LibFiscalCode.Localizat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodiceFiscaleApi", "CodiceFiscaleApi\CodiceFiscaleApi.csproj", "{787289BD-4AEC-4893-9760-24A46BD844B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALD.LibFiscalCode.Tests", "ALD.LibFiscalCode.Tests\ALD.LibFiscalCode.Tests.csproj", "{14AF952E-E1FA-4668-A045-CD7815353203}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ALD.LibFiscalCode.Tests", "ALD.LibFiscalCode.Tests\ALD.LibFiscalCode.Tests.csproj", "{14AF952E-E1FA-4668-A045-CD7815353203}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "webapp", "webapp", "{9E5F6704-21B1-4882-9B16-D78B5657299E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

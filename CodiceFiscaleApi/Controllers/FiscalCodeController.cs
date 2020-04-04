@@ -9,6 +9,7 @@ using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using CodiceFiscaleApi.Configuration;
+using CodiceFiscaleApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -30,7 +31,7 @@ namespace CodiceFiscaleApi.Controllers
 
         // POST: api/FiscalCode
         [HttpPost("calculate")]
-        public string Post([FromForm] string person,[FromForm] int? placeOfBirthId)
+        public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
         {
             Person deserialized = new Person();
             deserialized = JsonConvert.DeserializeObject(person, deserialized.GetType(), jsonNetConfiguration.SerializerSettings) as Person;
@@ -42,7 +43,8 @@ namespace CodiceFiscaleApi.Controllers
             if (validator.IsValid)
             {
                 var fc = new FiscalCodeBuilder(deserialized);
-                var serializedObject = JsonConvert.SerializeObject(fc.ComputedFiscalCode, jsonNetConfiguration.SerializerSettings);
+                var outputObj = new { result= "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserialized) };
+                var serializedObject = JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
                 return serializedObject;
             }
             var obj = new { result = "failed", payload = validator };
@@ -61,7 +63,7 @@ namespace CodiceFiscaleApi.Controllers
             {
                 var fc = new FiscalCodeBuilder(fiscalCode);
                 var fcValidator = new FiscalCodeValidator(person, fc.ComputedFiscalCode);
-                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented, new JsonSerializerSettings() {StringEscapeHandling = StringEscapeHandling.EscapeHtml });
+                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented, new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml });
                 return serializedObject;
             }
 
