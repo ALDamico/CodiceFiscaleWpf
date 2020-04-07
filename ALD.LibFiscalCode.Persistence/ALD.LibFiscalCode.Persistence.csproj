@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="DataSource\app.db" />
     <None Remove="DataSource\Places_201912281810.csv" />
+    <None Remove="Migrations\Data\ANPR_archivio_comuni.csv" />
     <None Remove="ORM\MySQL\**" />
   </ItemGroup>
 
@@ -62,6 +63,14 @@
 
   <ItemGroup>
     <EmbeddedResource Remove="ORM\MySQL\**" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Content Include="Migrations\Data\ANPR_archivio_comuni.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

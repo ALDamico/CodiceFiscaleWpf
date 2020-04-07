@@ -10,7 +10,7 @@ namespace ALD.LibFiscalCode.Factories
         {
             if (languageInfo == null)
             {
-                throw new ArgumentNullException(nameof(languageInfo));
+                return new CultureInfo("it-IT");
             }
             return new CultureInfo(languageInfo.Iso2Code);
         }

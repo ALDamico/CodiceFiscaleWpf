@@ -5,8 +5,6 @@ using System.IO;
 using System.Globalization;
 using System.Text;
 using ALD.LibFiscalCode.Persistence.Models;
-using Microsoft.EntityFrameworkCore;
-using CsvHelper.Configuration;
 using ALD.LibFiscalCode.Persistence.Importer;
 
 namespace ALD.LibFiscalCode.Persistence.Migrations
@@ -207,14 +205,16 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
 
         protected virtual void Seed(MigrationBuilder builder)
         {
-            using var reader = new StreamReader(@"../ALD.LibFiscalCode.Persistence/Migrations/Places_201912281810.csv");
-            var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture);
-            configuration.Delimiter = ";";
-            configuration.Escape = '"';
-            configuration.Encoding = Encoding.UTF8;
-            configuration.HeaderValidated = null;
-            configuration.MissingFieldFound = null;
-            configuration.RegisterClassMap(new PlaceMap());
+            using var reader = new StreamReader(@"./Migrations/Data/ANPR_archivio_comuni.csv");
+            var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ",",
+                Escape = '"',
+                Encoding = Encoding.UTF8,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            configuration.RegisterClassMap(new AnprPlaceMap());
             using var csv = new CsvReader(reader, configuration);
 
             //Places
