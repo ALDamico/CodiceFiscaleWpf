@@ -57,7 +57,7 @@ namespace CodiceFiscaleUI.PlacesListView
                 from p in places
                 where p.StartDate != null || p.EndDate != null
                 select p
-                ) as ICollection<Place>;
+                ).ToArray();
             }
             
             viewModel = new PlacesListViewModel(placesFiltered as ICollection<Place>);
