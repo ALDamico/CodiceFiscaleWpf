@@ -58,6 +58,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -75,6 +76,10 @@
                 <Label Grid.Row="2" Grid.Column="1" Content="{Binding SelectedPlace.Region}" />
                 <Label Grid.Row="3" Grid.Column="0" FontWeight="Bold" Content="{x:Static l10n:CodiceFiscaleUI.LblCode}" />
                 <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold" Content="{Binding SelectedPlace.Code}" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Inizio validità" />
+                <Label Grid.Row="4" Grid.Column="1" Content="{Binding SelectedPlace.StartDate}" />
+                <Label Grid.Row="4" Grid.Column="2" Content="Fine validità" />
+                <Label Grid.Row="4" Grid.Column="3" Content="{Binding SelectedPlace.EndDate}" />
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="1"

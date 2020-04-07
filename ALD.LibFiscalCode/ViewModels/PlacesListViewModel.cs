@@ -6,6 +6,7 @@ using ALD.LibFiscalCode.Persistence.Models;
 
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Linq;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -15,8 +16,6 @@ namespace ALD.LibFiscalCode.ViewModels
         private string filterText;
 
         private Place selectedPlace;
-
-        
 
         public PlacesListViewModel(ICollection<Place> places)
         {

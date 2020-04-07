@@ -26,7 +26,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.id);
-                });
+                }); ;
 
             migrationBuilder.CreateTable(
                 name: "Places",
@@ -38,7 +38,9 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                     province_name = table.Column<string>(nullable: true),
                     province_abbreviation = table.Column<string>(nullable: true),
                     region_name = table.Column<string>(nullable: true),
-                    code = table.Column<string>(nullable: true)
+                    code = table.Column<string>(nullable: true),
+                    start_date = table.Column<DateTime?>(nullable: true),
+                    end_date = table.Column<DateTime?>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,7 +223,26 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
             var records = csv.GetRecords<Place>();
             foreach (var line in records)
             {
-                builder.InsertData("Places", new string[] { "name", "province_name", "province_abbreviation", "region_name", "code" }, new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code });
+                string endDateStr = null;
+                string startDateStr = null;
+                if (line.EndDate.GetValueOrDefault() != default(DateTime))
+                {
+                    endDateStr = line.EndDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (line.StartDate.GetValueOrDefault() != default(DateTime))
+                {
+                    startDateStr = line.StartDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (line.EndDate == default(DateTime))
+                {
+                    line.EndDate = null;
+                }
+                if (line.StartDate == default(DateTime))
+                {
+                    line.StartDate = null;
+                }
+                
+                builder.InsertData("Places", new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" }, new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code, startDateStr, endDateStr });
             }
 
             //languages
