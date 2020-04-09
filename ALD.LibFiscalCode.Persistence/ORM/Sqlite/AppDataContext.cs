@@ -13,7 +13,7 @@ namespace ALD.LibFiscalCode.Persistence.ORM.Sqlite
     {
         public async Task MigrateAsync()
         {
-            Database.Migrate();
+            await Database.MigrateAsync().ConfigureAwait(true);
         }
 
         public DbSet<Place> Places { get; set; }

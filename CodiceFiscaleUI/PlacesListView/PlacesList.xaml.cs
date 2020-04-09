@@ -7,6 +7,7 @@ using System.Windows.Media;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
 using ALD.LibFiscalCode.Localization;
+using System.Linq;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
@@ -23,7 +24,12 @@ namespace CodiceFiscaleUI.PlacesListView
 
         public PlacesList(IEnumerable<Place> places)
         {
-            viewModel = new PlacesListViewModel(places as ICollection<Place>);
+            var placesFiltered = (
+                from p in places
+                where p.StartDate != null || p.EndDate != null
+                select p
+                ) as ICollection<Place>;
+            viewModel = new PlacesListViewModel(placesFiltered as ICollection<Place>);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
                  ListSortDirection.Ascending));
@@ -35,7 +41,26 @@ namespace CodiceFiscaleUI.PlacesListView
 
         public PlacesList(ICollection<Place> places, MainViewModel parentViewModel)
         {
-            viewModel = new PlacesListViewModel(places);
+            IEnumerable<Place> placesFiltered;
+            if (parentViewModel.CurrentPerson.DateOfBirth != null)
+            {
+                placesFiltered = (
+                
+            from p in places
+            where (p.StartDate == null || p.StartDate <= parentViewModel.CurrentPerson.DateOfBirth) && (p.EndDate == null || p.EndDate >= parentViewModel.CurrentPerson.DateOfBirth)
+            select p
+                ).ToArray();
+            }
+            else
+            {
+                placesFiltered = (
+                from p in places
+                where p.StartDate != null || p.EndDate != null
+                select p
+                ).ToArray();
+            }
+            
+            viewModel = new PlacesListViewModel(placesFiltered as ICollection<Place>);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
             ListSortDirection.Ascending));

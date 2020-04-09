@@ -6,6 +6,8 @@ using ALD.LibFiscalCode.Persistence.Models;
 
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Linq;
+using System.Globalization;
 
 namespace ALD.LibFiscalCode.ViewModels
 {
@@ -15,8 +17,6 @@ namespace ALD.LibFiscalCode.ViewModels
         private string filterText;
 
         private Place selectedPlace;
-
-        
 
         public PlacesListViewModel(ICollection<Place> places)
         {
@@ -48,7 +48,9 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             if (e.Item is Place item)
             {
-                e.Accepted = item.Name.Contains(filterText, StringComparison.InvariantCulture);
+                var caseInsensitiveName = item.Name.ToLower(CultureInfo.InvariantCulture);
+                var caseInsensitiveFilter = filterText.ToLower(CultureInfo.InvariantCulture);
+                e.Accepted = caseInsensitiveName.Contains(caseInsensitiveFilter, StringComparison.InvariantCulture);
             }
         }
 

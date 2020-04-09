@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ALD.LibFiscalCode.Persistence.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20200202135921_InitialCreate")]
-    partial class Historicize
+    [Migration("20200202135921_Historicize")]
+    partial class PlaceDataInsertion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
