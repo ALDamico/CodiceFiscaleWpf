@@ -6,6 +6,11 @@ using System.Globalization;
 using System.Text;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.Importer;
+using ALD.LibFiscalCode.Persistence.Importer.CsvDataConverters;
+using ALD.LibFiscalCode.Persistence.Importer.Models;
+using System.Collections.Generic;
+using System.Linq;
+using CsvHelper.Configuration;
 
 namespace ALD.LibFiscalCode.Persistence.Migrations
 {
@@ -207,8 +212,161 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
 
         protected virtual void Seed(MigrationBuilder builder)
         {
+            ImportItalianMunicipalities(builder);
+            // Places => Foreign countries
+            List<Place> foreignCountries = ReadForeignCountries();
+
+            // Places => Former foreign countries
+            List<FormerForeignCountry> formerCountries = ReadFormerForeignCountries();
+            formerCountries.Sort(new FormerForeignCountryComparer());
+
+            foreach (var formerCountry in formerCountries)
+            {
+                var newCountry = foreignCountries.FirstOrDefault(c => c.Name.Equals(formerCountry.ChildName, StringComparison.InvariantCultureIgnoreCase));
+                if (formerCountry.ChildName == "Kazakistan")
+                {
+                    newCountry = foreignCountries.FirstOrDefault(c => c.Name.Equals("Kazakhstan", StringComparison.InvariantCultureIgnoreCase));
+                }
+                if (formerCountry.ChildName == "Macedonia, Repubblica di")
+                {
+                    newCountry = foreignCountries.FirstOrDefault(c => c.Name.StartsWith("Macedonia", StringComparison.InvariantCultureIgnoreCase));
+                }
+
+                //TODO Gestire serbia e montenegro (stato unitario) ordinando le formercountries in ordine discendente.
+                var eventDate = new DateTime(formerCountry.YearOccurred.GetValueOrDefault(), 1, 1);
+                //Updates the start date of the old country
+                newCountry.StartDate = eventDate;
+
+                var oldCountry = new Place()
+                {
+                    Name = formerCountry.Name,
+                    Code = formerCountry.AtCode != "n.d" ? formerCountry.AtCode : null,
+                    EndDate = eventDate,
+                    Province = "Stato estero",
+                    Region = newCountry.Region,
+                    ProvinceAbbreviation = "EE"
+                };
+                foreignCountries.Add(oldCountry);
+            }
+
+            foreach (var country in foreignCountries)
+            {
+                string endDateStr = null;
+                string startDateStr = null;
+                if (country.EndDate.GetValueOrDefault() != default(DateTime))
+                {
+                    endDateStr = country.EndDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (country.StartDate.GetValueOrDefault() != default(DateTime))
+                {
+                    startDateStr = country.StartDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (country.EndDate == default(DateTime))
+                {
+                    country.EndDate = null;
+                }
+                if (country.StartDate == default(DateTime))
+                {
+                    country.StartDate = null;
+                }
+
+                builder.InsertData("Places",
+                    new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" },
+                    new string[] { country.Name, country.Province, country.ProvinceAbbreviation, country.Region, country.Code, startDateStr, endDateStr });
+            }
+            //languages
+            builder.InsertData("Languages", new string[] { "name", "iso_2_code", "iso_3_code", "icon_name" }, new string[] { "Italiano", "it", "ita", "Assets/it.png" });
+
+            //settings
+            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "AppLanguage", null, "1" });
+            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "MaxHistorySize", null, "0" });
+            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "DefaultDate", null, null });
+            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "SplittingMethod", "FAST", null });
+        }
+
+        private List<FormerForeignCountry> ReadFormerForeignCountries()
+        {
+            var formerForeignCountries = new List<FormerForeignCountry>();
+
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                Escape = '"',
+                Encoding = Encoding.UTF8,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            configuration.RegisterClassMap(new FormerForeignCountryMap());
+            var reader = new StreamReader(@"C:\Users\aldam\CodiceFiscaleWpf\ALD.LibFiscalCode.Persistence\Migrations\Data\Elenco-Paesi-esteri-cessati.csv");
+            using var csv = new CsvReader(reader, configuration);
+            var records = csv.GetRecords<FormerForeignCountry>();
+            int emptyRows = 0;
+            
+            foreach (var line in records)
+            {
+                if (line.GeographicEntityType == "S")
+                {
+                    formerForeignCountries.Add(line);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(line.GeographicEntityType))
+                    {
+                        emptyRows++;
+                    }
+                }
+
+                if (emptyRows >= 2)
+                {
+                    break;
+                }
+            }
+            
+            return formerForeignCountries;
+        }
+
+        private List<Place> ReadForeignCountries()
+        {
+            var foreignCountries = new List<Place>();
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                //Escape = '"',
+                Encoding = Encoding.UTF8,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            using var reader = new StreamReader(@"C:\Users\aldam\CodiceFiscaleWpf\ALD.LibFiscalCode.Persistence\Migrations\Data\Elenco-codici-e-denominazioni-al-31_12_2019.csv");
+            using var csv = new CsvReader(reader, configuration);
+            configuration.RegisterClassMap(new ForeignCountryMap());
+
+            var foreignCountryRecords = csv.GetRecords<ForeignCountry>();
+
+            foreach (var line in foreignCountryRecords)
+            {
+                // We're not interested in territories, only places.
+                if (line.GeographicEntityType == "S")
+                {
+                    var newPlace = new Place()
+                    {
+                        Name = line.NameIt,
+                        Region = line.ContinentNameIt,
+                        Province = "Stato estero",
+                        ProvinceAbbreviation = "EE",
+                        Code = line.AtCode,
+                        StartDate = null,
+                        EndDate = null
+                    };
+                    foreignCountries.Add(newPlace);
+                }
+            }
+            return foreignCountries;
+        }
+
+        private void ImportItalianMunicipalities(MigrationBuilder builder)
+        {
             using var reader = new StreamReader(@"./Migrations/Data/ANPR_archivio_comuni.csv");
-            var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture)
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 Delimiter = ",",
                 Escape = '"',
@@ -219,7 +377,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
             configuration.RegisterClassMap(new AnprPlaceMap());
             using var csv = new CsvReader(reader, configuration);
 
-            //Places
+            //Places => Italian Municipalities
             var records = csv.GetRecords<Place>();
             foreach (var line in records)
             {
@@ -241,18 +399,11 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
                 {
                     line.StartDate = null;
                 }
-                
-                builder.InsertData("Places", new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" }, new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code, startDateStr, endDateStr });
+
+                builder.InsertData("Places",
+                    new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" },
+                    new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code, startDateStr, endDateStr });
             }
-
-            //languages
-            builder.InsertData("Languages", new string[] { "name", "iso_2_code", "iso_3_code", "icon_name" }, new string[] { "Italiano", "it", "ita", "Assets/it.png" });
-
-            //settings
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "AppLanguage", null, "1" });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "MaxHistorySize", null, "0" });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "DefaultDate", null, null });
-            builder.InsertData("Settings", new string[] { "name", "string_value", "int_value" }, new string[] { "SplittingMethod", "FAST", null });
         }
     }
 }
