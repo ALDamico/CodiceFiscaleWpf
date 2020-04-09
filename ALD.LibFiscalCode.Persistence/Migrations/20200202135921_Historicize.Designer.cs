@@ -10,7 +10,7 @@ namespace ALD.LibFiscalCode.Persistence.Migrations
 {
     [DbContext(typeof(AppDataContext))]
     [Migration("20200202135921_Historicize")]
-    partial class Historicize
+    partial class PlaceDataInsertion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
