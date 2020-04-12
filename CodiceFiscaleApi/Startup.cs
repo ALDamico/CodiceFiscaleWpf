@@ -14,6 +14,7 @@ using ALD.LibFiscalCode.Persistence;
 using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace CodiceFiscaleApi
 {
@@ -31,12 +32,13 @@ namespace CodiceFiscaleApi
         {
             services.AddDbContext<AppDataContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
+
             services.AddControllers();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowLocalhost", builder => builder.WithOrigins(new string[] { "http://localhost:8080", "https://localhost:8080" }).AllowAnyHeader().AllowAnyMethod());
+                options.AddPolicy("Production", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,12 +49,29 @@ namespace CodiceFiscaleApi
                 app.UseDeveloperExceptionPage();
                 app.UseCors("AllowLocalhost");
             }
+            else
+            {
+                app.UseCors("Production");
+            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+            try
+            {
+                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    scope.ServiceProvider.GetService<AppDataContext>().Database.MigrateAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An exception occurred");
+                Log.Error(ex.ToString());
+            }
+           
 
 
             app.UseEndpoints(endpoints =>

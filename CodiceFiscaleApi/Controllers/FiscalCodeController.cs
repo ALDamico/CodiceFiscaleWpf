@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace CodiceFiscaleApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class FiscalCodeController : ControllerBase
     {
@@ -56,7 +56,7 @@ namespace CodiceFiscaleApi.Controllers
         {
             if (person != null)
             {
-                person.PlaceOfBirth = dataContext.Places.Where(p => p.Id == placeOfBirthId).SingleOrDefault();
+                person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
             }
             var validator = new PersonValidator(person);
             if (validator.IsValid)

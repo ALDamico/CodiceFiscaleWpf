@@ -3,9 +3,14 @@ using ALD.LibFiscalCode.Persistence.Models;
 using CsvHelper;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using ALD.LibFiscalCode.Persistence.Importer.CsvDataConverters;
+using ALD.LibFiscalCode.Persistence.Importer.Models;
+using CsvHelper.Configuration;
 
 namespace ALD.LibFiscalCode.Persistence.Migrations.AppDataContextBaseMigrations
 {
@@ -52,23 +57,196 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.AppDataContextBaseMigrations
 
         protected virtual void Seed(MigrationBuilder builder)
         {
-            using var reader = new StreamReader(@"../ALD.LibFiscalCode.Persistence/Migrations/Places_201912281810.csv");
-            var configuration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.InvariantCulture);
-            configuration.Delimiter = ";";
-            configuration.Escape = '"';
-            configuration.Encoding = Encoding.UTF8;
-            configuration.HeaderValidated = null;
-            configuration.MissingFieldFound = null;
-            configuration.RegisterClassMap(new PlaceMap());
+            ImportItalianMunicipalities(builder);
+            // Places => Foreign countries
+            var foreignCountries = ReadForeignCountries();
+
+            // Places => Former foreign countries
+            var formerCountries = ReadFormerForeignCountries();
+            formerCountries.Sort(new FormerForeignCountryComparer());
+
+            foreach (var formerCountry in formerCountries)
+            {
+                var newCountry = formerCountry.ChildName switch
+                {
+                    "Kazakistan" => foreignCountries.FirstOrDefault(c =>
+                        c.Name.Equals("Kazakhstan", StringComparison.InvariantCultureIgnoreCase)),
+                    "Macedonia, Repubblica di" => foreignCountries.FirstOrDefault(c =>
+                        c.Name.StartsWith("Macedonia", StringComparison.InvariantCultureIgnoreCase)),
+                    _ => foreignCountries.FirstOrDefault(c =>
+                        c.Name.Equals(formerCountry.ChildName, StringComparison.InvariantCultureIgnoreCase))
+                };
+
+                var eventDate = new DateTime(formerCountry.YearOccurred.GetValueOrDefault(), 1, 1);
+                //Updates the start date of the old country
+                newCountry.StartDate = eventDate;
+
+                var oldCountry = new Place()
+                {
+                    Name = formerCountry.Name,
+                    Code = formerCountry.AtCode != "n.d" ? formerCountry.AtCode : null,
+                    EndDate = eventDate,
+                    Province = "Stato estero",
+                    Region = newCountry.Region,
+                    ProvinceAbbreviation = "EE"
+                };
+                if (!foreignCountries.Contains(oldCountry, oldCountry.GetEqualityComparer()))
+                {
+                    foreignCountries.Add(oldCountry);
+                }
+            }
+
+            foreach (var country in foreignCountries)
+            {
+                string endDateStr = null;
+                string startDateStr = null;
+                if (country.EndDate.GetValueOrDefault() != default(DateTime))
+                {
+                    endDateStr = country.EndDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (country.StartDate.GetValueOrDefault() != default(DateTime))
+                {
+                    startDateStr = country.StartDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (country.EndDate == default(DateTime))
+                {
+                    country.EndDate = null;
+                }
+                if (country.StartDate == default(DateTime))
+                {
+                    country.StartDate = null;
+                }
+
+                builder.InsertData("Places",
+                    new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" },
+                    new object[] { country.Name, country.Province, country.ProvinceAbbreviation, country.Region, country.Code, startDateStr, endDateStr });
+            }
+        }
+
+        private List<FormerForeignCountry> ReadFormerForeignCountries()
+        {
+            var formerForeignCountries = new List<FormerForeignCountry>();
+
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                //Escape = '"',
+                Encoding = Encoding.ASCII,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            configuration.RegisterClassMap(new FormerForeignCountryMap());
+            var reader = new StreamReader(FormerForeignCountriesPath);
+            using var csv = new CsvReader(reader, configuration);
+            var records = csv.GetRecords<FormerForeignCountry>();
+            var emptyRows = 0;
+
+            foreach (var line in records)
+            {
+                if (line.GeographicEntityType == "S")
+                {
+                    formerForeignCountries.Add(line);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(line.GeographicEntityType))
+                    {
+                        emptyRows++;
+                    }
+                }
+
+                if (emptyRows >= 2)
+                {
+                    break;
+                }
+            }
+
+            return formerForeignCountries;
+        }
+
+        private List<Place> ReadForeignCountries()
+        {
+            var foreignCountries = new List<Place>();
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                //Escape = '"',
+                Encoding = Encoding.UTF8,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            using var reader = new StreamReader(IstatForeignCountriesPath);
+            using var csv = new CsvReader(reader, configuration);
+            configuration.RegisterClassMap(new ForeignCountryMap());
+
+            var foreignCountryRecords = csv.GetRecords<ForeignCountry>();
+
+            foreach (var line in foreignCountryRecords)
+            {
+                // We're not interested in territories, only places.
+                if (line.GeographicEntityType == "S")
+                {
+                    var newPlace = new Place()
+                    {
+                        Name = line.NameIt,
+                        Region = line.ContinentNameIt,
+                        Province = "Stato estero",
+                        ProvinceAbbreviation = "EE",
+                        Code = line.AtCode,
+                        StartDate = null,
+                        EndDate = null
+                    };
+                    foreignCountries.Add(newPlace);
+                }
+            }
+            return foreignCountries;
+        }
+
+        private void ImportItalianMunicipalities(MigrationBuilder builder)
+        {
+            using var reader = new StreamReader(AnprFilePath);
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ",",
+                Escape = '"',
+                Encoding = Encoding.UTF8,
+                HeaderValidated = null,
+                MissingFieldFound = null
+            };
+            configuration.RegisterClassMap(new AnprPlaceMap());
             using var csv = new CsvReader(reader, configuration);
 
-            //Places
+            //Places => Italian Municipalities
             var records = csv.GetRecords<Place>();
             foreach (var line in records)
             {
-                builder.InsertData("Places", new string[] { "name", "province_name", "province_abbreviation", "region_name", "code" }, new string[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code });
+                string endDateStr = null;
+                string startDateStr = null;
+                if (line.EndDate.GetValueOrDefault() != default(DateTime))
+                {
+                    endDateStr = line.EndDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (line.StartDate.GetValueOrDefault() != default(DateTime))
+                {
+                    startDateStr = line.StartDate.GetValueOrDefault().ToString("s", CultureInfo.InvariantCulture);
+                }
+                if (line.EndDate == default(DateTime))
+                {
+                    line.EndDate = null;
+                }
+                if (line.StartDate == default(DateTime))
+                {
+                    line.StartDate = null;
+                }
+
+                builder.InsertData("Places",
+                    new string[] { "name", "province_name", "province_abbreviation", "region_name", "code", "start_date", "end_date" },
+                    new object[] { line.Name, line.Province, line.ProvinceAbbreviation, line.Region, line.Code, startDateStr, endDateStr });
             }
 
         }
+        private static readonly string AnprFilePath = AppDomain.CurrentDomain.BaseDirectory + "\\Migrations\\Data\\ANPR_archivio_comuni.csv";
+        private static readonly string IstatForeignCountriesPath = AppDomain.CurrentDomain.BaseDirectory + "\\Migrations\\Data\\Elenco-codici-e-denominazioni-al-31_12_2019.csv";
+        private static readonly string FormerForeignCountriesPath = AppDomain.CurrentDomain.BaseDirectory + "\\Migrations\\Data\\Elenco-Paesi-esteri-cessati.csv";
     }
 }

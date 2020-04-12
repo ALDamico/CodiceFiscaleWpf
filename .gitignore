@@ -341,3 +341,4 @@ healthchecksdb
 ALD.LibFiscalCode.Persistence/DataSource/app.db
 *.db
 PlacesImporter/app.db
+CodiceFiscaleApi/appsettings.json
