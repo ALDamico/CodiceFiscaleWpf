@@ -26,7 +26,7 @@ namespace CodiceFiscaleApi.Controllers
         [HttpGet("all")]
         public string GetAllPlaces()
         {
-            Log.Information("Requested all places from {0}", this.HttpContext.Request.HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Requested all places from {0}", HttpContext.Connection.RemoteIpAddress);
             
             var placesList = (
                 from place
@@ -50,7 +50,7 @@ namespace CodiceFiscaleApi.Controllers
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
             if (validOn != null)
             {
-                matchingPlaces = matchingPlaces.Where(p => (p.StartDate == null || p.StartDate >= validOn) || (p.EndDate == null || p.EndDate <= validOn));
+                matchingPlaces = matchingPlaces.Where(p => (p.StartDate == null || p.StartDate >= validOn) && (p.EndDate == null || p.EndDate <= validOn));
             }
             else
             {
@@ -66,7 +66,7 @@ namespace CodiceFiscaleApi.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            Log.Information("Requested place with id {0} from {1}", id, this.HttpContext.Request.HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Requested place with id {0} from {1}", id, HttpContext.Connection.RemoteIpAddress);
             string outputObject = null;
             try
             {

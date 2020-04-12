@@ -1169,6 +1169,15 @@ namespace ALD.LibFiscalCode.Localization {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a Luogo di nascita non specificato..
+        /// </summary>
+        public static string ValidationMissingPlaceOfBirth {
+            get {
+                return ResourceManager.GetString("ValidationMissingPlaceOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a Cognome non compilato..
         /// </summary>
         public static string ValidationMissingSurname {

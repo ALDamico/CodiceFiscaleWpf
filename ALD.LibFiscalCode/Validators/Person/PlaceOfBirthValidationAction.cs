@@ -13,7 +13,7 @@ namespace ALD.LibFiscalCode.Validators.Person
             }
             if (validationTarget.PlaceOfBirth == null)
             {
-               Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationMissingDateOfBirth);
+               Result = new ValidationResult(false, Localization.CodiceFiscaleUI.ValidationMissingPlaceOfBirth);
             }
             else
             {

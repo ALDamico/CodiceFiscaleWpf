@@ -13,6 +13,7 @@ using CodiceFiscaleApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace CodiceFiscaleApi.Controllers
 {
@@ -20,8 +21,8 @@ namespace CodiceFiscaleApi.Controllers
     [ApiController]
     public class FiscalCodeController : ControllerBase
     {
-        private AppDataContext dataContext;
-        private JsonNetConfiguration jsonNetConfiguration;
+        private readonly AppDataContext dataContext;
+        private readonly JsonNetConfiguration jsonNetConfiguration;
 
         public FiscalCodeController(AppDataContext dataContext)
         {
@@ -33,22 +34,52 @@ namespace CodiceFiscaleApi.Controllers
         [HttpPost("calculate")]
         public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
         {
-            Person deserialized = new Person();
-            deserialized = JsonConvert.DeserializeObject(person, deserialized.GetType(), jsonNetConfiguration.SerializerSettings) as Person;
-            if (person != null)
+            try
             {
-                deserialized.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
+                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                Log.Information("Request details follow");
+                Log.Information("Person: {0}", person);
+                Log.Information("Place of Birth id: {0}",
+                    placeOfBirthId == null ? "null" : placeOfBirthId.GetValueOrDefault().ToString());
+                Person deserialized = new Person();
+                try
+                {
+                    deserialized =
+                        JsonConvert.DeserializeObject(person, typeof(Person),
+                                jsonNetConfiguration.SerializerSettings) as
+                            Person;
+                    Log.Debug("Deserialized object: {0}", deserialized);
+                }
+                catch (JsonException ex)
+                {
+                    Log.Error("An error occurred");
+                    Log.Error(ex.ToString());
+                }
+
+                var validator = new PersonValidator(deserialized);
+                Log.Information("Validator response {0} with the following messages", validator.IsValid, validator.GetValidationMessagesAsString());
+                if (validator.IsValid)
+                {
+                    var fc = new FiscalCodeBuilder(deserialized);
+                    var outputObj = new
+                        {result = "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserialized)};
+                    var serializedObject =
+                        JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
+                    return serializedObject;
+                }
+
+                var obj = new {result = "failed", payload = validator};
+                return JsonConvert.SerializeObject(obj);
             }
-            var validator = new PersonValidator(deserialized);
-            if (validator.IsValid)
+            catch (Exception ex)
             {
-                var fc = new FiscalCodeBuilder(deserialized);
-                var outputObj = new { result= "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserialized) };
-                var serializedObject = JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
-                return serializedObject;
+                Log.Error("An error occurred when processing the request");
+                Log.Error(ex.ToString());
+                return JsonConvert.SerializeObject(new {result = "failed", payload = ex.ToString()});
             }
-            var obj = new { result = "failed", payload = validator };
-            return JsonConvert.SerializeObject(obj);
+
+            
+
         }
 
         [HttpPost("validate")]
