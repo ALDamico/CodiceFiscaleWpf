@@ -72,34 +72,49 @@ namespace CodiceFiscaleApi.Controllers
         [HttpPost("calculate")]
         public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
         {
-            var dateConverter = new IsoDateTimeConverter();
-            var jsonSettings = new JsonSerializerSettings()
+            try
             {
-                DateFormatString = "yyyy-MM-dd"
-            };
-            var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
-            Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
-            Log.Information("Request details follow");
-            Log.Information("Person: {0}", request);
-            FiscalCodeResponse response = new FiscalCodeResponse();
-            RequestToPersonConverter converter = new RequestToPersonConverter();
-            var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest).ConfigureAwait(false);
-            var validator = new PersonValidator(person);
-            if (validator.IsValid)
-            {
-                response.Result = "success";
-                var fc = new FiscalCodeBuilder(person);
-                var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
-                response.FiscalCode = fcJson;
-            }
-            else
-            {
-                response.Result = "failure";
-                response.FiscalCode = null;
-            }
-            response.ValidationResults = validator.ValidationMessages;
+                var dateConverter = new IsoDateTimeConverter();
+                var jsonSettings = new JsonSerializerSettings()
+                {
+                    DateFormatString = "yyyy-MM-dd"
+                };
+                var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
+                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                Log.Information("Request details follow");
+                Log.Information("Person: {0}", request);
+                FiscalCodeResponse response = new FiscalCodeResponse();
+                RequestToPersonConverter converter = new RequestToPersonConverter();
+                var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest)
+                    .ConfigureAwait(false);
+                Log.Information("Person deserialized");
+                var validator = new PersonValidator(person);
+                if (validator.IsValid)
+                {
+                    Log.Information("Computed with success");
+                    response.Result = "success";
+                    var fc = new FiscalCodeBuilder(person);
+                    var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
+                    response.FiscalCode = fcJson;
+                }
+                else
+                {
+                    Log.Information("Computed with error");
+                    response.Result = "failure";
+                    response.FiscalCode = null;
+                }
 
-            return response;
+                response.ValidationResults = validator.ValidationMessages;
+
+                Log.Information("Returning response");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                return null;
+            }
+            
         }
 
         [HttpPost("validate")]
