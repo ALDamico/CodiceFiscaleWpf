@@ -9,10 +9,13 @@ using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using CodiceFiscaleApi.Configuration;
+using CodiceFiscaleApi.Converters;
+using CodiceFiscaleApi.Requests;
 using CodiceFiscaleApi.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Serilog;
 
 namespace CodiceFiscaleApi.Controllers
@@ -30,7 +33,7 @@ namespace CodiceFiscaleApi.Controllers
             jsonNetConfiguration = new JsonNetConfiguration();
         }
 
-        // POST: api/FiscalCode
+        /*// POST: api/FiscalCode
         [HttpPost("calculate")]
         //TODO Creare classe Response per questo endpoint
         public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
@@ -65,6 +68,38 @@ namespace CodiceFiscaleApi.Controllers
                 Log.Error(ex.ToString());
                 return JsonConvert.SerializeObject(new {result = "failed", payload = ex.ToString()});
             }
+        }*/
+        [HttpPost("calculate")]
+        public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
+        {
+            var dateConverter = new IsoDateTimeConverter();
+            var jsonSettings = new JsonSerializerSettings()
+            {
+                DateFormatString = "yyyy-MM-dd"
+            };
+            var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
+            Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Request details follow");
+            Log.Information("Person: {0}", request);
+            FiscalCodeResponse response = new FiscalCodeResponse();
+            RequestToPersonConverter converter = new RequestToPersonConverter();
+            var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest).ConfigureAwait(false);
+            var validator = new PersonValidator(person);
+            if (validator.IsValid)
+            {
+                response.Result = "success";
+                var fc = new FiscalCodeBuilder(person);
+                var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
+                response.FiscalCode = fcJson;
+            }
+            else
+            {
+                response.Result = "failure";
+                response.FiscalCode = null;
+            }
+            response.ValidationResults = validator.ValidationMessages;
+
+            return response;
         }
 
         [HttpPost("validate")]

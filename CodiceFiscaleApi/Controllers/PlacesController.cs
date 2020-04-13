@@ -45,17 +45,17 @@ namespace CodiceFiscaleApi.Controllers
         public List<Place> Get(string name, DateTime? validOn = null)
         {
             //This allows us to get around collation mismatches
-            name = name.ToUpper();
+            var nameUpper = name.ToUpper();
             Log.Information("Requested place with partial name {0} valid on {1} from {2}", name, validOn != null ? validOn.ToString(): "forever", HttpContext.Connection.RemoteIpAddress);
             if (string.IsNullOrEmpty(name) || name.Length < 3)
             {
                 return null;
             }
 
-            var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(name));
+            var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(nameUpper));
             if (validOn != null)
             {
-                matchingPlaces = matchingPlaces.Where(p => (p.StartDate == null || p.StartDate >= validOn) && (p.EndDate == null || p.EndDate <= validOn));
+                matchingPlaces = matchingPlaces.Where(p => (p.StartDate == null || p.StartDate <= validOn) && (p.EndDate == null || p.EndDate >= validOn));
             }
             else
             {
