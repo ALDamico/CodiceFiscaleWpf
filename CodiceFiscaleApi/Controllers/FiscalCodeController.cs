@@ -87,6 +87,7 @@ namespace CodiceFiscaleApi.Controllers
             var validator = new PersonValidator(person);
             if (validator.IsValid)
             {
+                Log.Information("Validation successful");
                 response.Result = "success";
                 var fc = new FiscalCodeBuilder(person);
                 var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
@@ -94,6 +95,7 @@ namespace CodiceFiscaleApi.Controllers
             }
             else
             {
+                Log.Information("Validation unsuccessful");
                 response.Result = "failure";
                 response.FiscalCode = null;
             }

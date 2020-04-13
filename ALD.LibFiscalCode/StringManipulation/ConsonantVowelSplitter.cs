@@ -20,8 +20,18 @@ namespace ALD.LibFiscalCode.StringManipulation
 
         public ConsonantVowelSplitter(string word)
         {
-            using var database = new AppDataContext();
-            var split = AppSettings.GetInstance(database).GetSplittingStrategy(word).Result;
+            AppDataContext database = null;
+            string split = null;
+            try
+            {
+                database = new AppDataContext();
+                split = AppSettings.GetInstance(database).GetSplittingStrategy(word).Result;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                split = new UnidecodeSplittingStrategy(word).Result;
+            }
+            
             if (split.Equals(word, StringComparison.InvariantCultureIgnoreCase))
             {
                 //Uses unidecode method as a fallback if the previous attempt failed.
