@@ -32,37 +32,25 @@ namespace CodiceFiscaleApi.Controllers
 
         // POST: api/FiscalCode
         [HttpPost("calculate")]
+        //TODO Creare classe Response per questo endpoint
         public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
         {
+            Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Request details follow");
+            Log.Information("Person: {0}", person);
+            Log.Information("Place of Birth id: {0}",
+                placeOfBirthId == null ? "null" : placeOfBirthId.GetValueOrDefault().ToString());
+            var deserializedPerson = JsonConvert.DeserializeObject<Person>(person);
             try
             {
-                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
-                Log.Information("Request details follow");
-                Log.Information("Person: {0}", person);
-                Log.Information("Place of Birth id: {0}",
-                    placeOfBirthId == null ? "null" : placeOfBirthId.GetValueOrDefault().ToString());
-                Person deserialized = new Person();
-                try
-                {
-                    deserialized =
-                        JsonConvert.DeserializeObject(person, typeof(Person),
-                                jsonNetConfiguration.SerializerSettings) as
-                            Person;
-                    Log.Debug("Deserialized object: {0}", deserialized);
-                }
-                catch (JsonException ex)
-                {
-                    Log.Error("An error occurred");
-                    Log.Error(ex.ToString());
-                }
-
-                var validator = new PersonValidator(deserialized);
-                Log.Information("Validator response {0} with the following messages", validator.IsValid, validator.GetValidationMessagesAsString());
+                var validator = new PersonValidator(deserializedPerson);
+                Log.Information("Validator response {0} with the following messages", validator.IsValid,
+                    validator.GetValidationMessagesAsString());
                 if (validator.IsValid)
                 {
-                    var fc = new FiscalCodeBuilder(deserialized);
+                    var fc = new FiscalCodeBuilder(deserializedPerson);
                     var outputObj = new
-                        {result = "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserialized)};
+                        {result = "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserializedPerson)};
                     var serializedObject =
                         JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
                     return serializedObject;
@@ -77,9 +65,6 @@ namespace CodiceFiscaleApi.Controllers
                 Log.Error(ex.ToString());
                 return JsonConvert.SerializeObject(new {result = "failed", payload = ex.ToString()});
             }
-
-            
-
         }
 
         [HttpPost("validate")]
@@ -89,16 +74,18 @@ namespace CodiceFiscaleApi.Controllers
             {
                 person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
             }
+
             var validator = new PersonValidator(person);
             if (validator.IsValid)
             {
                 var fc = new FiscalCodeBuilder(fiscalCode);
                 var fcValidator = new FiscalCodeValidator(person, fc.ComputedFiscalCode);
-                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented, new JsonSerializerSettings() { StringEscapeHandling = StringEscapeHandling.EscapeHtml });
+                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented,
+                    new JsonSerializerSettings() {StringEscapeHandling = StringEscapeHandling.EscapeHtml});
                 return serializedObject;
             }
 
-            var obj = new { result = "failed", payload = validator };
+            var obj = new {result = "failed", payload = validator};
             return JsonConvert.SerializeObject(obj);
         }
     }

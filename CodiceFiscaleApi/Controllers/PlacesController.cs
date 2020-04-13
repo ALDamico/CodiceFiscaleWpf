@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using CodiceFiscaleApi.Configuration;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -24,7 +27,7 @@ namespace CodiceFiscaleApi.Controllers
         }
 
         [HttpGet("all")]
-        public string GetAllPlaces()
+        public List<Place> GetAllPlaces()
         {
             Log.Information("Requested all places from {0}", HttpContext.Connection.RemoteIpAddress);
             
@@ -33,14 +36,16 @@ namespace CodiceFiscaleApi.Controllers
                 in dataContext.Places
                 select place
                 );
-            var outputObject = JsonConvert.SerializeObject(placesList, jsonNetConfiguration.SerializerSettings);
-            return outputObject;
+            
+            return placesList.ToList();
         }
 
         // GET: api/<controller>
         [HttpGet]
-        public string Get(string name, DateTime? validOn = null)
+        public List<Place> Get(string name, DateTime? validOn = null)
         {
+            //This allows us to get around collation mismatches
+            name = name.ToUpper();
             Log.Information("Requested place with partial name {0} valid on {1} from {2}", name, validOn != null ? validOn.ToString(): "forever", HttpContext.Connection.RemoteIpAddress);
             if (string.IsNullOrEmpty(name) || name.Length < 3)
             {
@@ -57,28 +62,25 @@ namespace CodiceFiscaleApi.Controllers
                 matchingPlaces = matchingPlaces.Where(p => p.EndDate == null);
             }
 
-            var outputObject = JsonConvert.SerializeObject(matchingPlaces, jsonNetConfiguration.SerializerSettings);
-            
-            return outputObject;
+            return matchingPlaces.ToList();
         } 
 
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Place Get(int id)
         {
             Log.Information("Requested place with id {0} from {1}", id, HttpContext.Connection.RemoteIpAddress);
-            string outputObject = null;
+            Place place = null;
             try
             {
-                var place = dataContext.Places.SingleOrDefault(p => p.Id == id);
-                outputObject = JsonConvert.SerializeObject(place, Formatting.Indented);
+                place = dataContext.Places.SingleOrDefault(p => p.Id == id);
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 Log.Error(ex.ToString());
             }
             
-            return outputObject;
+            return place;
         }
 
         // POST api/<controller>
