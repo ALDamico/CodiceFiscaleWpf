@@ -12,6 +12,9 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
         private FiscalCodeBuilder builder;
         private Persistence.Models.FiscalCode validationTarget;
         private FiscalCodeValidationRunner runner;
+        
+        public string ProvidedFiscalCode { get; }
+        public string ExpectedFiscalCode { get; }
 
         public FiscalCodeValidator(Persistence.Models.Person person, Persistence.Models.FiscalCode fiscalCode)
         {
@@ -19,7 +22,8 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
             validationTarget = fiscalCode;
             runner = new FiscalCodeValidationRunner(fiscalCode);
             Validate();
-
+            ProvidedFiscalCode = fiscalCode.FullFiscalCode;
+            ExpectedFiscalCode = builder.ComputedFiscalCode.FullFiscalCode;
         }
         public void Validate()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
@@ -32,43 +33,7 @@ namespace CodiceFiscaleApi.Controllers
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();
         }
-
-        /*// POST: api/FiscalCode
-        [HttpPost("calculate")]
-        //TODO Creare classe Response per questo endpoint
-        public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
-        {
-            Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
-            Log.Information("Request details follow");
-            Log.Information("Person: {0}", person);
-            Log.Information("Place of Birth id: {0}",
-                placeOfBirthId == null ? "null" : placeOfBirthId.GetValueOrDefault().ToString());
-            var deserializedPerson = JsonConvert.DeserializeObject<Person>(person);
-            try
-            {
-                var validator = new PersonValidator(deserializedPerson);
-                Log.Information("Validator response {0} with the following messages", validator.IsValid,
-                    validator.GetValidationMessagesAsString());
-                if (validator.IsValid)
-                {
-                    var fc = new FiscalCodeBuilder(deserializedPerson);
-                    var outputObj = new
-                        {result = "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserializedPerson)};
-                    var serializedObject =
-                        JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
-                    return serializedObject;
-                }
-
-                var obj = new {result = "failed", payload = validator};
-                return JsonConvert.SerializeObject(obj);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("An error occurred when processing the request");
-                Log.Error(ex.ToString());
-                return JsonConvert.SerializeObject(new {result = "failed", payload = ex.ToString()});
-            }
-        }*/
+        
         [HttpPost("calculate")]
         public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
         {
@@ -118,25 +83,41 @@ namespace CodiceFiscaleApi.Controllers
         }
 
         [HttpPost("validate")]
-        public string Post([FromForm] Person person, [FromForm] int placeOfBirthId, [FromForm] string fiscalCode)
-        {
-            if (person != null)
+        public ValidationResponse ValidateFiscalCode([FromBody] ValidationRequest request)
+        { 
+            ValidationResponse output = new ValidationResponse();
+            if (request == null)
             {
-                person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
+                output.Outcome = false;
+                return output;
             }
-
-            var validator = new PersonValidator(person);
-            if (validator.IsValid)
+            Person person = new Person()
             {
-                var fc = new FiscalCodeBuilder(fiscalCode);
-                var fcValidator = new FiscalCodeValidator(person, fc.ComputedFiscalCode);
-                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented,
-                    new JsonSerializerSettings() {StringEscapeHandling = StringEscapeHandling.EscapeHtml});
-                return serializedObject;
-            }
+                Name = request.Name,
+                Surname = request.Surname,
+                DateOfBirth = request.BirthDate,
+                PlaceOfBirth = dataContext.Places.Single(p => p.Id == request.BirthPlaceId),
+                Gender = (Gender) Enum.Parse(typeof(Gender), request.Gender)
+            };
 
-            var obj = new {result = "failed", payload = validator};
-            return JsonConvert.SerializeObject(obj);
+            var personValidator = new PersonValidator(person);
+            if (personValidator.IsValid)
+            {
+                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant());
+                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode);
+                output.ExpectedFiscalCode = fiscalCodeValidator.ExpectedFiscalCode;
+                output.ProvidedFiscalCode = fiscalCodeValidator.ProvidedFiscalCode;
+                output.Person = new PersonJson(person);
+                output.Outcome = false;
+                output.ValidationMessages = fiscalCodeValidator.ValidationMessages;
+                if (fiscalCodeValidator.IsValid)
+                {
+                    output.Outcome = true;
+                }
+            }
+            
+            
+            return output;
         }
     }
 }

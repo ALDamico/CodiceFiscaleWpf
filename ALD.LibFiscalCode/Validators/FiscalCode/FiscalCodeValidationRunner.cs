@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ALD.LibFiscalCode.Builders;
+using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Validators.Interfaces;
 
 namespace ALD.LibFiscalCode.Validators.FiscalCode
@@ -18,9 +19,9 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
             validationCommands = new List<IValidationCommand<Persistence.Models.FiscalCode>>();
         }
 
-        private List<IValidationCommand<Persistence.Models.FiscalCode>> validationCommands;
+        private readonly List<IValidationCommand<Persistence.Models.FiscalCode>> validationCommands;
 
-        private Persistence.Models.FiscalCode target;
+        private readonly Persistence.Models.FiscalCode target;
 
         public void AddValidationStep(IValidationCommand<Persistence.Models.FiscalCode> validationCommand)
         {

@@ -7,11 +7,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
     {
         public PersonJson(Person person)
         {
-            if (person == null)
-            {
-                throw new ArgumentNullException(nameof(person));
-            }
-            this.person = person;
+            this.person = person ?? throw new ArgumentNullException(nameof(person));
             if (person.FiscalCode != null)
             {
                 fiscalCodeEntity = person.FiscalCode;
