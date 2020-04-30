@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
@@ -13,10 +11,8 @@ using CodiceFiscaleApi.Configuration;
 using CodiceFiscaleApi.Converters;
 using CodiceFiscaleApi.Requests;
 using CodiceFiscaleApi.Responses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Serilog;
 
 namespace CodiceFiscaleApi.Controllers
@@ -102,7 +98,7 @@ namespace CodiceFiscaleApi.Controllers
             var personValidator = new PersonValidator(person);
             if (personValidator.IsValid)
             {
-                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant());
+                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant(), false);
                 var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode);
                 output.ExpectedFiscalCode = fiscalCodeValidator.ExpectedFiscalCode;
                 output.ProvidedFiscalCode = fiscalCodeValidator.ProvidedFiscalCode;

@@ -11,6 +11,7 @@ namespace ALD.LibFiscalCode.Builders
 {
     public class FiscalCodeBuilder : AbstractNotifyPropertyChanged
     {
+        private bool shouldCalculateCheckDigit = true;
         public FiscalCodeBuilder(Person person)
         {
             if (person == null)
@@ -32,8 +33,9 @@ namespace ALD.LibFiscalCode.Builders
         private const int FISCAL_CODE_LENGTH_NO_CHECK_DIGIT = 15;
         private const int FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT = 16;
 
-        public FiscalCodeBuilder(string partial)
+        public FiscalCodeBuilder(string partial, bool _shouldCalculateCheckDigit = true)
         {
+            shouldCalculateCheckDigit = _shouldCalculateCheckDigit;
             if (partial == null)
             {
                 throw new ArgumentNullException(nameof(partial));
@@ -50,12 +52,21 @@ namespace ALD.LibFiscalCode.Builders
             fiscalCode.Name = partial.Substring(3, 3).Trim();
             fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5).Trim();
             fiscalCode.PlaceCode = partial.Substring(11, 4).Trim();
-            fiscalCode.CheckDigit = initialLength switch
+            if (!shouldCalculateCheckDigit && initialLength < 16)
             {
-                FISCAL_CODE_LENGTH_NO_CHECK_DIGIT => CalculateCheckDigit(partial.Trim()),
-                FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT => partial.Substring(15, 1),
-                _ => ""
-            };
+                fiscalCode.CheckDigit = "";
+            }
+            else
+            {
+                fiscalCode.CheckDigit = initialLength switch
+                {
+                    FISCAL_CODE_LENGTH_NO_CHECK_DIGIT => CalculateCheckDigit(partial.Trim()),
+                    FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT => partial.Substring(15, 1),
+                    _ => ""
+                };
+            }
+           
+           
             ComputedFiscalCode = fiscalCode;
         }
 
