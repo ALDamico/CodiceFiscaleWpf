@@ -39,7 +39,6 @@ namespace CodiceFiscaleApi.Controllers
         {
             try
             {
-                var dateConverter = new IsoDateTimeConverter();
                 var jsonSettings = new JsonSerializerSettings()
                 {
                     DateFormatString = "yyyy-MM-dd"
@@ -115,7 +114,6 @@ namespace CodiceFiscaleApi.Controllers
                     output.Outcome = true;
                 }
             }
-            
             
             return output;
         }

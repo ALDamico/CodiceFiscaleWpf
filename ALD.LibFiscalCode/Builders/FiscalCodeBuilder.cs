@@ -29,6 +29,9 @@ namespace ALD.LibFiscalCode.Builders
             ComputedFiscalCode = fiscalCode;
         }
 
+        private const int FISCAL_CODE_LENGTH_NO_CHECK_DIGIT = 15;
+        private const int FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT = 16;
+
         public FiscalCodeBuilder(string partial)
         {
             if (partial == null)
@@ -36,25 +39,23 @@ namespace ALD.LibFiscalCode.Builders
                 throw new ArgumentNullException(nameof(partial));
             }
 
-            if (partial.Length != 15 && partial.Length != 16)
-            {
-                string argumentMessage = CodiceFiscaleUI.BuilderPartialFcLengthException;
-                throw new ArgumentException(argumentMessage);
-            }
+            // We're using this to keep track of whether the initial string could possibly be a valid fiscal code 
+            // (length between 15 and 16) or not
+            var initialLength = partial.Length;
 
             var fiscalCode = new FiscalCode();
-            fiscalCode.Surname = partial.Substring(0, 3);
-            fiscalCode.Name = partial.Substring(3, 3);
-            fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5);
-            fiscalCode.PlaceCode = partial.Substring(11, 4);
-            
-            if (partial.Length == 15) {
-                fiscalCode.CheckDigit = CalculateCheckDigit(partial);
-            }
-            else
+
+            partial = partial.PadRight(16, ' ');
+            fiscalCode.Surname = partial.Substring(0, 3).Trim();
+            fiscalCode.Name = partial.Substring(3, 3).Trim();
+            fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5).Trim();
+            fiscalCode.PlaceCode = partial.Substring(11, 4).Trim();
+            fiscalCode.CheckDigit = initialLength switch
             {
-                fiscalCode.CheckDigit = partial.Substring(15, 1);
-            }
+                FISCAL_CODE_LENGTH_NO_CHECK_DIGIT => CalculateCheckDigit(partial.Trim()),
+                FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT => partial.Substring(15, 1),
+                _ => ""
+            };
             ComputedFiscalCode = fiscalCode;
         }
 
