@@ -5,6 +5,7 @@ using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
+using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using CodiceFiscaleApi.Configuration;
@@ -60,7 +61,7 @@ namespace CodiceFiscaleApi.Controllers
                 {
                     Log.Information("Computed with success");
                     response.Result = "success";
-                    var fc = new FiscalCodeBuilder(person);
+                    var fc = new FiscalCodeBuilder(person, new UnidecodeSplittingStrategy());
                     var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
                     response.FiscalCode = fcJson;
                 }
@@ -106,7 +107,7 @@ namespace CodiceFiscaleApi.Controllers
             if (personValidator.IsValid)
             {
                 var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant(), false);
-                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode);
+                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode, new UnidecodeSplittingStrategy());
                 output.ExpectedFiscalCode = fiscalCodeValidator.ExpectedFiscalCode;
                 output.ProvidedFiscalCode = fiscalCodeValidator.ProvidedFiscalCode;
                 output.Person = new PersonJson(person);

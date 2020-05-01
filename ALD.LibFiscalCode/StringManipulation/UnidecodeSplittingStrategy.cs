@@ -12,7 +12,21 @@ namespace ALD.LibFiscalCode.StringManipulation
             Convert();
         }
 
-        public string TargetString { get; }
+        public UnidecodeSplittingStrategy()
+        {
+            
+        }
+
+        public string TargetString
+        {
+            get => targetString;
+            set
+            {
+                targetString = value;
+                Convert();
+            }
+        }
+        private string targetString;
 
         public void Convert()
         {

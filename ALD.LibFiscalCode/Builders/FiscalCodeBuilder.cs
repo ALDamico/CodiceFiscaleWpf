@@ -12,6 +12,26 @@ namespace ALD.LibFiscalCode.Builders
     public class FiscalCodeBuilder : AbstractNotifyPropertyChanged
     {
         private bool shouldCalculateCheckDigit = true;
+        private ISplittingStrategy splittingStrategy;
+
+        public FiscalCodeBuilder(Person person, ISplittingStrategy splittingStrategy)
+        {
+            this.splittingStrategy = splittingStrategy;
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person));
+            }
+
+            var fiscalCode = new FiscalCode();
+            fiscalCode.Name = CalculateNameString(person.Name);
+            fiscalCode.Surname = CalculateSurnameString(person.Surname);
+            fiscalCode.DateOfBirthAndGender = CalculateDateOfBirthAndGenderString(person.DateOfBirth, person.Gender);
+            fiscalCode.PlaceCode = person.PlaceOfBirth.Code;
+
+            var partial = fiscalCode.Surname + fiscalCode.Name + fiscalCode.DateOfBirthAndGender + fiscalCode.PlaceCode;
+            fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+            ComputedFiscalCode = fiscalCode;
+        }
         public FiscalCodeBuilder(Person person)
         {
             if (person == null)
@@ -111,7 +131,16 @@ namespace ALD.LibFiscalCode.Builders
         {
             string output = null;
 
-            var nameSplitter = new ConsonantVowelSplitter(input);
+            ConsonantVowelSplitter nameSplitter = null;
+            if (splittingStrategy != null)
+            {
+                splittingStrategy.TargetString = input;
+                nameSplitter  = new ConsonantVowelSplitter(input, splittingStrategy);
+            }
+            else
+            {
+                nameSplitter  = new ConsonantVowelSplitter(input);
+            }
 
             if (nameSplitter.Consonants.Count >= 3)
             {
@@ -147,7 +176,17 @@ namespace ALD.LibFiscalCode.Builders
         {
             string output = null;
 
-            var nameSplitter = new ConsonantVowelSplitter(input);
+            ConsonantVowelSplitter nameSplitter = null;
+            if (splittingStrategy != null)
+            {
+                splittingStrategy.TargetString = input;
+                nameSplitter  = new ConsonantVowelSplitter(input, splittingStrategy);
+            }
+            else
+            {
+                nameSplitter  = new ConsonantVowelSplitter(input);
+            }
+            
 
             if (nameSplitter.Consonants.Count >= 4)
             {
