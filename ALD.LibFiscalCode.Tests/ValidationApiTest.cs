@@ -4,27 +4,12 @@ using System.Linq;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using CodiceFiscaleApi.Controllers;
 using CodiceFiscaleApi.Requests;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace ALD.LibFiscalCode.Tests
 {
-    public class DbFixture
-    {
-        public DbFixture()
-        {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection
-                .AddDbContext<AppDataContext>(options => options.UseSqlServer("Server=localhost;Database=fiscal_code;Trusted_Connection=True;"),
-                    ServiceLifetime.Transient);
-
-            ServiceProvider = serviceCollection.BuildServiceProvider();
-        }
-
-        public ServiceProvider ServiceProvider { get; private set; }
-    }
-    public class ValidationApiTest:IClassFixture<DbFixture>
+    public class ValidationApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
         private readonly AppDataContext dataContext;
@@ -33,9 +18,17 @@ namespace ALD.LibFiscalCode.Tests
         {
             serviceProvider = fixture.ServiceProvider;
             dataContext = serviceProvider.GetService<AppDataContext>();
+            _ = dataContext.Places.FirstOrDefault();
         }
-        
-        
+
+        [Fact]
+        void DummyTest()
+        {
+            var dummy = dataContext.Places.FirstOrDefault();
+            Assert.True(dummy != null);
+        }
+
+
         [Fact]
         void InvalidFiscalCodeTest()
         {
@@ -48,10 +41,10 @@ namespace ALD.LibFiscalCode.Tests
             validationRequest.BirthDate = new DateTime(1970, 1, 1);
             validationRequest.BirthPlaceId =
                 (from p in dataContext.Places
-                where p.Name == "Roma"
-                      && p.StartDate <= validationRequest.BirthDate
-                      && p.EndDate >= validationRequest.BirthDate
-                select p.Id).Single();
+                    where p.Name == "Roma"
+                          && p.StartDate <= validationRequest.BirthDate
+                          && p.EndDate >= validationRequest.BirthDate
+                    select p.Id).Single();
             validationRequest.FiscalCode = fiscalCode;
             var result = controller.ValidateFiscalCode(validationRequest);
             Assert.True(result.Outcome == false);

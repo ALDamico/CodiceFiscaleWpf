@@ -12,6 +12,7 @@ using CodiceFiscaleApi.Converters;
 using CodiceFiscaleApi.Requests;
 using CodiceFiscaleApi.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -29,9 +30,9 @@ namespace CodiceFiscaleApi.Controllers
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();
         }
-        
+
         [HttpPost("calculate")]
-        public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
+        public async Task<FiscalCodeResponse> Calculate(PersonRequest request)
         {
             try
             {
@@ -39,13 +40,19 @@ namespace CodiceFiscaleApi.Controllers
                 {
                     DateFormatString = "yyyy-MM-dd"
                 };
-                var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
-                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                if (HttpContext != null)
+                {
+                    //XUnit doesn't really like this.
+                    // During tests, HttpContext is null
+                    Log.Information("Requested fiscal code calculation from {0}",
+                        HttpContext.Connection.RemoteIpAddress);
+                }
+
                 Log.Information("Request details follow");
                 Log.Information("Person: {0}", request);
                 FiscalCodeResponse response = new FiscalCodeResponse();
                 RequestToPersonConverter converter = new RequestToPersonConverter();
-                var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest)
+                var person = await converter.ConvertToPersonAsync(dataContext, request)
                     .ConfigureAwait(false);
                 Log.Information("Person deserialized");
                 var validator = new PersonValidator(person);
@@ -74,18 +81,18 @@ namespace CodiceFiscaleApi.Controllers
                 Log.Error(ex.ToString());
                 return null;
             }
-            
         }
 
         [HttpPost("validate")]
         public ValidationResponse ValidateFiscalCode([FromBody] ValidationRequest request)
-        { 
+        {
             ValidationResponse output = new ValidationResponse();
             if (request == null)
             {
                 output.Outcome = false;
                 return output;
             }
+
             Person person = new Person()
             {
                 Name = request.Name,
@@ -110,7 +117,7 @@ namespace CodiceFiscaleApi.Controllers
                     output.Outcome = true;
                 }
             }
-            
+
             return output;
         }
     }
