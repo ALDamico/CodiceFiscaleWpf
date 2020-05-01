@@ -22,14 +22,6 @@ namespace ALD.LibFiscalCode.Tests
         }
 
         [Fact]
-        void DummyTest()
-        {
-            var dummy = dataContext.Places.FirstOrDefault();
-            Assert.True(dummy != null);
-        }
-
-
-        [Fact]
         void InvalidFiscalCodeTest()
         {
             var fiscalCode = "ABCDEF99";
@@ -68,7 +60,7 @@ namespace ALD.LibFiscalCode.Tests
                     select p.Id).Single();
             validationRequest.FiscalCode = fiscalCode;
             var result = controller.ValidateFiscalCode(validationRequest);
-            Assert.True(result.Outcome == true);
+            Assert.True(result.Outcome);
         }
 
         [Fact]
@@ -89,7 +81,7 @@ namespace ALD.LibFiscalCode.Tests
                     select p.Id).Single();
             validationRequest.FiscalCode = fiscalCode;
             var result = controller.ValidateFiscalCode(validationRequest);
-            Assert.True(result.Outcome == false);
+            Assert.False(result.Outcome);
         }
     }
 }
