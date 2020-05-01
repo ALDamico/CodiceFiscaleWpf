@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
 using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
-using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
+using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using CodiceFiscaleApi.Configuration;
 using CodiceFiscaleApi.Converters;
 using CodiceFiscaleApi.Requests;
 using CodiceFiscaleApi.Responses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Serilog;
 
 namespace CodiceFiscaleApi.Controllers
@@ -33,24 +31,29 @@ namespace CodiceFiscaleApi.Controllers
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();
         }
-        
+
         [HttpPost("calculate")]
-        public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
+        public async Task<FiscalCodeResponse> Calculate(PersonRequest request)
         {
             try
             {
-                var dateConverter = new IsoDateTimeConverter();
                 var jsonSettings = new JsonSerializerSettings()
                 {
                     DateFormatString = "yyyy-MM-dd"
                 };
-                var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
-                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                if (HttpContext != null)
+                {
+                    //XUnit doesn't really like this.
+                    // During tests, HttpContext is null
+                    Log.Information("Requested fiscal code calculation from {0}",
+                        HttpContext.Connection.RemoteIpAddress);
+                }
+
                 Log.Information("Request details follow");
                 Log.Information("Person: {0}", request);
                 FiscalCodeResponse response = new FiscalCodeResponse();
                 RequestToPersonConverter converter = new RequestToPersonConverter();
-                var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest)
+                var person = await converter.ConvertToPersonAsync(dataContext, request)
                     .ConfigureAwait(false);
                 Log.Information("Person deserialized");
                 var validator = new PersonValidator(person);
@@ -58,7 +61,7 @@ namespace CodiceFiscaleApi.Controllers
                 {
                     Log.Information("Computed with success");
                     response.Result = "success";
-                    var fc = new FiscalCodeBuilder(person);
+                    var fc = new FiscalCodeBuilder(person, new UnidecodeSplittingStrategy());
                     var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
                     response.FiscalCode = fcJson;
                 }
@@ -79,18 +82,18 @@ namespace CodiceFiscaleApi.Controllers
                 Log.Error(ex.ToString());
                 return null;
             }
-            
         }
 
         [HttpPost("validate")]
         public ValidationResponse ValidateFiscalCode([FromBody] ValidationRequest request)
-        { 
+        {
             ValidationResponse output = new ValidationResponse();
             if (request == null)
             {
                 output.Outcome = false;
                 return output;
             }
+
             Person person = new Person()
             {
                 Name = request.Name,
@@ -103,8 +106,8 @@ namespace CodiceFiscaleApi.Controllers
             var personValidator = new PersonValidator(person);
             if (personValidator.IsValid)
             {
-                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant());
-                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode);
+                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant(), false);
+                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode, new UnidecodeSplittingStrategy());
                 output.ExpectedFiscalCode = fiscalCodeValidator.ExpectedFiscalCode;
                 output.ProvidedFiscalCode = fiscalCodeValidator.ProvidedFiscalCode;
                 output.Person = new PersonJson(person);
@@ -115,8 +118,7 @@ namespace CodiceFiscaleApi.Controllers
                     output.Outcome = true;
                 }
             }
-            
-            
+
             return output;
         }
     }

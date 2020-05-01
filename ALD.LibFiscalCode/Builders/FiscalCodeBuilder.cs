@@ -11,6 +11,27 @@ namespace ALD.LibFiscalCode.Builders
 {
     public class FiscalCodeBuilder : AbstractNotifyPropertyChanged
     {
+        private bool shouldCalculateCheckDigit = true;
+        private ISplittingStrategy splittingStrategy;
+
+        public FiscalCodeBuilder(Person person, ISplittingStrategy splittingStrategy)
+        {
+            this.splittingStrategy = splittingStrategy;
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person));
+            }
+
+            var fiscalCode = new FiscalCode();
+            fiscalCode.Name = CalculateNameString(person.Name);
+            fiscalCode.Surname = CalculateSurnameString(person.Surname);
+            fiscalCode.DateOfBirthAndGender = CalculateDateOfBirthAndGenderString(person.DateOfBirth, person.Gender);
+            fiscalCode.PlaceCode = person.PlaceOfBirth.Code;
+
+            var partial = fiscalCode.Surname + fiscalCode.Name + fiscalCode.DateOfBirthAndGender + fiscalCode.PlaceCode;
+            fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+            ComputedFiscalCode = fiscalCode;
+        }
         public FiscalCodeBuilder(Person person)
         {
             if (person == null)
@@ -29,32 +50,43 @@ namespace ALD.LibFiscalCode.Builders
             ComputedFiscalCode = fiscalCode;
         }
 
-        public FiscalCodeBuilder(string partial)
+        private const int FISCAL_CODE_LENGTH_NO_CHECK_DIGIT = 15;
+        private const int FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT = 16;
+
+        public FiscalCodeBuilder(string partial, bool _shouldCalculateCheckDigit = true)
         {
+            shouldCalculateCheckDigit = _shouldCalculateCheckDigit;
             if (partial == null)
             {
                 throw new ArgumentNullException(nameof(partial));
             }
 
-            if (partial.Length != 15 && partial.Length != 16)
-            {
-                string argumentMessage = CodiceFiscaleUI.BuilderPartialFcLengthException;
-                throw new ArgumentException(argumentMessage);
-            }
+            // We're using this to keep track of whether the initial string could possibly be a valid fiscal code 
+            // (length between 15 and 16) or not
+            var initialLength = partial.Length;
 
             var fiscalCode = new FiscalCode();
-            fiscalCode.Surname = partial.Substring(0, 3);
-            fiscalCode.Name = partial.Substring(3, 3);
-            fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5);
-            fiscalCode.PlaceCode = partial.Substring(11, 4);
-            
-            if (partial.Length == 15) {
-                fiscalCode.CheckDigit = CalculateCheckDigit(partial);
+
+            partial = partial.PadRight(16, ' ');
+            fiscalCode.Surname = partial.Substring(0, 3).Trim();
+            fiscalCode.Name = partial.Substring(3, 3).Trim();
+            fiscalCode.DateOfBirthAndGender = partial.Substring(6, 5).Trim();
+            fiscalCode.PlaceCode = partial.Substring(11, 4).Trim();
+            if (!shouldCalculateCheckDigit && initialLength < 16)
+            {
+                fiscalCode.CheckDigit = "";
             }
             else
             {
-                fiscalCode.CheckDigit = partial.Substring(15, 1);
+                fiscalCode.CheckDigit = initialLength switch
+                {
+                    FISCAL_CODE_LENGTH_NO_CHECK_DIGIT => CalculateCheckDigit(partial.Trim()),
+                    FISCAL_CODE_LENGTH_WITH_CHECK_DIGIT => partial.Substring(15, 1),
+                    _ => ""
+                };
             }
+           
+           
             ComputedFiscalCode = fiscalCode;
         }
 
@@ -99,7 +131,16 @@ namespace ALD.LibFiscalCode.Builders
         {
             string output = null;
 
-            var nameSplitter = new ConsonantVowelSplitter(input);
+            ConsonantVowelSplitter nameSplitter = null;
+            if (splittingStrategy != null)
+            {
+                splittingStrategy.TargetString = input;
+                nameSplitter  = new ConsonantVowelSplitter(input, splittingStrategy);
+            }
+            else
+            {
+                nameSplitter  = new ConsonantVowelSplitter(input);
+            }
 
             if (nameSplitter.Consonants.Count >= 3)
             {
@@ -135,7 +176,17 @@ namespace ALD.LibFiscalCode.Builders
         {
             string output = null;
 
-            var nameSplitter = new ConsonantVowelSplitter(input);
+            ConsonantVowelSplitter nameSplitter = null;
+            if (splittingStrategy != null)
+            {
+                splittingStrategy.TargetString = input;
+                nameSplitter  = new ConsonantVowelSplitter(input, splittingStrategy);
+            }
+            else
+            {
+                nameSplitter  = new ConsonantVowelSplitter(input);
+            }
+            
 
             if (nameSplitter.Consonants.Count >= 4)
             {

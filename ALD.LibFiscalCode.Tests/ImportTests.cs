@@ -6,6 +6,7 @@ namespace ALD.LibFiscalCode.Tests
 {
     public class ImportTests
     {
+        [Obsolete("Not used anymore")]
         [Fact]
         public void CsvTest()
         {
