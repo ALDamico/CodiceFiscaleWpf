@@ -2,7 +2,7 @@
 {
     public interface ISplittingStrategy
     {
-        string TargetString { get; set; }
+        string TargetString { get; }
         string Result { get; }
 
         void Convert();

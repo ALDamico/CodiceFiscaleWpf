@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ALD.LibFiscalCode.Builders;
-using ALD.LibFiscalCode.Persistence.Enums;
 using ALD.LibFiscalCode.Persistence.Models;
+using ALD.LibFiscalCode.Persistence.ORM;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
-using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.Validators.FiscalCode;
 using ALD.LibFiscalCode.Validators.Person;
 using CodiceFiscaleApi.Configuration;
 using CodiceFiscaleApi.Converters;
 using CodiceFiscaleApi.Requests;
 using CodiceFiscaleApi.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Serilog;
 
 namespace CodiceFiscaleApi.Controllers
@@ -32,28 +33,59 @@ namespace CodiceFiscaleApi.Controllers
             jsonNetConfiguration = new JsonNetConfiguration();
         }
 
+        /*// POST: api/FiscalCode
         [HttpPost("calculate")]
-        public async Task<FiscalCodeResponse> Calculate(PersonRequest request)
+        //TODO Creare classe Response per questo endpoint
+        public string Post([FromForm] string person, [FromForm] int? placeOfBirthId)
+        {
+            Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Request details follow");
+            Log.Information("Person: {0}", person);
+            Log.Information("Place of Birth id: {0}",
+                placeOfBirthId == null ? "null" : placeOfBirthId.GetValueOrDefault().ToString());
+            var deserializedPerson = JsonConvert.DeserializeObject<Person>(person);
+            try
+            {
+                var validator = new PersonValidator(deserializedPerson);
+                Log.Information("Validator response {0} with the following messages", validator.IsValid,
+                    validator.GetValidationMessagesAsString());
+                if (validator.IsValid)
+                {
+                    var fc = new FiscalCodeBuilder(deserializedPerson);
+                    var outputObj = new
+                        {result = "success", fiscalCodeInfo = new FiscalCodeJson(fc.ComputedFiscalCode, deserializedPerson)};
+                    var serializedObject =
+                        JsonConvert.SerializeObject(outputObj, jsonNetConfiguration.SerializerSettings);
+                    return serializedObject;
+                }
+
+                var obj = new {result = "failed", payload = validator};
+                return JsonConvert.SerializeObject(obj);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("An error occurred when processing the request");
+                Log.Error(ex.ToString());
+                return JsonConvert.SerializeObject(new {result = "failed", payload = ex.ToString()});
+            }
+        }*/
+        [HttpPost("calculate")]
+        public async Task<FiscalCodeResponse> Calculate([FromForm] string request)
         {
             try
             {
+                var dateConverter = new IsoDateTimeConverter();
                 var jsonSettings = new JsonSerializerSettings()
                 {
                     DateFormatString = "yyyy-MM-dd"
                 };
-                if (HttpContext != null)
-                {
-                    //XUnit doesn't really like this.
-                    // During tests, HttpContext is null
-                    Log.Information("Requested fiscal code calculation from {0}",
-                        HttpContext.Connection.RemoteIpAddress);
-                }
-
+                var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
+                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
                 Log.Information("Request details follow");
                 Log.Information("Person: {0}", request);
                 FiscalCodeResponse response = new FiscalCodeResponse();
                 RequestToPersonConverter converter = new RequestToPersonConverter();
-                var person = await converter.ConvertToPersonAsync(dataContext, request)
+                var person = await converter.ConvertToPersonAsync(dataContext, deserializedRequest)
                     .ConfigureAwait(false);
                 Log.Information("Person deserialized");
                 var validator = new PersonValidator(person);
@@ -61,7 +93,7 @@ namespace CodiceFiscaleApi.Controllers
                 {
                     Log.Information("Computed with success");
                     response.Result = "success";
-                    var fc = new FiscalCodeBuilder(person, new UnidecodeSplittingStrategy());
+                    var fc = new FiscalCodeBuilder(person);
                     var fcJson = new FiscalCodeJson(fc.ComputedFiscalCode, person);
                     response.FiscalCode = fcJson;
                 }
@@ -82,44 +114,29 @@ namespace CodiceFiscaleApi.Controllers
                 Log.Error(ex.ToString());
                 return null;
             }
+            
         }
 
         [HttpPost("validate")]
-        public ValidationResponse ValidateFiscalCode([FromBody] ValidationRequest request)
+        public string Post([FromForm] Person person, [FromForm] int placeOfBirthId, [FromForm] string fiscalCode)
         {
-            ValidationResponse output = new ValidationResponse();
-            if (request == null)
+            if (person != null)
             {
-                output.Outcome = false;
-                return output;
+                person.PlaceOfBirth = dataContext.Places.SingleOrDefault(p => p.Id == placeOfBirthId);
             }
 
-            Person person = new Person()
+            var validator = new PersonValidator(person);
+            if (validator.IsValid)
             {
-                Name = request.Name,
-                Surname = request.Surname,
-                DateOfBirth = request.BirthDate,
-                PlaceOfBirth = dataContext.Places.Single(p => p.Id == request.BirthPlaceId),
-                Gender = (Gender) Enum.Parse(typeof(Gender), request.Gender)
-            };
-
-            var personValidator = new PersonValidator(person);
-            if (personValidator.IsValid)
-            {
-                var fiscalCodeBuilder = new FiscalCodeBuilder(request.FiscalCode.ToUpperInvariant(), false);
-                var fiscalCodeValidator = new FiscalCodeValidator(person, fiscalCodeBuilder.ComputedFiscalCode, new UnidecodeSplittingStrategy());
-                output.ExpectedFiscalCode = fiscalCodeValidator.ExpectedFiscalCode;
-                output.ProvidedFiscalCode = fiscalCodeValidator.ProvidedFiscalCode;
-                output.Person = new PersonJson(person);
-                output.Outcome = false;
-                output.ValidationMessages = fiscalCodeValidator.ValidationMessages;
-                if (fiscalCodeValidator.IsValid)
-                {
-                    output.Outcome = true;
-                }
+                var fc = new FiscalCodeBuilder(fiscalCode);
+                var fcValidator = new FiscalCodeValidator(person, fc.ComputedFiscalCode);
+                var serializedObject = JsonConvert.SerializeObject(fcValidator, Formatting.Indented,
+                    new JsonSerializerSettings() {StringEscapeHandling = StringEscapeHandling.EscapeHtml});
+                return serializedObject;
             }
 
-            return output;
+            var obj = new {result = "failed", payload = validator};
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }
