@@ -31,7 +31,7 @@ namespace CodiceFiscaleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDataContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
+                options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"], b=> b.MigrationsAssembly(("CodiceFiscaleApi"))));
 
             services.AddControllers();
             services.AddCors(options =>

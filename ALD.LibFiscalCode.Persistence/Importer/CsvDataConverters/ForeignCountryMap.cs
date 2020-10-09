@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ALD.LibFiscalCode.Persistence.Importer.CsvDataConverters
 {
-    internal class ForeignCountryMap: ClassMap<ForeignCountry>
+    public class ForeignCountryMap: ClassMap<ForeignCountry>
     {
         public ForeignCountryMap()
         {

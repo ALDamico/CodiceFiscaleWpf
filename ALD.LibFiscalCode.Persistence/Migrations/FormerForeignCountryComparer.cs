@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ALD.LibFiscalCode.Persistence.Migrations
 {
-    internal class FormerForeignCountryComparer : IComparer<FormerForeignCountry>
+    public class FormerForeignCountryComparer : IComparer<FormerForeignCountry>
     {
         public int Compare([AllowNull] FormerForeignCountry x, [AllowNull] FormerForeignCountry y)
         {

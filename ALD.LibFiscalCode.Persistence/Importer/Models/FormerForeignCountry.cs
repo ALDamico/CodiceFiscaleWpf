@@ -5,7 +5,7 @@ using ALD.LibFiscalCode.Persistence.Importer.Enums;
 
 namespace ALD.LibFiscalCode.Persistence.Importer.Models
 {
-    internal class FormerForeignCountry
+    public class FormerForeignCountry
     {
         public int? YearOccurred { get; set; }
         public string GeographicEntityType { get; set; }

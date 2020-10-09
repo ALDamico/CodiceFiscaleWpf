@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ALD.LibFiscalCode.Persistence.Importer.CsvDataConverters
 {
-    class FormerForeignCountryMap: ClassMap<FormerForeignCountry>
+    public class FormerForeignCountryMap: ClassMap<FormerForeignCountry>
     {
         public FormerForeignCountryMap()
         {

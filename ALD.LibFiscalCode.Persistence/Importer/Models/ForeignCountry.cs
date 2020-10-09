@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ALD.LibFiscalCode.Persistence.Importer.Models
 {
-    internal class ForeignCountry
+    public class ForeignCountry
     {
         public string GeographicEntityType { get; set; }
         public string ContinentCode { get; set; }

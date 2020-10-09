@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using ALD.LibFiscalCode.Persistence.Importer;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using CodiceFiscaleApi.Configuration;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using Serilog;
@@ -87,6 +92,34 @@ namespace CodiceFiscaleApi.Controllers
         [HttpPost]
         public void Post([FromBody]string value)
         {
+        }
+
+        [HttpPost("upload")]
+        public async Task UpdateList( IFormFile inputFile)
+        {
+            if (inputFile == null)
+            {
+                return;
+            }
+            if (inputFile.Length > 0)
+            {
+                var filePath = Path.GetTempFileName();
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await inputFile.CopyToAsync(stream);
+                    
+                    var provider = new FileExtensionContentTypeProvider();
+                    
+                    if (inputFile.ContentType == "text/csv")
+                    {
+                        PlacesImporter importer = new PlacesImporter(filePath, new CsvImportStrategy(), 2020);
+                        
+                        
+                        
+                        return;
+                    }
+                }
+            }
         }
 
         // PUT api/<controller>/5
