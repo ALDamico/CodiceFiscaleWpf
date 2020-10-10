@@ -21,10 +21,10 @@ namespace CodiceFiscaleApi.Controllers
     [Route("[controller]")]
     public class PlacesController : Controller
     {
-        private readonly AppDataContext dataContext;
+        private readonly SqlServerDataContext dataContext;
         private readonly JsonNetConfiguration jsonNetConfiguration;
 
-        public PlacesController(AppDataContext dataContext)
+        public PlacesController(SqlServerDataContext dataContext)
         {
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();

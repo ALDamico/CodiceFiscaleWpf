@@ -4,16 +4,14 @@ using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace CodiceFiscaleApi.Migrations
+namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
 {
-    [DbContext(typeof(AppDataContext))]
-    [Migration("20201009171440_PlacesConversionMappings")]
-    partial class PlacesConversionMappings
+    [DbContext(typeof(SqlServerDataContext))]
+    partial class SqlServerDataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,11 +55,17 @@ namespace CodiceFiscaleApi.Migrations
                         .HasColumnName("start_date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnName("updated_on")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProvinceAbbreviation");
 
                     b.HasIndex("Region");
+
+                    b.HasIndex("UpdatedOn");
 
                     b.ToTable("Places");
                 });

@@ -28,11 +28,11 @@ namespace CodiceFiscaleUI.PlacesListView
                 from p in places
                 where p.StartDate != null || p.EndDate != null
                 select p
-                ) as ICollection<Place>;
+            ) as ICollection<Place>;
             viewModel = new PlacesListViewModel(placesFiltered as ICollection<Place>);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
-                 ListSortDirection.Ascending));
+                ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
@@ -41,34 +41,28 @@ namespace CodiceFiscaleUI.PlacesListView
 
         public PlacesList(ICollection<Place> places, MainViewModel parentViewModel)
         {
+            if (parentViewModel == null)
+            {
+                throw new NullReferenceException();
+            }
             IEnumerable<Place> placesFiltered;
-            if (parentViewModel.CurrentPerson.DateOfBirth != null)
-            {
-                placesFiltered = (
-                
-            from p in places
-            where (p.StartDate == null || p.StartDate <= parentViewModel.CurrentPerson.DateOfBirth) && (p.EndDate == null || p.EndDate >= parentViewModel.CurrentPerson.DateOfBirth)
-            select p
-                ).ToArray();
-            }
-            else
-            {
-                placesFiltered = (
+            placesFiltered = (
                 from p in places
-                where p.StartDate != null || p.EndDate != null
+                where (p.StartDate == null || p.StartDate <= parentViewModel.CurrentPerson.DateOfBirth) &&
+                      (p.EndDate == null || p.EndDate >= parentViewModel.CurrentPerson.DateOfBirth)
                 select p
-                ).ToArray();
-            }
-            
+            ).ToArray();
+
             viewModel = new PlacesListViewModel(placesFiltered as ICollection<Place>);
 
             viewModel.ViewSource.SortDescriptions.Add(new SortDescription(nameof(Place.Name),
-            ListSortDirection.Ascending));
+                ListSortDirection.Ascending));
 
             DataContext = viewModel;
             loading = true;
             this.parentViewModel = parentViewModel;
             InitializeComponent();
+
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,7 +84,8 @@ namespace CodiceFiscaleUI.PlacesListView
             }
 
             var filterText = (sender as TextBox)?.Text;
-            if (string.IsNullOrEmpty(filterText) || filterText.Equals(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults, StringComparison.InvariantCulture))
+            if (string.IsNullOrEmpty(filterText) || filterText.Equals(
+                ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults, StringComparison.InvariantCulture))
             {
                 viewModel.ResetFilter();
             }
@@ -109,7 +104,8 @@ namespace CodiceFiscaleUI.PlacesListView
                 TxtFilter.Foreground = Brushes.Gainsboro;
                 TxtFilter.Text = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults, StringComparison.InvariantCulture))
+            else if (TxtFilter.Text.Equals(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults,
+                StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;
@@ -129,7 +125,8 @@ namespace CodiceFiscaleUI.PlacesListView
                 TxtFilter.Foreground = Brushes.Gainsboro;
                 TxtFilter.Text = ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults;
             }
-            else if (TxtFilter.Text.Equals(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults, StringComparison.InvariantCulture))
+            else if (TxtFilter.Text.Equals(ALD.LibFiscalCode.Localization.CodiceFiscaleUI.TxtFilterResults,
+                StringComparison.InvariantCulture))
             {
                 TxtFilter.Text = "";
                 TxtFilter.Foreground = Brushes.Black;

@@ -23,10 +23,10 @@ namespace CodiceFiscaleApi.Controllers
     [ApiController]
     public class FiscalCodeController : ControllerBase
     {
-        private readonly AppDataContext dataContext;
+        private readonly SqlServerDataContext dataContext;
         private readonly JsonNetConfiguration jsonNetConfiguration;
 
-        public FiscalCodeController(AppDataContext dataContext)
+        public FiscalCodeController(SqlServerDataContext dataContext)
         {
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();

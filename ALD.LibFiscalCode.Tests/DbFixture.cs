@@ -12,7 +12,7 @@ namespace ALD.LibFiscalCode.Tests
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection
-                .AddDbContext<AppDataContext>(
+                .AddDbContext<SqlServerDataContext>(
                     options =>
                         options.UseSqlServer(connectionString),
                     ServiceLifetime.Transient);

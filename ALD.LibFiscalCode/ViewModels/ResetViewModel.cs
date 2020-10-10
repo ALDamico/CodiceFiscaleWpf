@@ -55,7 +55,7 @@ namespace ALD.LibFiscalCode.ViewModels
         {
             var reportProgress = new ResetProgress();
 
-            using var context = new AppDataContext();
+            using var context = new SqlServerDataContext();
             context.FiscalCodes.RemoveRange(context.FiscalCodes);
             reportProgress.TaskDescriptions.Add("Rimozione dei codici fiscali");
             reportProgress.TaskDescriptions.Add("Rimozione delle informazioni personali");

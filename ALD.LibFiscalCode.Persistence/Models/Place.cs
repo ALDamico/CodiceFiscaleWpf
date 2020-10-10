@@ -20,6 +20,7 @@ namespace ALD.LibFiscalCode.Persistence.Models
         public string Code { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
         public bool IsForeignCountry => ProvinceAbbreviation == "EE";
 

@@ -30,8 +30,8 @@ namespace CodiceFiscaleApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDataContext>(options =>
-                options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"], b=> b.MigrationsAssembly(("CodiceFiscaleApi"))));
+            services.AddDbContext<SqlServerDataContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionStrings:SqlServerConnection"]));
 
             services.AddControllers();
             services.AddCors(options =>
@@ -63,7 +63,7 @@ namespace CodiceFiscaleApi
             {
                 using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    scope.ServiceProvider.GetService<AppDataContext>().Database.MigrateAsync();
+                    scope.ServiceProvider.GetService<SqlServerDataContext>().Database.MigrateAsync();
                 }
             }
             catch (Exception ex)

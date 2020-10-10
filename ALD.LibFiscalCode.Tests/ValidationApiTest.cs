@@ -12,12 +12,12 @@ namespace ALD.LibFiscalCode.Tests
     public class ValidationApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
-        private readonly AppDataContext dataContext;
+        private readonly SqlServerDataContext dataContext;
 
         public ValidationApiTest(DbFixture fixture)
         {
             serviceProvider = fixture.ServiceProvider;
-            dataContext = serviceProvider.GetService<AppDataContext>();
+            dataContext = serviceProvider.GetService<SqlServerDataContext>();
             _ = dataContext.Places.FirstOrDefault();
         }
 

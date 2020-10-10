@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using ALD.LibFiscalCode.Persistence.Importer.CsvDataConverters;
 using ALD.LibFiscalCode.Persistence.Importer.Models;
-using ALD.LibFiscalCode.Persistence.Migrations;
 using ALD.LibFiscalCode.Persistence.Models;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CodiceFiscaleApi.Migrations
+namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
 {
-    public partial class PlacesConversionMappings : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,7 +34,8 @@ namespace CodiceFiscaleApi.Migrations
                     region_name = table.Column<string>(nullable: true),
                     code = table.Column<string>(nullable: true),
                     start_date = table.Column<DateTime>(nullable: true),
-                    end_date = table.Column<DateTime>(nullable: true)
+                    end_date = table.Column<DateTime>(nullable: true),
+                    updated_on = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table => { table.PrimaryKey("PK_Places", x => x.id); });
 
@@ -66,6 +66,11 @@ namespace CodiceFiscaleApi.Migrations
                 name: "IX_Places_region_name",
                 table: "Places",
                 column: "region_name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Places_updated_on",
+                table: "Places",
+                column: "updated_on");
             Seed(migrationBuilder);
         }
 
@@ -112,12 +117,12 @@ namespace CodiceFiscaleApi.Migrations
                     _ => foreignCountries.FirstOrDefault(c =>
                         c.Name.Equals(formerCountry.ChildName, StringComparison.InvariantCultureIgnoreCase))
                 };
-
-                var eventDate = new DateTime(formerCountry.YearOccurred.GetValueOrDefault(), 1, 1);
-                //Updates the start date of the old country
                 if (newCountry != null)
                 {
+                    var eventDate = new DateTime(formerCountry.YearOccurred.GetValueOrDefault(), 1, 1);
+                    //Updates the start date of the old country
                     newCountry.StartDate = eventDate;
+
                     var oldCountry = new Place()
                     {
                         Name = formerCountry.Name,
@@ -204,7 +209,6 @@ namespace CodiceFiscaleApi.Migrations
                     }
                 }
 
-                //Used to determine the end of file
                 if (emptyRows >= 2)
                 {
                     break;

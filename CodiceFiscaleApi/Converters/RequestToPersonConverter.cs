@@ -11,7 +11,7 @@ namespace CodiceFiscaleApi.Converters
 {
     public class RequestToPersonConverter
     {
-        public async Task<Person> ConvertToPersonAsync([NotNull]AppDataContext dataContext, PersonRequest request)
+        public async Task<Person> ConvertToPersonAsync([NotNull]SqlServerDataContext dataContext, PersonRequest request)
         {
             Person person = new Person();
             person.Name = request.Name;

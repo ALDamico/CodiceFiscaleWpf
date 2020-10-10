@@ -14,12 +14,12 @@ namespace ALD.LibFiscalCode.Tests
     public class ComputeApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
-        private readonly AppDataContext dataContext;
+        private readonly SqlServerDataContext dataContext;
 
         public ComputeApiTest(DbFixture fixture)
         {
             serviceProvider = fixture.ServiceProvider;
-            dataContext = serviceProvider.GetService<AppDataContext>();
+            dataContext = serviceProvider.GetService<SqlServerDataContext>();
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .Enrich.WithProperty("App Name", "CodFiscale.Online API")

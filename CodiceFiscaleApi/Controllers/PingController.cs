@@ -20,10 +20,10 @@ namespace CodiceFiscaleApi.Controllers
     [ApiController]
     public class PingController : ControllerBase
     {
-        private readonly AppDataContext dataContext;
+        private readonly SqlServerDataContext dataContext;
         private readonly JsonNetConfiguration jsonNetConfiguration;
 
-        public PingController(AppDataContext dataContext)
+        public PingController(SqlServerDataContext dataContext)
         {
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();
