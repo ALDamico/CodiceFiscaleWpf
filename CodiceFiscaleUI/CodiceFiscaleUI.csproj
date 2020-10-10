@@ -84,6 +84,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ALD.LibFiscalCode.Localization\ALD.LibFiscalCode.Localization.csproj" />
+    <ProjectReference Include="..\ALD.LibFiscalCode.Win32\ALD.LibFiscalCode.Win32.csproj" />
     <ProjectReference Include="..\ALD.LibFiscalCode\ALD.LibFiscalCode.csproj" />
   </ItemGroup>
 

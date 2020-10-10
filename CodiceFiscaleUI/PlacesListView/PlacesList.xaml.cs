@@ -8,6 +8,7 @@ using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.ViewModels;
 using ALD.LibFiscalCode.Localization;
 using System.Linq;
+using ALD.LibFiscalCode.Win32.ViewModels;
 
 namespace CodiceFiscaleUI.PlacesListView
 {
