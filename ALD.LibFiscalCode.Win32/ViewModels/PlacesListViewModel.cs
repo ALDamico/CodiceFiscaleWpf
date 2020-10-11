@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Data;
 using ALD.LibFiscalCode.Persistence.Events;
 using ALD.LibFiscalCode.Persistence.Models;
 
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Linq;
-using System.Globalization;
-
-namespace ALD.LibFiscalCode.ViewModels
+namespace ALD.LibFiscalCode.Win32.ViewModels
 {
     public class PlacesListViewModel : AbstractNotifyPropertyChanged
     {

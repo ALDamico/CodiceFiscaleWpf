@@ -12,17 +12,7 @@ namespace ALD.LibFiscalCode.StringManipulation
         }
 
         public string Result { get; private set; }
-
-        public string TargetString
-        {
-            get => targetString;
-            set
-            {
-                targetString = value;
-                Convert();
-            }
-        }
-        private string targetString;
+        public string TargetString { get; }
 
         //Based on https://stackoverflow.com/questions/249087/how-do-i-remove-diacritics-accents-from-a-string-in-net
         public void Convert()

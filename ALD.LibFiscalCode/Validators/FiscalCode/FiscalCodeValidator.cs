@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using ALD.LibFiscalCode.Builders;
-using ALD.LibFiscalCode.StringManipulation;
 using ALD.LibFiscalCode.Validators.Interfaces;
 
 namespace ALD.LibFiscalCode.Validators.FiscalCode
@@ -13,9 +12,6 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
         private FiscalCodeBuilder builder;
         private Persistence.Models.FiscalCode validationTarget;
         private FiscalCodeValidationRunner runner;
-        
-        public string ProvidedFiscalCode { get; }
-        public string ExpectedFiscalCode { get; }
 
         public FiscalCodeValidator(Persistence.Models.Person person, Persistence.Models.FiscalCode fiscalCode)
         {
@@ -23,19 +19,7 @@ namespace ALD.LibFiscalCode.Validators.FiscalCode
             validationTarget = fiscalCode;
             runner = new FiscalCodeValidationRunner(fiscalCode);
             Validate();
-            ProvidedFiscalCode = fiscalCode.FullFiscalCode;
-            ExpectedFiscalCode = builder.ComputedFiscalCode.FullFiscalCode;
-        }
 
-        public FiscalCodeValidator(Persistence.Models.Person person, Persistence.Models.FiscalCode fiscalCode,
-            ISplittingStrategy splittingStrategy)
-        {
-            builder = new FiscalCodeBuilder(person, splittingStrategy);
-            validationTarget = fiscalCode;
-            runner = new FiscalCodeValidationRunner(fiscalCode);
-            Validate();
-            ProvidedFiscalCode = fiscalCode.FullFiscalCode;
-            ExpectedFiscalCode = builder.ComputedFiscalCode.FullFiscalCode;
         }
         public void Validate()
         {
