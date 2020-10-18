@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
 {
     [DbContext(typeof(SqlServerDataContext))]
-    [Migration("20201010160725_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20201017205637_Mappings")]
+    partial class Mappings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -63,9 +63,13 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EndDate");
+
                     b.HasIndex("ProvinceAbbreviation");
 
                     b.HasIndex("Region");
+
+                    b.HasIndex("StartDate");
 
                     b.HasIndex("UpdatedOn");
 
@@ -74,7 +78,14 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
 
             modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.ProvinceMapping", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Abbreviation")
+                        .IsRequired()
                         .HasColumnName("abbreviation")
                         .HasColumnType("VARCHAR(2)");
 
@@ -82,24 +93,38 @@ namespace ALD.LibFiscalCode.Persistence.Migrations.SqlServerData
                         .HasColumnName("name")
                         .HasColumnType("VARCHAR(50)");
 
-                    b.HasKey("Abbreviation");
+                    b.Property<int?>("region_id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("region_id");
 
                     b.ToTable("ProvinceMapping");
                 });
 
-            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.SqlServerDataContext", b =>
+            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.RegionMapping", b =>
                 {
-                    b.Property<string>("ProvinceAbbreviation")
-                        .HasColumnName("province_abbreviation")
-                        .HasColumnType("VARCHAR(2)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("INTEGER")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnName("name")
                         .HasColumnType("VARCHAR(50)");
 
-                    b.HasKey("ProvinceAbbreviation");
+                    b.HasKey("Id");
 
-                    b.ToTable("RegionMapping");
+                    b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("ALD.LibFiscalCode.Persistence.Models.ProvinceMapping", b =>
+                {
+                    b.HasOne("ALD.LibFiscalCode.Persistence.Models.RegionMapping", "Region")
+                        .WithMany("Provinces")
+                        .HasForeignKey("region_id");
                 });
 #pragma warning restore 612, 618
         }

@@ -28,38 +28,68 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
         private static void ConfigureRegionMapping(ModelBuilder modelBuilder)
         {
             var regionMappingEntity = modelBuilder.Entity<RegionMapping>();
-            regionMappingEntity.Property(map => map.ProvinceAbbreviation).HasColumnName("province_abbreviation")
-                .HasColumnType("VARCHAR(2)").IsRequired();
-            regionMappingEntity.Property(map => map.Name).HasColumnName("name").HasColumnType("VARCHAR(50)");
-            regionMappingEntity.HasKey(map => map.ProvinceAbbreviation);
+
+            regionMappingEntity.Property(p => p.Id)
+                .HasColumnName("id")
+                .HasColumnType("INTEGER")
+                .IsRequired();
+            regionMappingEntity.HasKey(p => p.Id);
+            
+            regionMappingEntity.Property(map => map.Name)
+                .HasColumnName("name")
+                .HasColumnType("VARCHAR(50)");
+            regionMappingEntity.HasMany(r => r.Provinces)
+                .WithOne(p => p.Region);
         }
 
         private static void ConfigureProvinceMapping(ModelBuilder modelBuilder)
         {
             var provinceMappingEntity = modelBuilder.Entity<ProvinceMapping>();
-            provinceMappingEntity.Property(map => map.Abbreviation).HasColumnName("abbreviation")
-                .HasColumnType("VARCHAR(2)").IsRequired();
-            provinceMappingEntity.Property(map => map.Name).HasColumnName("name").HasColumnType("VARCHAR(50)");
-            provinceMappingEntity.HasKey(map => map.Abbreviation);
+            
+            provinceMappingEntity.Property(map => map.Abbreviation)
+                .HasColumnName("abbreviation")
+                .HasColumnType("VARCHAR(2)")
+                .IsRequired();
+            provinceMappingEntity.Property(map => map.Name)
+                .HasColumnName("name")
+                .HasColumnType("VARCHAR(50)");
+            provinceMappingEntity.Property(map => map.Id)
+                .HasColumnName("id");
+            provinceMappingEntity.HasKey(map => map.Id);
+            provinceMappingEntity.HasOne(map => map.Region)
+                .WithMany(r => r.Provinces).HasForeignKey("region_id");
+
         }
 
         private static void ConfigurePlaces(ModelBuilder modelBuilder)
         {
             //Places configuration
             var placeEntity = modelBuilder.Entity<Place>();
-            placeEntity.Property(p => p.Id).HasColumnName("id");
-            placeEntity.HasKey(nameof(Place.Id));
-            placeEntity.Property(p => p.Name).HasColumnName("name");
-            placeEntity.Property(p => p.Province).HasColumnName("province_name");
-            placeEntity.Property(p => p.ProvinceAbbreviation).HasColumnName("province_abbreviation");
-            placeEntity.Property(p => p.Region).HasColumnName("region_name");
-            placeEntity.Property(p => p.Code).HasColumnName("code");
-            placeEntity.Property(p => p.StartDate).HasColumnName("start_date");
-            placeEntity.Property(p => p.EndDate).HasColumnName("end_date");
+            placeEntity.HasKey(p => p.Id);
+            placeEntity.Property(p => p.Id)
+                .HasColumnName("id");
+            placeEntity.Property(p => p.Name)
+                .HasColumnName("name");
+            placeEntity.Property(p => p.Province)
+                .HasColumnName("province_name");
+            placeEntity.Property(p => p.ProvinceAbbreviation)
+                .HasColumnName("province_abbreviation");
+            placeEntity.Property(p => p.Region)
+                .HasColumnName("region_name");
+            placeEntity.Property(p => p.Code)
+                .HasColumnName("code");
+            placeEntity.Property(p => p.StartDate)
+                .HasColumnName("start_date");
+            placeEntity.Property(p => p.EndDate)
+                .HasColumnName("end_date");
+            placeEntity.Property(p => p.UpdatedOn)
+                .HasColumnName("updated_on");
+            
             placeEntity.HasIndex(p => p.ProvinceAbbreviation);
             placeEntity.HasIndex(p => p.Region);
-            placeEntity.Property(p => p.UpdatedOn).HasColumnName("updated_on");
             placeEntity.HasIndex(p => p.UpdatedOn);
+            placeEntity.HasIndex(p => p.StartDate);
+            placeEntity.HasIndex(p => p.EndDate);
         }
 
         public DateTime? GetLastPlacesUpdateDate()
@@ -68,5 +98,6 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
         }
 
         public DbSet<Place> Places { get; }
+        public DbSet<RegionMapping> Regions { get; }
     }
 }

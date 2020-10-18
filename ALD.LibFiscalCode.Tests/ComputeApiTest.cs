@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ALD.LibFiscalCode.Tests
 {
-    public class ComputeApiTest : IClassFixture<DbFixture>
+    /*public class ComputeApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
         private readonly SqlServerDataContext dataContext;
@@ -52,5 +52,5 @@ namespace ALD.LibFiscalCode.Tests
             //Assert.NotNull(result.FiscalCode);
             Assert.Equal("RSSMRA70A01H501S", result.FiscalCode.FiscalCode);
         }
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ALD.LibFiscalCode.Tests
 {
-    public class ValidationApiTest : IClassFixture<DbFixture>
+    /*public class ValidationApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
         private readonly SqlServerDataContext dataContext;
@@ -83,5 +83,5 @@ namespace ALD.LibFiscalCode.Tests
             var result = controller.ValidateFiscalCode(validationRequest);
             Assert.False(result.Outcome);
         }
-    }
+    }*/
 }
