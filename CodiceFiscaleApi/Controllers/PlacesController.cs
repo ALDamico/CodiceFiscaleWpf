@@ -7,10 +7,12 @@ using ALD.LibFiscalCode.Persistence.Importer;
 using ALD.LibFiscalCode.Persistence.Models;
 using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using CodiceFiscaleApi.Configuration;
+using CodiceFiscaleApi.Converters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -28,20 +30,19 @@ namespace CodiceFiscaleApi.Controllers
         {
             this.dataContext = dataContext;
             jsonNetConfiguration = new JsonNetConfiguration();
-            
         }
 
         [HttpGet("all")]
         public List<Place> GetAllPlaces()
         {
             Log.Information("Requested all places from {0}", HttpContext.Connection.RemoteIpAddress);
-            
+
             var placesList = (
                 from place
-                in dataContext.Places
+                    in dataContext.Places
                 select place
-                );
-            
+            );
+
             return placesList.ToList();
         }
 
@@ -51,7 +52,8 @@ namespace CodiceFiscaleApi.Controllers
         {
             //This allows us to get around collation mismatches
             var nameUpper = name.ToUpper();
-            Log.Information("Requested place with partial name {0} valid on {1} from {2}", name, validOn != null ? validOn.ToString(): "forever", HttpContext.Connection.RemoteIpAddress);
+            Log.Information("Requested place with partial name {0} valid on {1} from {2}", name,
+                validOn != null ? validOn.ToString() : "forever", HttpContext.Connection.RemoteIpAddress);
             if (string.IsNullOrEmpty(name) || name.Length < 3)
             {
                 return null;
@@ -60,7 +62,8 @@ namespace CodiceFiscaleApi.Controllers
             var matchingPlaces = dataContext.Places.Where(p => p.Name.Contains(nameUpper));
             if (validOn != null)
             {
-                matchingPlaces = matchingPlaces.Where(p => (p.StartDate == null || p.StartDate <= validOn) && (p.EndDate == null || p.EndDate >= validOn));
+                matchingPlaces = matchingPlaces.Where(p =>
+                    (p.StartDate == null || p.StartDate <= validOn) && (p.EndDate == null || p.EndDate >= validOn));
             }
             else
             {
@@ -68,7 +71,7 @@ namespace CodiceFiscaleApi.Controllers
             }
 
             return matchingPlaces.ToList();
-        } 
+        }
 
 
         [HttpGet("{id}")]
@@ -84,54 +87,53 @@ namespace CodiceFiscaleApi.Controllers
             {
                 Log.Error(ex.ToString());
             }
-            
+
             return place;
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody] string value)
         {
         }
 
         [HttpPost("upload")]
-        public async Task UpdateList( IFormFile inputFile)
+        public async Task UpdateList(IFormFile inputFile)
         {
             if (inputFile == null)
             {
                 return;
             }
+
             if (inputFile.Length > 0)
             {
                 var filePath = Path.GetTempFileName();
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await inputFile.CopyToAsync(stream);
-                    
+
                     var provider = new FileExtensionContentTypeProvider();
-                    
+
                     if (inputFile.ContentType == "text/csv")
                     {
                         PlacesImporter importer = new PlacesImporter(filePath, new CsvImportStrategy(), 2020);
-                        
-                        
-                        
+
+
                         return;
                     }
                 }
             }
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpGet("provinces")]
+        public async Task<IActionResult> GetProvincesMapping()
         {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var regions = await dataContext.Regions
+                .Include(r => r.Provinces)
+                .ToListAsync()
+                .ConfigureAwait(true);
+            var response = RegionResponseConverter.ToResponse(regions);
+            return Ok(response);
         }
     }
 }

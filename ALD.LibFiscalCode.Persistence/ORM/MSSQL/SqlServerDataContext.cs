@@ -30,11 +30,11 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
             var regionMappingEntity = modelBuilder.Entity<RegionMapping>();
 
             regionMappingEntity.ToTable("region_mapping");
-            regionMappingEntity.Property(p => p.Id)
+            regionMappingEntity.Property(p => p.RegionId)
                 .HasColumnName("id")
                 .HasColumnType("INTEGER")
                 .IsRequired();
-            regionMappingEntity.HasKey(p => p.Id);
+            regionMappingEntity.HasKey(p => p.RegionId);
 
             regionMappingEntity.Property(map => map.Name)
                 .HasColumnName("name")
@@ -42,26 +42,26 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
             regionMappingEntity.HasMany(r => r.Provinces)
                 .WithOne(p => p.Region);
 
-            regionMappingEntity.HasData(new RegionMapping() {Id = 1, Name = "Abruzzo"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 2, Name = "Basilicata"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 3, Name = "Calabria"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 4, Name = "Campania"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 5, Name = "Emilia-Romagna"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 6, Name = "Friuli Venezia Giulia"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 7, Name = "Lazio"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 8, Name = "Liguria"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 9, Name = "Lombardia"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 10, Name = "Marche"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 11, Name = "Molise"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 12, Name = "Piemonte"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 13, Name = "Puglia"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 14, Name = "Sardegna"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 15, Name = "Sicilia"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 16, Name = "Toscana"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 17, Name = "Trentino-Alto Adige"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 18, Name = "Umbria"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 19, Name = "Valle d'Aosta"});
-            regionMappingEntity.HasData(new RegionMapping() {Id = 20, Name = "Veneto"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 1, Name = "Abruzzo"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 2, Name = "Basilicata"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 3, Name = "Calabria"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 4, Name = "Campania"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 5, Name = "Emilia-Romagna"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 6, Name = "Friuli Venezia Giulia"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 7, Name = "Lazio"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 8, Name = "Liguria"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 9, Name = "Lombardia"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 10, Name = "Marche"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 11, Name = "Molise"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 12, Name = "Piemonte"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 13, Name = "Puglia"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 14, Name = "Sardegna"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 15, Name = "Sicilia"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 16, Name = "Toscana"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 17, Name = "Trentino-Alto Adige"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 18, Name = "Umbria"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 19, Name = "Valle d'Aosta"});
+            regionMappingEntity.HasData(new RegionMapping() {RegionId = 20, Name = "Veneto"});
         }
 
         private static void ConfigureProvinceMapping(ModelBuilder modelBuilder)
@@ -232,8 +232,8 @@ namespace ALD.LibFiscalCode.Persistence.ORM.MSSQL
             return Places.Max(p => p.UpdatedOn);
         }
 
-        public DbSet<Place> Places { get; }
-        public DbSet<RegionMapping> Regions { get; }
-        public DbSet<ProvinceMapping> Provinces { get; }
+        public DbSet<Place> Places { get; set; }
+        public DbSet<RegionMapping> Regions { get; set; }
+        public DbSet<ProvinceMapping> Provinces { get; set; }
     }
 }
