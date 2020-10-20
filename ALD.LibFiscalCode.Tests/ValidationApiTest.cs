@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ALD.LibFiscalCode.Tests
 {
-    /*public class ValidationApiTest : IClassFixture<DbFixture>
+    public class ValidationApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
         private readonly SqlServerDataContext dataContext;
@@ -21,7 +21,7 @@ namespace ALD.LibFiscalCode.Tests
             _ = dataContext.Places.FirstOrDefault();
         }
 
-        [Fact]
+        /*[Fact]
         void InvalidFiscalCodeTest()
         {
             var fiscalCode = "ABCDEF99";
@@ -82,6 +82,6 @@ namespace ALD.LibFiscalCode.Tests
             validationRequest.FiscalCode = fiscalCode;
             var result = controller.ValidateFiscalCode(validationRequest);
             Assert.False(result.Outcome);
-        }
-    }*/
+        }*/
+    }
 }

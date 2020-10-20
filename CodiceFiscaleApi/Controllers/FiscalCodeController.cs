@@ -80,7 +80,11 @@ namespace CodiceFiscaleApi.Controllers
                     DateFormatString = "yyyy-MM-dd"
                 };
                 var deserializedRequest = JsonConvert.DeserializeObject<PersonRequest>(request, jsonSettings);
-                Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                if (HttpContext != null)
+                {
+                    Log.Information("Requested fiscal code calculation from {0}", HttpContext.Connection.RemoteIpAddress);
+                }
+               
                 Log.Information("Request details follow");
                 Log.Information("Person: {0}", request);
                 FiscalCodeResponse response = new FiscalCodeResponse();

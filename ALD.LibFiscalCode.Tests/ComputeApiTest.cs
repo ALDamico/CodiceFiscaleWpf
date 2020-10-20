@@ -5,13 +5,14 @@ using ALD.LibFiscalCode.Persistence.ORM.MSSQL;
 using CodiceFiscaleApi.Controllers;
 using CodiceFiscaleApi.Requests;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Serilog;
 using Serilog.Sinks;
 using Xunit;
 
 namespace ALD.LibFiscalCode.Tests
 {
-    /*public class ComputeApiTest : IClassFixture<DbFixture>
+    public class ComputeApiTest : IClassFixture<DbFixture>
     {
         private readonly ServiceProvider serviceProvider;
         private readonly SqlServerDataContext dataContext;
@@ -44,13 +45,11 @@ namespace ALD.LibFiscalCode.Tests
                 Gender = "Male"
             };
             
-            var result = await controller.Calculate(request);
-            var task = controller.Calculate(request);
-            task.Wait();
+            var result = await controller.Calculate(JsonConvert.SerializeObject(request));
             
             //Assert.NotNull(result);
             //Assert.NotNull(result.FiscalCode);
             Assert.Equal("RSSMRA70A01H501S", result.FiscalCode.FiscalCode);
         }
-    }*/
+    }
 }
